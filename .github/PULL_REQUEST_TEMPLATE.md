@@ -1,28 +1,28 @@
-<!--- Provide a general summary of your changes in the Title above -->
+<!--- Fournissez un résumé général de vos modifications dans le titre ci-dessus -->
 
 ## Description
-<!--- Describe your changes in detail -->
+<!--- Décrivez vos modifications en détail -->
 
-## Motivation and Context
-<!--- Why is this change required? What problem does it solve? -->
-<!--- If it fixes an open issue, please link to the issue here. -->
+## Motivation et contexte
+<!--- Pourquoi cette modification est-elle nécessaire ? Quel problème résout-elle ? -->
+<!--- Si elle corrige un problème ouvert, veuillez lier le problème ici. -->
 
-## How has this been tested?
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, tests ran to see how -->
-<!--- your change affects other areas of the code, etc. -->
+## Comment cela a-t-il été testé ?
+<!--- Veuillez décrire en détail comment vous avez testé vos modifications. -->
+<!--- Incluez des détails sur votre environnement de test, les tests exécutés pour voir -->
+<!--- comment votre modification affecte d'autres parties du code, etc. -->
 
-## Screenshots (if appropriate):
+## Captures d'écran (si approprié) :
 
-## Types of changes
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+## Types de modifications
+<!--- Quels types de modifications votre code introduit-il ? Cochez les cases qui s'appliquent : -->
+- [ ] Correction de bug (modification sans rupture qui résout un problème)
+- [ ] Nouvelle fonctionnalité (modification sans rupture qui ajoute une fonctionnalité)
+- [ ] Modification avec rupture (correction ou fonctionnalité qui causerait un dysfonctionnement)
 
-## Checklist:
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-- [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
+## Liste de vérification :
+<!--- Vérifiez tous les points suivants et cochez les cases qui s'appliquent. -->
+<!--- Si vous n'êtes pas certain de l'un de ces points, n'hésitez pas à demander. Nous sommes là pour aider ! -->
+- [ ] Mon code suit le style de codage de ce projet.
+- [ ] Ma modification nécessite une modification de la documentation.
+- [ ] J'ai mis à jour la documentation en conséquence.
