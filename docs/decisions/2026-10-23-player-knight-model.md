@@ -11,7 +11,7 @@
 | Weapons | **None** (reverses "visible"): the GLB has no sword or shield | Asset has no weapon meshes; user chose to skip | a weapon asset is added (use the `handslot.l` / `handslot.r` bones) |
 | Model scene | `objects/knight.tscn`: scene inherited from `Knight.glb` + `AnimationPlayer`, instanced in `player.tscn` as `%Player` | Retargeted track paths use `%GeneralSkeleton`, which must resolve inside the same scene | the model becomes swappable |
 | Animation logic home | `Knight.animate(on_floor, horizontal_speed)` in `objects/knight.gd`, called by `player.gd` | Single Responsibility; `player.gd` stays movement-only | an `AnimationTree` is needed for blending or layering |
-| Collider | Unchanged `CapsuleShape3D` (radius 0.5, height 2); model offset to `y = -1` so feet touch the capsule bottom | Fits the Knight's torso width and height | the Knight's silhouette stops matching a capsule |
+| Size | Model scaled to 0.75; `CapsuleShape3D` radius 0.375, height 1.5; model offset to `y = -0.75` so feet touch the capsule bottom; `CameraPivot` at `y = 0.75` | Player looked too big at scale 1 | the level scale changes |
 
 ## Open / deferred
 - The Knight has no neck, shoulder or upper-chest bones; the matching Mixamo rotations are dropped by the retarget.
