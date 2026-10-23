@@ -112,7 +112,6 @@ var _return_transition_started: bool = false
 @onready var result_overlay: Control = %ResultOverlay
 @onready var result_title: Label = %ResultTitle
 @onready var result_details: Label = %ResultDetails
-@onready var restart_button: Button = %RestartButton
 @onready var return_lobby_button: Button = %ReturnLobbyButton
 
 
@@ -121,7 +120,6 @@ func _ready() -> void:
     player.candy_entered.connect(_on_player_candy_entered)
     music_player.finished.connect(_on_music_finished)
     spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-    restart_button.pressed.connect(_on_restart_button_pressed)
     return_lobby_button.pressed.connect(_on_return_lobby_button_pressed)
     _update_layout()
     _begin_preparation()
@@ -394,9 +392,8 @@ func _prepare_round_result() -> void:
     result_title.text = "TEMPS ÉCOULÉ !"
     result_title.modulate = Color("ffd166")
     result_details.text = "BONBONS RÉCOLTÉS : %d" % _collected_candies
-    restart_button.show()
     return_lobby_button.show()
-    _show_result(restart_button)
+    _show_result(return_lobby_button)
     round_completed.emit(MINIGAME_ID, _collected_candies)
 
 
@@ -425,10 +422,6 @@ func _stop_gameplay() -> void:
 func _show_result(focus_button: Button) -> void:
     result_overlay.show()
     focus_button.grab_focus()
-
-
-func _on_restart_button_pressed() -> void:
-    _begin_preparation()
 
 
 func _on_return_lobby_button_pressed() -> void:
