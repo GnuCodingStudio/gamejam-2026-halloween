@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4yhthjpgf6aq"
-path.s3tc="res://.godot/imported/Meshy_AI_Crystalberry_Gleam_20261023_texture.png-92c6a7a657f6c870659da9b340a3c514.s3tc.ctex"
+uid="uid://dtgf7ka7ykujb"
+path.s3tc="res://.godot/imported/Pumpkin_Wrapper_Candy.png-743ca6a5f15324e055aa8a1a6d9e2efb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://objects/Meshy_AI_Crystalberry_Gleam_20261023_texture.png"
-dest_files=["res://.godot/imported/Meshy_AI_Crystalberry_Gleam_20261023_texture.png-92c6a7a657f6c870659da9b340a3c514.s3tc.ctex"]
+source_file="res://objects/candy/Pumpkin_Wrapper_Candy.png"
+dest_files=["res://.godot/imported/Pumpkin_Wrapper_Candy.png-743ca6a5f15324e055aa8a1a6d9e2efb.s3tc.ctex"]
 
 [params]
 
