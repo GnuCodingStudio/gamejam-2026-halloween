@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
-@onready var model: MeshInstance3D = %Player
-@onready var camera_pivot: CameraPivot = %CameraPivot
+@onready var model: Knight = %Player
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+const TURN_SPEED = 10.0
 
 
 func _physics_process(delta: float) -> void:
@@ -19,10 +19,9 @@ func _physics_process(delta: float) -> void:
 	var direction := transform.basis * camera.basis * Vector3(input_dir.x, 0, input_dir.y)
 	direction.y = 0.0
 	direction = direction.normalized()
-	
-	model.rotation.y = camera_pivot.rotation.y
-	
+
 	if direction:
+		_turn_model_toward(direction, delta)
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
@@ -30,3 +29,9 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	model.animate(is_on_floor(), Vector2(velocity.x, velocity.z).length())
+
+
+func _turn_model_toward(direction: Vector3, delta: float) -> void:
+	var target_yaw := atan2(direction.x, direction.z)
+	model.rotation.y = lerp_angle(model.rotation.y, target_yaw, TURN_SPEED * delta)

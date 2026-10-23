@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnwmhohk8wm23"
-path="res://.godot/imported/Player.png-a78afdf4e7ac0eadb03a4a765f33d8ed.ctex"
+uid="uid://bdp8ut5citkwh"
+path="res://.godot/imported/knight_texture.png-f64bb9ba4906611cfabd5a4c404478ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://objects/actors/player/Player.png"
-dest_files=["res://.godot/imported/Player.png-a78afdf4e7ac0eadb03a4a765f33d8ed.ctex"]
+source_file="res://assets/characters/knight_texture.png"
+dest_files=["res://.godot/imported/knight_texture.png-f64bb9ba4906611cfabd5a4c404478ff.ctex"]
 
 [params]
 

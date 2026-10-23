@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/characters/Knight.glb" id="1_knight"]
+[ext_resource type="Script" path="res://objects/knight.gd" id="2_script"]
+[ext_resource type="Animation" path="res://assets/animations/clips/idle.res" id="3_idle"]
+[ext_resource type="Animation" path="res://assets/animations/clips/run.res" id="4_run"]
+[ext_resource type="Animation" path="res://assets/animations/clips/jump_static.res" id="5_jump_static"]
+[ext_resource type="Animation" path="res://assets/animations/clips/jump_forward.res" id="6_jump_forward"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knight"]
+_data = {
+&"idle": ExtResource("3_idle"),
+&"jump_forward": ExtResource("6_jump_forward"),
+&"jump_static": ExtResource("5_jump_static"),
+&"run": ExtResource("4_run")
+}
+
+[node name="Knight" instance=ExtResource("1_knight")]
+script = ExtResource("2_script")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_knight")
+}
