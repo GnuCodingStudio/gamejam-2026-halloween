@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/minigames/candy_bucket/CandyBucketPlayer.gd" id="1_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bucket"]
+size = Vector2(96, 18)
+
+[node name="CandyBucketPlayer" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_player")
+
+[node name="PlaceholderVisual" type="Node2D" parent="."]
+
+[node name="Body" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-31, -103, 31, -103, 37, -30, -37, -30)
+color = Color(0.27451, 0.454902, 0.764706, 1)
+
+[node name="Head" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-24, -142, -13, -155, 0, -160, 13, -155, 24, -142, 26, -125, 18, -109, 0, -102, -18, -109, -26, -125)
+color = Color(1, 0.776471, 0.584314, 1)
+
+[node name="Hair" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-25, -140, -17, -155, 0, -162, 17, -155, 25, -140, 13, -146, 0, -143, -13, -147)
+color = Color(0.14902, 0.101961, 0.160784, 1)
+
+[node name="LeftEye" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-12, -134, -7, -134, -7, -129, -12, -129)
+color = Color(0.0980392, 0.0745098, 0.117647, 1)
+
+[node name="RightEye" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(7, -134, 12, -134, 12, -129, 7, -129)
+color = Color(0.0980392, 0.0745098, 0.117647, 1)
+
+[node name="LeftLeg" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-30, -35, -5, -35, -9, 0, -34, 0)
+color = Color(0.117647, 0.137255, 0.215686, 1)
+
+[node name="RightLeg" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(5, -35, 30, -35, 34, 0, 9, 0)
+color = Color(0.117647, 0.137255, 0.215686, 1)
+
+[node name="BucketBody" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-48, -65, 48, -65, 38, -18, -38, -18)
+color = Color(0.92549, 0.372549, 0.176471, 1)
+
+[node name="BucketHighlight" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-38, -57, -27, -57, -22, -27, -31, -27)
+color = Color(1, 0.623529, 0.258824, 0.85)
+
+[node name="BucketRim" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-52, -73, 52, -73, 52, -61, -52, -61)
+color = Color(0.176471, 0.0901961, 0.12549, 1)
+
+[node name="BucketOpening" type="Polygon2D" parent="PlaceholderVisual"]
+polygon = PackedVector2Array(-45, -71, 45, -71, 40, -65, -40, -65)
+color = Color(0.0509804, 0.0352941, 0.0627451, 1)
+
+[node name="BucketCollector" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -67)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BucketCollector"]
+shape = SubResource("RectangleShape2D_bucket")
+
+[connection signal="area_entered" from="BucketCollector" to="." method="_on_bucket_collector_area_entered"]

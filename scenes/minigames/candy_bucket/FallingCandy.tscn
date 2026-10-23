@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/minigames/candy_bucket/FallingCandy.gd" id="1_candy"]
+[ext_resource type="Script" path="res://scenes/minigames/candy_bucket/CandyBucketCandyVisual.gd" id="2_visual"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_candy"]
+size = Vector2(66, 50)
+
+[node name="FallingCandy" type="Area2D"]
+collision_layer = 1
+collision_mask = 0
+monitorable = true
+script = ExtResource("1_candy")
+
+[node name="Visual" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_visual")
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+unique_name_in_owner = true
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_candy")
