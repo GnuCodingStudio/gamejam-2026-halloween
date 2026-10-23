@@ -11,6 +11,7 @@ emission_texture = ExtResource("3_texture")
 emission_energy_multiplier = 1.3
 
 [node name="Candy" instance=ExtResource("1_candy")]
+sparkle_color = Color(1, 0.6, 0.15, 1)
 
 [node name="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

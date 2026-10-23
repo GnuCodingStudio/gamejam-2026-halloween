@@ -3,8 +3,12 @@ extends Area3D
 
 signal collected
 
+const SPARKLES_SCENE: PackedScene = preload("res://objects/candy_sparkles.tscn")
+const SPARKLES_HEIGHT: float = 1.0
+
 @export var bob_height: float = 0.1
 @export var bob_speed: float = 2.0
+@export var sparkle_color: Color = Color.WHITE
 
 var _phase: float = randf() * TAU
 
@@ -21,5 +25,13 @@ func _process(_delta: float) -> void:
 
 
 func _on_body_entered(_body: Node3D) -> void:
+	_spawn_sparkles()
 	collected.emit()
 	queue_free()
+
+
+func _spawn_sparkles() -> void:
+	var sparkles: CPUParticles3D = SPARKLES_SCENE.instantiate()
+	sparkles.color = sparkle_color
+	get_parent().add_child(sparkles)
+	sparkles.global_position = _mesh.global_position + Vector3.UP * SPARKLES_HEIGHT

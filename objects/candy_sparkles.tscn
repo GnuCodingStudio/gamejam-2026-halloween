@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sparkle"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_sparkle"]
+material = SubResource("StandardMaterial3D_sparkle")
+size = Vector2(0.12, 0.12)
+
+[node name="CandySparkles" type="CPUParticles3D"]
+emitting = true
+amount = 24
+lifetime = 0.7
+one_shot = true
+local_coords = true
+explosiveness = 1.0
+mesh = SubResource("QuadMesh_sparkle")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
+color_ramp = SubResource("Gradient_fade")
+
+[connection signal="finished" from="." to="." method="queue_free"]
