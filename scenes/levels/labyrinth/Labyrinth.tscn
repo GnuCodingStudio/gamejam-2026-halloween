@@ -19,6 +19,8 @@ sky_material = SubResource("ProceduralSkyMaterial_labyrinth")
 background_mode = 2
 sky = SubResource("Sky_labyrinth")
 ambient_light_source = 3
+glow_enabled = true
+glow_intensity = 0.8
 
 [node name="Labyrinth" type="Node3D" unique_id=430881702]
 script = ExtResource("1_labyrinth")

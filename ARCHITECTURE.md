@@ -90,7 +90,7 @@ To create a labyrinth:
 - inherit from `Labyrinth.tscn`;
 - set `extra_candies` (bonus candies won when the labyrinth is finished);
 - set `next_level` (empty on the last labyrinth: finishing it goes back to `scenes/levels/main.tscn`);
-- add `Candy` instances (`objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group;
+- add `Candy` instances (`objects/candy_crystalberry.tscn` or `objects/candy_pumpkin.tscn`, both inherit `objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group. Candies float 0.6 m above the floor (`y = 0.6`) and bob up and down (`bob_height`, `bob_speed`, random phase per candy). They are self-lit and each one has a small `OmniLight3D` in its own colour;
 - keep corridors wide enough (~3 m) so the third-person camera does not clip into walls;
 - walls use physics layer `Wall` (3), floors use `Floor` (2). The player starts at the origin facing -Z, the door is behind it (`z = 4` in the base scene, a level may move it).
 

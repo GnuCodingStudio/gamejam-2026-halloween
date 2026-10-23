@@ -3,7 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/levels/labyrinth/Labyrinth.tscn" id="1_base"]
 [ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="3_floor"]
 [ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
-[ext_resource type="PackedScene" path="res://objects/candy.tscn" id="4_candy"]
+[ext_resource type="PackedScene" path="res://objects/candy_crystalberry.tscn" id="4_crystalberry"]
+[ext_resource type="PackedScene" path="res://objects/candy_pumpkin.tscn" id="5_pumpkin"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
 size = Vector3(31, 0.2, 31)
@@ -18,26 +19,26 @@ light_energy = 0.5
 [node name="ExitDoor" parent="." index="2" unique_id=1204765417]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.9)
 
-[node name="Candy1" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="0" unique_id=1980779352 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, -25)
+[node name="Candy1" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="0" unique_id=1980779352 instance=ExtResource("4_crystalberry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, -25)
 
-[node name="Candy2" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="1" unique_id=1305567417 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.8, 0)
+[node name="Candy2" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="1" unique_id=1305567417 instance=ExtResource("5_pumpkin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6, 0)
 
-[node name="Candy3" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="2" unique_id=1202204023 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.8, -15)
+[node name="Candy3" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="2" unique_id=1202204023 instance=ExtResource("4_crystalberry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.6, -15)
 
-[node name="Candy4" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="3" unique_id=1387263863 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.8, -25)
+[node name="Candy4" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="3" unique_id=1387263863 instance=ExtResource("5_pumpkin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6, -25)
 
-[node name="Candy5" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="4" unique_id=1657027237 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, 0)
+[node name="Candy5" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="4" unique_id=1657027237 instance=ExtResource("4_crystalberry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, 0)
 
-[node name="Candy6" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="5" unique_id=1471513615 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, -10)
+[node name="Candy6" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="5" unique_id=1471513615 instance=ExtResource("5_pumpkin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, -10)
 
-[node name="Candy7" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="6" unique_id=1502083876 instance=ExtResource("4_candy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8, -20)
+[node name="Candy7" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="6" unique_id=1502083876 instance=ExtResource("4_crystalberry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.6, -20)
 
 [node name="Floor" type="CSGBox3D" parent="." index="7" unique_id=315990040]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.1, -12.5)
