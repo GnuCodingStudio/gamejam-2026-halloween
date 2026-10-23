@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scenes/levels/door5_candy_bucket_portal/Door5CandyBucketPortal.gd" id="1_portal"]
+[ext_resource type="Script" path="res://scenes/levels/level_portal/LevelPortal.gd" id="1_portal"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_interaction"]
 radius = 2.0
@@ -21,7 +21,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Door5CandyBucketPortal" type="Node3D"]
+[node name="LevelPortal" type="Node3D"]
 script = ExtResource("1_portal")
 
 [node name="InteractionArea" type="Area3D" parent="."]
@@ -69,6 +69,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "E — Candy Bucket"
+text = "E — Enter"
 horizontal_alignment = 1
 vertical_alignment = 1

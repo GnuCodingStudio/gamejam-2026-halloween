@@ -4,6 +4,7 @@ const TOTAL_TIME := 600.0
 const TIME_UP_SCENE := "res://scenes/levels/main.tscn"
 
 var bonus_candies := 0
+var collected_candies := 0
 
 var _timer := Timer.new()
 
@@ -20,6 +21,7 @@ func reset() -> void:
 	_timer.stop()
 	_timer.paused = false
 	bonus_candies = 0
+	collected_candies = 0
 
 
 func resume() -> void:
@@ -42,8 +44,13 @@ func remaining_time() -> float:
 func add_bonus_candies(amount: int) -> void:
 	bonus_candies += amount
 
+
+func add_collected_candies(amount: int) -> void:
+	collected_candies += amount
+
 #endregion logic
 
 
 func _on_time_up() -> void:
+	reset()
 	SceneTransition.change_scene(TIME_UP_SCENE)

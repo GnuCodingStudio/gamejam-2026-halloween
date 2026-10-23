@@ -1,14 +1,16 @@
-class_name Door5CandyBucketPortal
+class_name LevelPortal
 extends Node3D
 
 
-const CANDY_BUCKET_SCENE_PATH: String = (
-    "res://scenes/minigames/candy_bucket/CandyBucket.tscn"
-)
-const LOBBY_RETURN_META: StringName = &"candy_bucket_return_to_door5"
-const MINIGAME_ID: StringName = &"candy_bucket"
+const COMPLETED_TEXT: String = "MONDE TERMINÉ"
 
 
+@export_file("*.tscn") var target_scene_path: String
+@export var prompt_text: String = "E — Enter"
+## Leave empty for a level that is never "completed" (it can be entered again and again).
+@export var world_id: StringName = &""
+## Leave empty if the player does not need to be placed at `ReturnSpawn` when coming back.
+@export var return_meta: StringName = &""
 @export_node_path("CharacterBody3D") var player_path: NodePath
 
 var _player_is_near: bool = false
@@ -25,11 +27,11 @@ var _player: CharacterBody3D
 func _ready() -> void:
     interaction_area.body_entered.connect(_on_body_entered)
     interaction_area.body_exited.connect(_on_body_exited)
-    _world_completed = ProgressionService.is_world_completed(MINIGAME_ID)
-    prompt_label.text = "MONDE TERMINÉ" if _world_completed else "E — Candy Bucket"
+    _world_completed = ProgressionService.is_world_completed(world_id)
+    prompt_label.text = COMPLETED_TEXT if _world_completed else prompt_text
     prompt.hide()
     _resolve_player()
-    _restore_player_after_minigame()
+    _restore_player_after_return()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,7 +41,7 @@ func _unhandled_input(event: InputEvent) -> void:
         return
 
     get_viewport().set_input_as_handled()
-    _enter_candy_bucket()
+    _enter_level()
 
 
 func _resolve_player() -> void:
@@ -48,17 +50,17 @@ func _resolve_player() -> void:
         _player = player_node as CharacterBody3D
         return
 
-    push_error("Door5 portal could not resolve its CharacterBody3D player.")
+    push_error("Level portal could not resolve its CharacterBody3D player.")
     set_process_unhandled_input(false)
 
 
-func _restore_player_after_minigame() -> void:
-    if _player == null or not get_tree().has_meta(LOBBY_RETURN_META):
+func _restore_player_after_return() -> void:
+    if _player == null or return_meta.is_empty() or not get_tree().has_meta(return_meta):
         return
 
     _player.global_position = return_spawn.global_position
     _player.velocity = Vector3.ZERO
-    get_tree().remove_meta(LOBBY_RETURN_META)
+    get_tree().remove_meta(return_meta)
 
 
 func _on_body_entered(body: Node3D) -> void:
@@ -77,15 +79,15 @@ func _on_body_exited(body: Node3D) -> void:
     prompt.hide()
 
 
-func _enter_candy_bucket() -> void:
-    if ProgressionService.is_world_completed(MINIGAME_ID):
+func _enter_level() -> void:
+    if ProgressionService.is_world_completed(world_id):
         _world_completed = true
-        prompt_label.text = "MONDE TERMINÉ"
+        prompt_label.text = COMPLETED_TEXT
         return
 
     _transition_started = true
     prompt.hide()
-    var error := get_tree().change_scene_to_file(CANDY_BUCKET_SCENE_PATH)
+    var error := get_tree().change_scene_to_file(target_scene_path)
     if error != OK:
         _transition_started = false
-        push_error("Unable to enter Candy Bucket: %s" % error_string(error))
+        push_error("Unable to enter %s: %s" % [target_scene_path, error_string(error)])

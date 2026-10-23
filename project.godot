@@ -29,7 +29,7 @@ SceneTransition="*res://services/transition/SceneTransition.tscn"
 AudioSettingsService="*uid://c3u02wgsfno1d"
 ProgressionService="*res://services/save/ProgressionService.gd"
 UiAudio="*res://components/uicontrols/UIAudio.gd"
-RunService="*res://services/run/RunService.gd"
+LabyrinthService="*res://services/labyrinth/LabyrinthService.gd"
 
 [debug]
 

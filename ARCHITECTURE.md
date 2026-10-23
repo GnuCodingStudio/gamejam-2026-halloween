@@ -84,12 +84,12 @@ Need explanation?
 
 `labyrinth/Labyrinth.tscn` is the base scene of every labyrinth (player, exit door, HUD, result overlay, timer).
 Each labyrinth is an **inherited scene** of it (eg: `Level01.tscn`) which only adds walls, a floor and candies.
-The time limit is not per labyrinth: it is shared by the whole run, see `Services/Run`.
+The time limit is not per labyrinth: it is shared by the whole run, see `Services/Labyrinth`.
 
 To create a labyrinth:
 - inherit from `Labyrinth.tscn`;
 - set `extra_candies` (bonus candies won when the labyrinth is finished);
-- set `next_level` (empty on the last labyrinth);
+- set `next_level` (empty on the last labyrinth: finishing it goes back to `scenes/levels/main.tscn`);
 - add `Candy` instances (`objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group;
 - keep corridors wide enough (~3 m) so the third-person camera does not clip into walls;
 - walls use physics layer `Wall` (3), floors use `Floor` (2). The player starts at the origin facing -Z, the door is behind it (`z = 4` in the base scene, a level may move it).

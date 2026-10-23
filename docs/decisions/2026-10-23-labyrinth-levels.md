@@ -14,15 +14,16 @@
 | Timer duration | 10 minutes for the whole run, kept in one place | User choice | more levels are added and the pace is tuned |
 | Timer behavior | Starts on the player's first move. Pauses on the win overlay. Resumes on the first move in the next labyrinth | The player is not punished for reading the overlay | levels need a different start rule |
 | Timer display | HUD shows the remaining time as numbers, like "2:35" | User choice | the clock feels too stressful for children |
-| Timer home | A new autoload (`RunService`) | The clock and the totals must survive scene changes | the run needs saving |
+| Timer home | A new autoload (`LabyrinthService`) | The clock and the totals must survive scene changes | the run needs saving |
 | Time-out | Straight scene change to `scenes/levels/main.tscn` through `SceneTransition`. No overlay and no message | User choice | a "Time's up" message or a retry is wanted |
 | Run reset | Pressing "Start" in the main menu starts a new run: full time, bonus candies back to 0 | Each run begins fresh | the run should be resumable |
-| Extra candies | Each labyrinth has `@export extra_candies`. Winning it adds them to a run total kept in `RunService` | User wants a reward at the end of a labyrinth, set per level | candies get a use, or the total must be saved |
+| Extra candies | Each labyrinth has `@export extra_candies`. Winning it adds them to a run total kept in `LabyrinthService` | User wants a reward at the end of a labyrinth, set per level | candies get a use, or the total must be saved |
 | Extra candies display | The win overlay shows "+N candies!". The HUD shows the run total | User choice | — |
 | Threats | The run timer is the only danger, no enemies or traps | Levels are easy, the knight has no combat | a threat is added |
 | End of round | A win shows an overlay with "Continue" to the next level. There is no loss overlay, no Retry and no Main menu button (reverses the loss overlay decision) | A time-out leaves the game through the scene change | a pause menu is added |
 | Level flow | Fixed order through `@export var next_level: PackedScene` on each level (empty = last). No level select, no saving (`ProgressionService` is not touched) | Keeps it simple for a jam, no global list to maintain | players should resume from a later level |
-| Last level | Winning it stops the clock and logs a message | Credits are not wanted yet | an ending flow is designed |
+| Last level | Winning it stops the clock, then "Continue" goes back to `scenes/levels/main.tscn` through `SceneTransition` (replaces the logged message) | The player returns to the lobby, more levels will be chained later with `next_level` | an ending flow (credits) is designed |
+| Progression | Winning the last labyrinth calls `ProgressionService.complete_world(&"labyrinth", collected_candies + bonus_candies)` (both from `LabyrinthService`): the world is flagged finished (the lobby portal then shows "MONDE TERMINÉ") and the candies collected in all the labyrinths of the run, plus the extra candies, go to `total_candy`. A time-out resets `LabyrinthService`, so nothing is saved | Same rule as the Candy Bucket minigame | each labyrinth should be saved on its own |
 | Camera | Existing third-person camera (`objects/third_person_camera.gd`) | Already working | the camera clips in tight corridors |
 
 ## Building rules

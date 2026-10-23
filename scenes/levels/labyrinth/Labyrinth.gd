@@ -1,6 +1,9 @@
 class_name Labyrinth
 extends Node3D
 
+const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
+const WORLD_ID: StringName = &"labyrinth"
+
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
 
@@ -17,12 +20,12 @@ func _ready() -> void:
 	_connect_candies()
 	_connect_signals()
 	hud.set_candies(_collected_candies, _total_candies)
-	hud.set_bonus_candies(RunService.bonus_candies)
-	hud.set_time(RunService.remaining_time())
+	hud.set_bonus_candies(LabyrinthService.bonus_candies)
+	hud.set_time(LabyrinthService.remaining_time())
 
 
 func _process(_delta: float) -> void:
-	hud.set_time(RunService.remaining_time())
+	hud.set_time(LabyrinthService.remaining_time())
 
 
 #region setup
@@ -35,7 +38,7 @@ func _connect_candies() -> void:
 
 
 func _connect_signals() -> void:
-	player.started_moving.connect(RunService.resume)
+	player.started_moving.connect(LabyrinthService.resume)
 	exit_door.player_near.connect(hud.show_prompt)
 	exit_door.use_requested.connect(_on_door_use_requested)
 	result_overlay.continue_pressed.connect(_go_to_next_level)
@@ -58,9 +61,13 @@ func _on_door_use_requested() -> void:
 
 
 func _win() -> void:
-	RunService.pause()
-	RunService.add_bonus_candies(extra_candies)
-	hud.set_bonus_candies(RunService.bonus_candies)
+	LabyrinthService.pause()
+	LabyrinthService.add_bonus_candies(extra_candies)
+	LabyrinthService.add_collected_candies(_collected_candies)
+	hud.set_bonus_candies(LabyrinthService.bonus_candies)
+	if next_level == null:
+		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
+		ProgressionService.complete_world(WORLD_ID, total_candies)
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	result_overlay.show_win(extra_candies)
@@ -70,10 +77,10 @@ func _win() -> void:
 #region navigation
 
 func _go_to_next_level() -> void:
-	if next_level == null:
-		print("Last labyrinth finished")
-		return
 	get_tree().paused = false
-	SceneTransition.change_scene(next_level.resource_path)
+	if next_level == null:
+		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+	else:
+		SceneTransition.change_scene(next_level.resource_path)
 
 #endregion navigation
