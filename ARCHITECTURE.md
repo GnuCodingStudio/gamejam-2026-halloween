@@ -98,6 +98,9 @@ To create a labyrinth:
 Corridors are 4 m wide (the width of `wall.gltf`) and walls are 1 m thick, so cells are 5 m apart: the maze is 30x30 m between wall centres.
 The start cell is at the origin and the door is mounted on its south wall.
 
+`Level02` is an 8x8 cell maze with the same rules (40x40 m between wall centres, start cell in column 4 of the bottom row, door on its south wall), 9 candies and 8 extra candies.
+It is the last labyrinth: `Level01` points to it with `next_level`, and `Level02` has none.
+
 ### Scenes/Menus
 
 Need explanation?
