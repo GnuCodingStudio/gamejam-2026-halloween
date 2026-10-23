@@ -1,10 +1,15 @@
+class_name Player
 extends CharacterBody3D
+
+signal started_moving
 
 @onready var model: Knight = %Player
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const TURN_SPEED = 10.0
+
+var _has_started_moving := false
 
 
 func _physics_process(delta: float) -> void:
@@ -21,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	direction = direction.normalized()
 
 	if direction:
+		_notify_first_move()
 		_turn_model_toward(direction, delta)
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
@@ -30,6 +36,12 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	model.animate(is_on_floor(), Vector2(velocity.x, velocity.z).length())
+
+
+func _notify_first_move() -> void:
+	if not _has_started_moving:
+		_has_started_moving = true
+		started_moving.emit()
 
 
 func _turn_model_toward(direction: Vector3, delta: float) -> void:

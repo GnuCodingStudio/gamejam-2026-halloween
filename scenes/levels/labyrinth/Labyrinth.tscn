@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://c31e4g2e5cqon"]
+
+[ext_resource type="Script" uid="uid://d3c7gqg47bb5c" path="res://scenes/levels/labyrinth/Labyrinth.gd" id="1_labyrinth"]
+[ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://eflblh20nn1l" path="res://objects/exit_door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://scenes/levels/labyrinth/LabyrinthHud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/levels/labyrinth/ResultOverlay.tscn" id="5_overlay"]
+[ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="6_capture"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_labyrinth"]
+sky_top_color = Color(0.12, 0.1, 0.25, 1)
+sky_horizon_color = Color(0.35, 0.25, 0.4, 1)
+ground_horizon_color = Color(0.35, 0.25, 0.4, 1)
+
+[sub_resource type="Sky" id="Sky_labyrinth"]
+sky_material = SubResource("ProceduralSkyMaterial_labyrinth")
+
+[sub_resource type="Environment" id="Environment_labyrinth"]
+background_mode = 2
+sky = SubResource("Sky_labyrinth")
+ambient_light_source = 3
+
+[node name="Labyrinth" type="Node3D" unique_id=430881702]
+script = ExtResource("1_labyrinth")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=864570109]
+environment = SubResource("Environment_labyrinth")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1691361756]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 7, 10)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=77188613 instance=ExtResource("2_player")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="ExitDoor" parent="." unique_id=1204765417 instance=ExtResource("3_door")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Candies" type="Node3D" parent="." unique_id=947333869]
+
+[node name="Hud" parent="." unique_id=1184873199 instance=ExtResource("4_hud")]
+unique_name_in_owner = true
+
+[node name="ResultOverlay" parent="." unique_id=390741472 instance=ExtResource("5_overlay")]
+unique_name_in_owner = true
+
+[node name="CaptureOnClick" parent="." unique_id=2066045383 instance=ExtResource("6_capture")]

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://eflblh20nn1l"]
+
+[ext_resource type="Script" uid="uid://pd8nv374ifjp" path="res://objects/exit_door.gd" id="1_door"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door"]
+size = Vector3(1.4, 2.4, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_door"]
+albedo_color = Color(0.35, 0.17, 0.06, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+material = SubResource("StandardMaterial3D_door")
+size = Vector3(1.4, 2.4, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_zone"]
+size = Vector3(3, 2.4, 2.5)
+
+[node name="ExitDoor" type="Node3D" unique_id=1515003033]
+script = ExtResource("1_door")
+
+[node name="Body" type="StaticBody3D" parent="." unique_id=1308553251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body" unique_id=381755109]
+shape = SubResource("BoxShape3D_door")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=1131550748]
+mesh = SubResource("BoxMesh_door")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Body" unique_id=1346677700]
+transform = Transform3D(-1, -1.8676766e-14, -8.7422784e-08, -6.650538e-08, 0.6490654, 0.7607326, 5.674309e-08, 0.7607326, -0.6490654, 0, 3.3806565, -3.2697027)
+light_color = Color(0.7935167, 0.45824748, 0, 1)
+light_energy = 0.8
+spot_range = 7.0
+spot_attenuation = -0.65
+spot_angle = 30.0
+
+[node name="InteractZone" type="Area3D" parent="." unique_id=1864888275]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.35)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractZone" unique_id=2133474574]
+shape = SubResource("BoxShape3D_zone")

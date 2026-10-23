@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/labyrinth/LabyrinthHud.gd" id="1_hud"]
+
+[node name="LabyrinthHud" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CandyLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 440.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 48
+text = "Candies: 0 / 0"
+
+[node name="BonusLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 540.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 40
+text = "Bonus candies: 0"
+
+[node name="TimeLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = 90.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="PromptLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -160.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Press E to open the door"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -140.0
+offset_right = 400.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 56
+horizontal_alignment = 1

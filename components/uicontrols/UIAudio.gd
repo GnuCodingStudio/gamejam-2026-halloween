@@ -5,6 +5,7 @@ var _ui_player := AudioStreamPlayer.new()
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ui_player.bus = &"UI"
 	add_child(_ui_player)
 
