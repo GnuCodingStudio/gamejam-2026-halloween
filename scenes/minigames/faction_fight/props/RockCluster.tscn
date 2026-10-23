@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://cs58ofs2qwo51"]
+
+[ext_resource type="Material" path="res://assets/textures/Concrete031_1K-PNG/Concrete031_1K-PNG.tres" id="1_5e74i"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="2_glow"]
+
+[sub_resource type="SphereMesh" id="RockMesh"]
+material = ExtResource("1_5e74i")
+radius = 1.5
+height = 2.5
+radial_segments = 9
+rings = 5
+
+[sub_resource type="BoxMesh" id="CrackMesh"]
+material = ExtResource("2_glow")
+size = Vector3(0.09, 1.7, 0.08)
+
+[sub_resource type="BoxShape3D" id="RockShape"]
+size = Vector3(3, 2.2, 2.4)
+
+[node name="RockCluster" type="Node3D" unique_id=534668305]
+
+[node name="RockA" type="MeshInstance3D" parent="." unique_id=874781409]
+transform = Transform3D(0.96151185, 0.114669636, 0.18448177, -0.119114146, 0.810036, -0.07787006, -0.24760196, 0.05561136, 0.7538585, 0, 1, 0)
+mesh = SubResource("RockMesh")
+
+[node name="RockB" type="MeshInstance3D" parent="." unique_id=910750728]
+transform = Transform3D(0.5028947, -0.08782981, 0.31109115, 0.0608967, 0.4698857, 0.10025657, -0.35747522, -0.04351254, 0.45472068, 1.55, 0.62, 0.45)
+mesh = SubResource("RockMesh")
+
+[node name="Crack" type="MeshInstance3D" parent="." unique_id=2055841984]
+transform = Transform3D(0.9127727, -0.40062502, 0.079659104, 0.40645632, 0.9101686, -0.07991469, -0.04048739, 0.1053219, 0.9936137, 0.3, 1.15, -1.18)
+mesh = SubResource("CrackMesh")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=223301021]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Collision" unique_id=1276570995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1, 0)
+shape = SubResource("RockShape")

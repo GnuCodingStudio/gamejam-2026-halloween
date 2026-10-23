@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Shader" path="res://scenes/minigames/faction_fight/shaders/syrup.gdshader" id="1_shader"]
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/rock.tres" id="2_rock"]
+
+[sub_resource type="ShaderMaterial" id="SyrupMaterial"]
+shader = ExtResource("1_shader")
+
+[sub_resource type="QuadMesh" id="FallMesh"]
+material = SubResource("SyrupMaterial")
+size = Vector2(7, 13)
+
+[sub_resource type="CylinderMesh" id="PoolMesh"]
+top_radius = 4.2
+bottom_radius = 4.5
+height = 0.18
+radial_segments = 24
+material = SubResource("SyrupMaterial")
+
+[sub_resource type="SphereMesh" id="RockMesh"]
+radius = 1.5
+height = 2.2
+radial_segments = 8
+rings = 5
+material = ExtResource("2_rock")
+
+[node name="SyrupFall" type="Node3D"]
+
+[node name="Fall" type="MeshInstance3D" parent="."]
+position = Vector3(0, 6.5, 0)
+mesh = SubResource("FallMesh")
+
+[node name="BackFall" type="MeshInstance3D" parent="."]
+position = Vector3(0, 6.5, 0.08)
+rotation = Vector3(0, 3.14159, 0)
+mesh = SubResource("FallMesh")
+
+[node name="Pool" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.08, 1.1)
+mesh = SubResource("PoolMesh")
+
+[node name="RockLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-3.8, 0.8, 0.4)
+scale = Vector3(1.2, 0.8, 1)
+mesh = SubResource("RockMesh")
+
+[node name="RockRight" type="MeshInstance3D" parent="."]
+position = Vector3(3.7, 0.7, 0.3)
+scale = Vector3(1, 0.7, 1.2)
+mesh = SubResource("RockMesh")
+

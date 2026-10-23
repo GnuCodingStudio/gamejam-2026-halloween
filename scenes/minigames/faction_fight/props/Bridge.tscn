@@ -1,0 +1,147 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="1_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_pink.tres" id="2_candy"]
+
+[sub_resource type="BoxMesh" id="PlankMesh"]
+size = Vector3(6.8, 0.32, 2.7)
+material = ExtResource("1_wood")
+
+[sub_resource type="CylinderMesh" id="RailMesh"]
+top_radius = 0.11
+bottom_radius = 0.14
+height = 22.0
+radial_segments = 7
+material = ExtResource("1_wood")
+
+[sub_resource type="CylinderMesh" id="PostMesh"]
+top_radius = 0.16
+bottom_radius = 0.24
+height = 1.75
+radial_segments = 7
+material = ExtResource("1_wood")
+
+[sub_resource type="SphereMesh" id="PostCapMesh"]
+radius = 0.27
+height = 0.38
+radial_segments = 8
+rings = 4
+material = ExtResource("2_candy")
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(7.0, 0.55, 24.0)
+
+[node name="Bridge" type="Node3D"]
+
+[node name="Plank01" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -9.6)
+rotation = Vector3(0, 0.02, 0.015)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank02" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.12, -6.9)
+rotation = Vector3(0, -0.025, -0.012)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank03" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.2, -4.2)
+rotation = Vector3(0, 0.018, 0.008)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank04" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.25, -1.5)
+rotation = Vector3(0, -0.015, 0)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank05" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.25, 1.2)
+rotation = Vector3(0, 0.02, -0.01)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank06" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.18, 3.9)
+rotation = Vector3(0, -0.02, 0.01)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank07" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.1, 6.6)
+rotation = Vector3(0, 0.015, 0)
+mesh = SubResource("PlankMesh")
+
+[node name="Plank08" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 9.3)
+rotation = Vector3(0, -0.015, -0.008)
+mesh = SubResource("PlankMesh")
+
+[node name="RailLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 1.05, 0)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("RailMesh")
+
+[node name="RailRight" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 1.05, 0)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("RailMesh")
+
+[node name="LeftPostNear" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 0.88, 8.3)
+mesh = SubResource("PostMesh")
+
+[node name="RightPostNear" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 0.88, 8.3)
+mesh = SubResource("PostMesh")
+
+[node name="LeftPostMiddle" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 0.88, 0)
+mesh = SubResource("PostMesh")
+
+[node name="RightPostMiddle" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 0.88, 0)
+mesh = SubResource("PostMesh")
+
+[node name="LeftPostFar" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 0.88, -8.3)
+mesh = SubResource("PostMesh")
+
+[node name="RightPostFar" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 0.88, -8.3)
+mesh = SubResource("PostMesh")
+
+[node name="LeftCapNear" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 1.84, 8.3)
+mesh = SubResource("PostCapMesh")
+
+[node name="RightCapNear" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 1.84, 8.3)
+mesh = SubResource("PostCapMesh")
+
+[node name="LeftCapFar" type="MeshInstance3D" parent="."]
+position = Vector3(-3.15, 1.84, -8.3)
+mesh = SubResource("PostCapMesh")
+
+[node name="RightCapFar" type="MeshInstance3D" parent="."]
+position = Vector3(3.15, 1.84, -8.3)
+mesh = SubResource("PostCapMesh")
+
+[node name="FloorCollision" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Floor" type="CollisionShape3D" parent="FloorCollision"]
+position = Vector3(0, -0.05, 0)
+shape = SubResource("FloorShape")
+
+[node name="RailCollisions" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Left" type="CollisionShape3D" parent="RailCollisions"]
+position = Vector3(-3.35, 0.9, 0)
+shape = SubResource("FloorShape")
+scale = Vector3(0.08, 2.5, 1)
+
+[node name="Right" type="CollisionShape3D" parent="RailCollisions"]
+position = Vector3(3.35, 0.9, 0)
+shape = SubResource("FloorShape")
+scale = Vector3(0.08, 2.5, 1)
+

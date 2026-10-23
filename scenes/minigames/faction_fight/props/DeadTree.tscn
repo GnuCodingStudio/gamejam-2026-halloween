@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://chfflpt6swt5o"]
+
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/bark.tres" id="1_bark"]
+
+[sub_resource type="CylinderMesh" id="TrunkMesh"]
+material = ExtResource("1_bark")
+top_radius = 0.46
+bottom_radius = 0.78
+height = 5.8
+radial_segments = 7
+
+[sub_resource type="CylinderMesh" id="BranchMesh"]
+material = ExtResource("1_bark")
+top_radius = 0.12
+bottom_radius = 0.34
+height = 3.2
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="TwigMesh"]
+material = ExtResource("1_bark")
+top_radius = 0.05
+bottom_radius = 0.18
+height = 2.1
+radial_segments = 5
+
+[sub_resource type="SphereMesh" id="KnotMesh"]
+material = ExtResource("1_bark")
+radius = 0.42
+height = 0.84
+radial_segments = 8
+rings = 4
+
+[sub_resource type="CapsuleShape3D" id="TrunkShape"]
+radius = 0.7
+height = 5.8
+
+[sub_resource type="SphereShape3D" id="KnotShape"]
+radius = 0.65
+
+[node name="DeadTree" type="Node3D" unique_id=221795918]
+
+[node name="Trunk" type="MeshInstance3D" parent="." unique_id=910878004]
+transform = Transform3D(0.9959527, 0.08987855, 0, -0.08980666, 0.99515605, -0.039989334, -0.0035941834, 0.039827485, 0.9992001, 0, 2.9, 0)
+mesh = SubResource("TrunkMesh")
+
+[node name="BranchLeft" type="MeshInstance3D" parent="." unique_id=1562770852]
+transform = Transform3D(0.6758631, 0.7103667, 0.19643849, -0.6953823, 0.70293075, -0.14943814, -0.24423856, -0.03560012, 0.9690615, -0.95, 5.35, 0)
+mesh = SubResource("BranchMesh")
+
+[node name="BranchRight" type="MeshInstance3D" parent="." unique_id=599636931]
+transform = Transform3D(0.59195584, -0.6944774, 0.29000703, 0.5448494, 0.83712333, 0.08485841, -0.27427626, 0.16409065, 0.7944779, 0.9, 5.1, 0.05)
+mesh = SubResource("BranchMesh")
+
+[node name="TwigLeft" type="MeshInstance3D" parent="." unique_id=872425581]
+transform = Transform3D(0.8577308, 0.38303903, 0.3428978, -0.40776044, 0.9130889, 0, -0.3130962, -0.13982016, 0.9393727, -0.30635238, 6.35, 0.1)
+mesh = SubResource("TwigMesh")
+
+[node name="TwigRight" type="MeshInstance3D" parent="." unique_id=1323065462]
+transform = Transform3D(0.8653303, -0.46183538, -0.19470917, 0.4262952, 0.88249815, -0.19866933, 0.263583, 0.088911, 0.9605305, 0.26564872, 6.05, 0.29595304)
+mesh = SubResource("TwigMesh")
+
+[node name="TwigBack" type="MeshInstance3D" parent="." unique_id=1673170178]
+transform = Transform3D(0.7860197, 0.12228257, 0.12460896, -0.14877687, 0.6868322, 0.63890845, -0.006215048, -0.97637534, 0.46504694, -0.35, 6.3, -1.05)
+mesh = SubResource("TwigMesh")
+
+[node name="ForkLeft" type="MeshInstance3D" parent="." unique_id=744086274]
+transform = Transform3D(0.5018479, 0.6688304, 0, -0.51677394, 0.5583663, -0.28095493, -0.20879021, 0.22559464, 0.6953879, 0.07725263, 6.65, -0.2756505)
+mesh = SubResource("TwigMesh")
+
+[node name="ForkRight" type="MeshInstance3D" parent="." unique_id=2020206252]
+transform = Transform3D(0.49732053, -0.6819984, 0, 0.42366484, 0.66812485, 0.27658093, -0.18862773, -0.29746833, 0.6212109, 0.47166467, 6.3, -0.4)
+mesh = SubResource("TwigMesh")
+
+[node name="RootLeft" type="MeshInstance3D" parent="." unique_id=400572770]
+transform = Transform3D(0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 0, 0, 1, -0.7, 0.3, 0)
+mesh = SubResource("TwigMesh")
+
+[node name="RootRight" type="MeshInstance3D" parent="." unique_id=1854430448]
+transform = Transform3D(0.33675575, -0.8772786, 0.34202012, 0.9335804, 0.35836798, 0, -0.12256906, 0.31930327, 0.9396926, 0.65, 0.28, 0.2)
+mesh = SubResource("TwigMesh")
+
+[node name="Knot" type="MeshInstance3D" parent="." unique_id=908141820]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 0.45, 0.18, 3.7, -0.5)
+mesh = SubResource("KnotMesh")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=1409165129]
+collision_layer = 4
+collision_mask = 0
+
+[node name="TrunkShape" type="CollisionShape3D" parent="Collision" unique_id=1279454971]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0)
+shape = SubResource("TrunkShape")
+
+[node name="KnotShape" type="CollisionShape3D" parent="Collision" unique_id=230024947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("KnotShape")
