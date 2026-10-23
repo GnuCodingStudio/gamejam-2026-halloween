@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/levels/labyrinth/Labyrinth.tscn" id="1_base"]
 [ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="3_floor"]
-[ext_resource type="PackedScene" path="res://objects/wall.tscn" id="3_wall"]
+[ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
 [ext_resource type="PackedScene" path="res://objects/candy.tscn" id="4_candy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
