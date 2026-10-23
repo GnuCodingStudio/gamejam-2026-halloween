@@ -81,6 +81,8 @@ func _win() -> void:
 
 func _on_time_up() -> void:
 	_is_time_up = true
+	var total_candies := LabyrinthService.collected_candies + _collected_candies + LabyrinthService.bonus_candies
+	ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
 	hud.set_time(0.0)
 	_pause_game()
 	result_overlay.show_time_up()
