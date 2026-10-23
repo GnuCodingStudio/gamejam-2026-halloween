@@ -34,7 +34,7 @@ shape = SubResource("SphereShape3D_interaction")
 
 [node name="ReturnSpawn" type="Marker3D" parent="."]
 unique_name_in_owner = true
-position = Vector3(0, -0.383, 2.5)
+position = Vector3(0, 0.75, 2.5)
 
 [node name="PromptLayer" type="CanvasLayer" parent="."]
 layer = 20
