@@ -80,6 +80,24 @@ Allowed types are: `string`, `int` or `float`.
 
 Need explanation?
 
+#### Levels/Labyrinth
+
+`labyrinth/Labyrinth.tscn` is the base scene of every labyrinth (player, exit door, HUD, result overlay, timer).
+Each labyrinth is an **inherited scene** of it (eg: `Level01.tscn`) which only adds walls, a floor and candies.
+The time limit is not per labyrinth: it is shared by the whole run, see `Services/Labyrinth`.
+
+To create a labyrinth:
+- inherit from `Labyrinth.tscn`;
+- set `extra_candies` (bonus candies won when the labyrinth is finished);
+- set `next_level` (empty on the last labyrinth: finishing it goes back to `scenes/levels/main.tscn`);
+- add `Candy` instances (`objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group;
+- keep corridors wide enough (~3 m) so the third-person camera does not clip into walls;
+- walls use physics layer `Wall` (3), floors use `Floor` (2). The player starts at the origin facing -Z, the door is behind it (`z = 4` in the base scene, a level may move it).
+
+`Level01` is a 6x6 cell maze built with `objects/wall.tscn` (the `assets/walls/wall.gltf` model, stretched to 5 m, with a collision box).
+Corridors are 4 m wide (the width of `wall.gltf`) and walls are 1 m thick, so cells are 5 m apart: the maze is 30x30 m between wall centres.
+The start cell is at the origin and the door is mounted on its south wall.
+
 ### Scenes/Menus
 
 Need explanation?

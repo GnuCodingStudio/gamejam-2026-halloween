@@ -29,6 +29,7 @@ SceneTransition="*res://services/transition/SceneTransition.tscn"
 AudioSettingsService="*uid://c3u02wgsfno1d"
 ProgressionService="*res://services/save/ProgressionService.gd"
 UiAudio="*res://components/uicontrols/UIAudio.gd"
+LabyrinthService="*res://services/labyrinth/LabyrinthService.gd"
 
 [debug]
 
@@ -41,8 +42,8 @@ shapes/collision/shape_color=Color(1, 1, 1, 0.42)
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=768
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="viewport"
 
 [file_customization]
@@ -55,6 +56,10 @@ folder_colors={
 "res://scenes/": "blue",
 "res://services/": "green"
 }
+
+[filesystem]
+
+import/blender/enabled=false
 
 [gui]
 

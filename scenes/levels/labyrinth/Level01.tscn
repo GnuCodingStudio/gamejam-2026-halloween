@@ -1,0 +1,204 @@
+[gd_scene format=3 uid="uid://d38qqtxtly3bo"]
+
+[ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/levels/labyrinth/Labyrinth.tscn" id="1_base"]
+[ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="3_floor"]
+[ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
+[ext_resource type="PackedScene" path="res://objects/candy.tscn" id="4_candy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
+size = Vector3(31, 0.2, 31)
+
+[node name="Level01" unique_id=378172021 instance=ExtResource("1_base")]
+extra_candies = 5
+
+[node name="DirectionalLight3D" parent="WorldEnvironment" parent_id_path=PackedInt32Array(864570109) index="0" unique_id=1691361756]
+transform = Transform3D(0.8300246, 0.31248504, -0.46196574, 0, 0.828301, 0.5602833, 0.55772674, -0.46504894, 0.6875102, 0, 7, 10)
+light_energy = 0.5
+
+[node name="ExitDoor" parent="." index="2" unique_id=1204765417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.9)
+
+[node name="Candy1" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="0" unique_id=1980779352 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, -25)
+
+[node name="Candy2" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="1" unique_id=1305567417 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.8, 0)
+
+[node name="Candy3" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="2" unique_id=1202204023 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.8, -15)
+
+[node name="Candy4" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="3" unique_id=1387263863 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.8, -25)
+
+[node name="Candy5" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="4" unique_id=1657027237 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, 0)
+
+[node name="Candy6" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="5" unique_id=1471513615 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, -10)
+
+[node name="Candy7" parent="Candies" parent_id_path=PackedInt32Array(947333869) index="6" unique_id=1502083876 instance=ExtResource("4_candy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8, -20)
+
+[node name="Floor" type="CSGBox3D" parent="." index="7" unique_id=315990040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.1, -12.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(31, 0.2, 31)
+material = ExtResource("3_floor")
+
+[node name="Ceiling" type="StaticBody3D" parent="." index="8" unique_id=1377166335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4.1, -12.5)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceiling" index="0" unique_id=2029223138]
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Walls" type="Node3D" parent="." index="9" unique_id=272336931]
+
+[node name="WallH_0_0" parent="Walls" index="0" unique_id=193725666 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -27.5)
+
+[node name="WallH_0_1" parent="Walls" index="1" unique_id=1406688754 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -27.5)
+
+[node name="WallH_0_2" parent="Walls" index="2" unique_id=946858132 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -27.5)
+
+[node name="WallH_0_3" parent="Walls" index="3" unique_id=149954977 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -27.5)
+
+[node name="WallH_0_4" parent="Walls" index="4" unique_id=1664429853 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -27.5)
+
+[node name="WallH_0_5" parent="Walls" index="5" unique_id=1704026051 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -27.5)
+
+[node name="WallH_1_0" parent="Walls" index="6" unique_id=394279106 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -22.5)
+
+[node name="WallH_1_3" parent="Walls" index="7" unique_id=169536158 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -22.5)
+
+[node name="WallH_2_1" parent="Walls" index="8" unique_id=1920920126 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -17.5)
+
+[node name="WallH_2_2" parent="Walls" index="9" unique_id=234474259 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17.5)
+
+[node name="WallH_2_4" parent="Walls" index="10" unique_id=512605516 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -17.5)
+
+[node name="WallH_3_3" parent="Walls" index="11" unique_id=1425162713 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -12.5)
+
+[node name="WallH_3_5" parent="Walls" index="12" unique_id=990237948 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -12.5)
+
+[node name="WallH_4_1" parent="Walls" index="13" unique_id=1639057065 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -7.5)
+
+[node name="WallH_4_3" parent="Walls" index="14" unique_id=574995923 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -7.5)
+
+[node name="WallH_4_4" parent="Walls" index="15" unique_id=330955045 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -7.5)
+
+[node name="WallH_5_2" parent="Walls" index="16" unique_id=1973309458 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+
+[node name="WallH_5_3" parent="Walls" index="17" unique_id=1758274692 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2.5)
+
+[node name="WallH_6_0" parent="Walls" index="18" unique_id=1040786725 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 2.5)
+
+[node name="WallH_6_1" parent="Walls" index="19" unique_id=1967153970 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 2.5)
+
+[node name="WallH_6_2" parent="Walls" index="20" unique_id=690511306 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
+
+[node name="WallH_6_3" parent="Walls" index="21" unique_id=2106444776 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2.5)
+
+[node name="WallH_6_4" parent="Walls" index="22" unique_id=205057044 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 2.5)
+
+[node name="WallH_6_5" parent="Walls" index="23" unique_id=1956082716 instance=ExtResource("3_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 2.5)
+
+[node name="WallV_0_0" parent="Walls" index="24" unique_id=2096816264 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, -25)
+
+[node name="WallV_0_1" parent="Walls" index="25" unique_id=1266826147 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, -20)
+
+[node name="WallV_0_2" parent="Walls" index="26" unique_id=2124198791 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, -15)
+
+[node name="WallV_0_3" parent="Walls" index="27" unique_id=1920785420 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, -10)
+
+[node name="WallV_0_4" parent="Walls" index="28" unique_id=800004074 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, -5)
+
+[node name="WallV_0_5" parent="Walls" index="29" unique_id=1379561739 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -12.5, 0, 0)
+
+[node name="WallV_1_2" parent="Walls" index="30" unique_id=2016850067 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -7.5, 0, -15)
+
+[node name="WallV_1_3" parent="Walls" index="31" unique_id=843471871 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -7.5, 0, -10)
+
+[node name="WallV_1_5" parent="Walls" index="32" unique_id=1883953059 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -7.5, 0, 0)
+
+[node name="WallV_2_1" parent="Walls" index="33" unique_id=2138091055 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -2.5, 0, -20)
+
+[node name="WallV_2_2" parent="Walls" index="34" unique_id=1799929065 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -2.5, 0, -15)
+
+[node name="WallV_2_4" parent="Walls" index="35" unique_id=1765076636 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -2.5, 0, -5)
+
+[node name="WallV_3_0" parent="Walls" index="36" unique_id=1464946041 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2.5, 0, -25)
+
+[node name="WallV_3_3" parent="Walls" index="37" unique_id=928533671 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2.5, 0, -10)
+
+[node name="WallV_3_5" parent="Walls" index="38" unique_id=87997263 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2.5, 0, 0)
+
+[node name="WallV_4_1" parent="Walls" index="39" unique_id=878403623 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, -20)
+
+[node name="WallV_4_2" parent="Walls" index="40" unique_id=1034185932 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, -15)
+
+[node name="WallV_5_1" parent="Walls" index="41" unique_id=1217865197 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 12.5, 0, -20)
+
+[node name="WallV_5_4" parent="Walls" index="42" unique_id=1827733765 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 12.5, 0, -5)
+
+[node name="WallV_6_0" parent="Walls" index="43" unique_id=32834470 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, -25)
+
+[node name="WallV_6_1" parent="Walls" index="44" unique_id=1247224886 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, -20)
+
+[node name="WallV_6_2" parent="Walls" index="45" unique_id=1914483878 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, -15)
+
+[node name="WallV_6_3" parent="Walls" index="46" unique_id=1358653780 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, -10)
+
+[node name="WallV_6_4" parent="Walls" index="47" unique_id=416240956 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, -5)
+
+[node name="WallV_6_5" parent="Walls" index="48" unique_id=79014240 instance=ExtResource("3_wall")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 17.5, 0, 0)
