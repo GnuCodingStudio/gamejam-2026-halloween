@@ -76,7 +76,7 @@ func _win() -> void:
 		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
 		ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
 	_pause_game()
-	result_overlay.show_win(extra_candies)
+	result_overlay.show_win(extra_candies, next_level == null)
 
 
 func _on_time_up() -> void:
