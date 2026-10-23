@@ -7,7 +7,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/0/path = NodePath("CanvasLayer/FadeScreen:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -19,15 +19,15 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ctkg7"]
 resource_name = "fade_in"
-length = 0.8
+length = 0.35
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/0/path = NodePath("CanvasLayer/FadeScreen:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.8),
+"times": PackedFloat32Array(0, 0.35),
 "transitions": PackedFloat32Array(0.435276, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
@@ -35,15 +35,15 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ihgsi"]
 resource_name = "fade_out"
-length = 0.8
+length = 0.35
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/0/path = NodePath("CanvasLayer/FadeScreen:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.8),
+"times": PackedFloat32Array(0, 0.35),
 "transitions": PackedFloat32Array(1, 0.659754),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
@@ -58,6 +58,7 @@ _data = {
 
 [node name="SceneTransition" type="Control"]
 z_index = 10
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,9 +69,10 @@ mouse_filter = 2
 script = ExtResource("1_w0swa")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 10
+layer = 100
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="FadeScreen" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

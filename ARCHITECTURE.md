@@ -99,6 +99,14 @@ Use:
 - `ProgressionService.complete_world(world_id, candy_amount)`: to validate a
   snake_case world id once, add its CANDY, and save both changes
 - `ProgressionService.start_new_game()`: to reset progression for a new run
+- `ProgressionService.get_completed_world_count()`: to read completed worlds
+- `ProgressionService.get_available_world_count()`: to read the run world total
+- `ProgressionService.are_all_worlds_completed()`: to test final completion
+
+World identifiers available in the current run are listed in
+`ProgressionService.AVAILABLE_WORLD_IDS`. Add a future world's snake_case id to
+that list before calling `complete_world(...)`. The finale is shown once when
+all ids in that list have been completed.
 
 To change the values to save you'll have to change:
 - `ProgressionService._serialize()` method which serializes the progression object
@@ -109,4 +117,9 @@ To change the values to save you'll have to change:
 
 Use `SceneTransition.change_scene(...)` instead of good old `get_tree().change_scene_to_file(...)` to:
 - add a fading transition between scenes;
-- execute a code between fade out and fade int, for saving purpose for instance.
+- execute an optional callback on a fully black screen, for saving purpose for instance.
+
+`SceneTransition.run_fade(at_black, on_reveal)` applies the same protected black
+fade to a UI state change within the current scene. Only one transition can run
+at a time. The fade-out and fade-in durations are both configured to 0.35 s in
+`SceneTransition.tscn`.

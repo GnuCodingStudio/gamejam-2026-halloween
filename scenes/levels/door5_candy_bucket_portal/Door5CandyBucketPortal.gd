@@ -83,9 +83,8 @@ func _enter_candy_bucket() -> void:
         prompt_label.text = "MONDE TERMINÉ"
         return
 
+    if not SceneTransition.change_scene(CANDY_BUCKET_SCENE_PATH):
+        return
+
     _transition_started = true
     prompt.hide()
-    var error := get_tree().change_scene_to_file(CANDY_BUCKET_SCENE_PATH)
-    if error != OK:
-        _transition_started = false
-        push_error("Unable to enter Candy Bucket: %s" % error_string(error))

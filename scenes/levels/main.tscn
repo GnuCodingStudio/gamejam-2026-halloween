@@ -6,6 +6,80 @@
 [ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="4_j4d2a"]
 [ext_resource type="PackedScene" path="res://scenes/levels/door5_candy_bucket_portal/Door5CandyBucketPortal.tscn" id="5_door5_portal"]
 [ext_resource type="Script" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
+[ext_resource type="AudioStream" path="res://assets/audio/final_resume.mp3" id="7_finale_audio"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_card"]
+content_margin_left = 56.0
+content_margin_top = 42.0
+content_margin_right = 56.0
+content_margin_bottom = 42.0
+bg_color = Color(0.0470588, 0.0235294, 0.0784314, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.690196, 0.239216, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 24
+shadow_offset = Vector2(0, 12)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_stat"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.27451, 0.105882, 0.384314, 0.68)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.854902, 0.482353, 1, 0.78)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.690196, 0.239216, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_hover"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.819608, 0.411765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.941176, 0.741176, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_pressed"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(0.917647, 0.482353, 0.141176, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
 sky_top_color = Color(0.79172325, 0.830605, 0.88276875, 1)
@@ -550,6 +624,7 @@ position = Vector3(0, 0, 1.8)
 player_path = NodePath("../../../Player")
 
 [node name="CandyHUD" type="CanvasLayer" parent="."]
+process_mode = 3
 layer = 10
 script = ExtResource("6_candy_hud")
 
@@ -563,14 +638,200 @@ mouse_filter = 2
 theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 24
 
-[node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin"]
-unique_name_in_owner = true
+[node name="Stats" type="VBoxContainer" parent="CandyHUD/CandyMargin"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0.0705882, 0.0352941, 0.0941176, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "CANDY : 0"
+horizontal_alignment = 2
+
+[node name="WorldsLabel" type="Label" parent="CandyHUD/CandyMargin/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.854902, 0.733333, 1, 1)
+theme_override_colors/font_outline_color = Color(0.0705882, 0.0352941, 0.0941176, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 22
+text = "MONDES : 0 / 1"
+horizontal_alignment = 2
+
+[node name="FinaleAudio" type="AudioStreamPlayer" parent="CandyHUD"]
+unique_name_in_owner = true
+stream = ExtResource("7_finale_audio")
+volume_db = -6.0
+bus = &"Music"
+
+[node name="FinaleOverlay" type="Control" parent="CandyHUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="CandyHUD/FinaleOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0156863, 0.00784314, 0.027451, 0.94)
+
+[node name="TopGlow" type="ColorRect" parent="CandyHUD/FinaleOverlay"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 5.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(1, 0.607843, 0.2, 1)
+
+[node name="Center" type="CenterContainer" parent="CandyHUD/FinaleOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FinaleCard" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(760, 520)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_finale_card")
+
+[node name="Content" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Eyebrow" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "✦  RAPPORT FINAL DE L'AVENTURE  ✦"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 50
+text = "AVENTURE ACCOMPLIE"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_font_sizes/font_size = 22
+text = "Tous les mondes ont été conquis. Voici votre légende."
+horizontal_alignment = 1
+
+[node name="Separator" type="ColorRect" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.690196, 0.239216, 0.75)
+
+[node name="FinaleStats" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CandyStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats"]
+custom_minimum_size = Vector2(0, 142)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
+
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat"]
+layout_mode = 2
+alignment = 1
+
+[node name="FinalScoreLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
+theme_override_font_sizes/font_size = 54
+text = "0"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_font_sizes/font_size = 17
+text = "CANDY RÉCOLTÉS"
+horizontal_alignment = 1
+
+[node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats"]
+custom_minimum_size = Vector2(0, 142)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
+
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat"]
+layout_mode = 2
+alignment = 1
+
+[node name="FinalWorldsLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
+theme_override_font_sizes/font_size = 54
+text = "0 / 1"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_font_sizes/font_size = 17
+text = "MONDES TERMINÉS"
+horizontal_alignment = 1
+
+[node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
+theme_override_font_sizes/font_size = 20
+text = "✓  Progression complète — le royaume est sauf."
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(410, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_colors/font_pressed_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
+text = "CONTINUER DANS LE LOBBY"
+
+[node name="Hint" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.521569, 0.65098, 1)
+theme_override_font_sizes/font_size = 15
+text = "ÉCHAP permet également de fermer ce résumé"
+horizontal_alignment = 1

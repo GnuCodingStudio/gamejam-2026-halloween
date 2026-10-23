@@ -94,11 +94,14 @@ var _collected_candies: int = 0
 var _last_spawn_x: float = -1000.0
 var _magic_spawn_times: Array[float] = []
 var _next_magic_spawn_index: int = 0
+var _return_transition_started: bool = false
 
 @onready var player: CandyBucketPlayer = %Player
 @onready var candies: Node2D = %Candies
 @onready var music_player: AudioStreamPlayer = %MusicPlayer
 @onready var result_audio_player: AudioStreamPlayer = %ResultAudioPlayer
+@onready var toxic_sfx_player: AudioStreamPlayer = %ToxicSfxPlayer
+@onready var toxic_gas_effect: CandyBucketToxicGasEffect = %ToxicGasEffect
 @onready var spawn_timer: Timer = %SpawnTimer
 @onready var time_label: Label = %TimeLabel
 @onready var candy_label: Label = %CandyLabel
@@ -150,6 +153,8 @@ func _begin_preparation() -> void:
     _round_active = false
     music_player.stop()
     result_audio_player.stop()
+    toxic_sfx_player.stop()
+    toxic_gas_effect.stop()
     _remaining_time = ROUND_DURATION
     _poison_remaining = 0.0
     _magic_boost_remaining = 0.0
@@ -336,9 +341,16 @@ func _on_player_candy_entered(area: Area2D) -> void:
 
 
 func _apply_poison() -> void:
+    _play_toxic_reaction()
     _poison_remaining = poison_duration
     player.set_poisoned(true)
     _update_hud()
+
+
+func _play_toxic_reaction() -> void:
+    toxic_sfx_player.play(0.0)
+    toxic_gas_effect.global_position = player.global_position + Vector2(0.0, -28.0)
+    toxic_gas_effect.play()
 
 
 func _update_poison(delta: float) -> void:
@@ -375,7 +387,10 @@ func _finish_round() -> void:
         return
 
     _stop_gameplay()
-    _play_result_sound(round_end_jingle)
+    SceneTransition.run_fade(_prepare_round_result, _reveal_round_result)
+
+
+func _prepare_round_result() -> void:
     result_title.text = "TEMPS ÉCOULÉ !"
     result_title.modulate = Color("ffd166")
     result_details.text = "BONBONS RÉCOLTÉS : %d" % _collected_candies
@@ -385,10 +400,16 @@ func _finish_round() -> void:
     round_completed.emit(MINIGAME_ID, _collected_candies)
 
 
+func _reveal_round_result() -> void:
+    _play_result_sound(round_end_jingle)
+
+
 func _stop_gameplay() -> void:
     _round_active = false
     music_player.stop()
     result_audio_player.stop()
+    toxic_sfx_player.stop()
+    toxic_gas_effect.stop()
     spawn_timer.stop()
     player.set_movement_enabled(false)
     player.set_collection_enabled(false)
@@ -411,12 +432,20 @@ func _on_restart_button_pressed() -> void:
 
 
 func _on_return_lobby_button_pressed() -> void:
+    if _return_transition_started:
+        return
+
     _stop_gameplay()
     ProgressionService.complete_world(MINIGAME_ID, _collected_candies)
+    if not SceneTransition.change_scene(LOBBY_SCENE_PATH, _mark_lobby_return):
+        return
+
+    _return_transition_started = true
+    return_lobby_button.disabled = true
+
+
+func _mark_lobby_return() -> void:
     get_tree().set_meta(LOBBY_RETURN_META, true)
-    var error := get_tree().change_scene_to_file(LOBBY_SCENE_PATH)
-    if error != OK:
-        push_error("Unable to return to lobby: %s" % error_string(error))
 
 
 func _on_music_finished() -> void:
