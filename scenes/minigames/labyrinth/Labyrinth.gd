@@ -19,6 +19,7 @@ var _is_time_up := false
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_connect_candies()
 	_connect_signals()
 	hud.set_candies(_collected_candies, _total_candies)
