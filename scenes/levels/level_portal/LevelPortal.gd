@@ -90,7 +90,3 @@ func _enter_level() -> void:
 
     _transition_started = true
     prompt.hide()
-    var error := get_tree().change_scene_to_file(target_scene_path)
-    if error != OK:
-        _transition_started = false
-        push_error("Unable to enter %s: %s" % [target_scene_path, error_string(error)])

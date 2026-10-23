@@ -3,6 +3,7 @@ extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
 const LABYRINTH_WORLD_ID: StringName = &"labyrinth"
+const LOBBY_RETURN_META: StringName = &"labyrinth_return_to_door"
 
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
@@ -97,10 +98,18 @@ func _on_continue_pressed() -> void:
 	get_tree().paused = false
 	if _is_time_up:
 		LabyrinthService.reset()
-		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+		_return_to_lobby()
 	elif next_level == null:
-		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+		_return_to_lobby()
 	else:
 		SceneTransition.change_scene(next_level.resource_path)
+
+
+func _return_to_lobby() -> void:
+	SceneTransition.change_scene(LOBBY_SCENE_PATH, _mark_lobby_return)
+
+
+func _mark_lobby_return() -> void:
+	get_tree().set_meta(LOBBY_RETURN_META, true)
 
 #endregion navigation
