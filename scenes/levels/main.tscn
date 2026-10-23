@@ -10,6 +10,7 @@
 [ext_resource type="Material" path="res://assets/textures/Gravel043_1K-PNG/Gravel043_1K-PNG.tres" id="5_5wre2"]
 [ext_resource type="Script" uid="uid://qqtantb1dxk0" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
 [ext_resource type="Material" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG.tres" id="6_qy6q0"]
+[ext_resource type="AudioStream" path="res://assets/audio/final_resume.mp3" id="7_finale_audio"]
 [ext_resource type="Material" path="res://assets/textures/Metal048C_1K-PNG/Metal048C_1K-PNG.tres" id="7_ykry0"]
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
@@ -20,6 +21,79 @@
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
 [ext_resource type="Material" path="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG.tres" id="16_8qayg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_portal/LevelPortal.tscn" id="18_px1c8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_card"]
+content_margin_left = 56.0
+content_margin_top = 42.0
+content_margin_right = 56.0
+content_margin_bottom = 42.0
+bg_color = Color(0.0470588, 0.0235294, 0.0784314, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.690196, 0.239216, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 24
+shadow_offset = Vector2(0, 12)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_stat"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.27451, 0.105882, 0.384314, 0.68)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.854902, 0.482353, 1, 0.78)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.690196, 0.239216, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_hover"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.819608, 0.411765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.941176, 0.741176, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_pressed"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(0.917647, 0.482353, 0.141176, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
 sky_top_color = Color(0.1321393, 0.25306827, 0.35236278, 1)
@@ -1094,6 +1168,7 @@ player_path = NodePath("../Player")
 [node name="CaptureOnClick" parent="." unique_id=523612670 instance=ExtResource("4_j4d2a")]
 
 [node name="CandyHUD" type="CanvasLayer" parent="." unique_id=655506461]
+process_mode = 3
 layer = 10
 script = ExtResource("6_candy_hud")
 
@@ -1107,9 +1182,16 @@ mouse_filter = 2
 theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 24
 
-[node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin" unique_id=213954456]
+[node name="Stats" type="VBoxContainer" parent="CandyHUD/CandyMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin/Stats" unique_id=213954456]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
