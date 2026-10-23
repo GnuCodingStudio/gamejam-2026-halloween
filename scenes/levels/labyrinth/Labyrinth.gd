@@ -9,6 +9,7 @@ const LABYRINTH_WORLD_ID: StringName = &"labyrinth"
 
 var _total_candies := 0
 var _collected_candies := 0
+var _is_time_up := false
 
 @onready var player: Player = %Player
 @onready var exit_door: ExitDoor = %ExitDoor
@@ -26,7 +27,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	hud.set_time(LabyrinthService.remaining_time())
+	if not _is_time_up:
+		hud.set_time(LabyrinthService.remaining_time())
 
 
 #region setup
@@ -42,7 +44,8 @@ func _connect_signals() -> void:
 	player.started_moving.connect(LabyrinthService.resume)
 	exit_door.player_near.connect(hud.show_prompt)
 	exit_door.use_requested.connect(_on_door_use_requested)
-	result_overlay.continue_pressed.connect(_go_to_next_level)
+	result_overlay.continue_pressed.connect(_on_continue_pressed)
+	LabyrinthService.time_up.connect(_on_time_up)
 
 #endregion setup
 
@@ -70,17 +73,31 @@ func _win() -> void:
 	if next_level == null:
 		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
 		ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
+	_pause_game()
+	result_overlay.show_win(extra_candies)
+
+
+func _on_time_up() -> void:
+	_is_time_up = true
+	hud.set_time(0.0)
+	_pause_game()
+	result_overlay.show_time_up()
+
+
+func _pause_game() -> void:
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	result_overlay.show_win(extra_candies)
 
 #endregion round
 
 #region navigation
 
-func _go_to_next_level() -> void:
+func _on_continue_pressed() -> void:
 	get_tree().paused = false
-	if next_level == null:
+	if _is_time_up:
+		LabyrinthService.reset()
+		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+	elif next_level == null:
 		SceneTransition.change_scene(LOBBY_SCENE_PATH)
 	else:
 		SceneTransition.change_scene(next_level.resource_path)
