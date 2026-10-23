@@ -2,7 +2,7 @@ class_name Labyrinth
 extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
-const WORLD_ID: StringName = &"labyrinth"
+const LABYRINTH_WORLD_ID: StringName = &"labyrinth"
 
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
@@ -14,6 +14,7 @@ var _collected_candies := 0
 @onready var exit_door: ExitDoor = %ExitDoor
 @onready var hud: LabyrinthHud = %Hud
 @onready var result_overlay: ResultOverlay = %ResultOverlay
+@onready var collect_audio_player: AudioStreamPlayer = %CollectAudioPlayer
 
 
 func _ready() -> void:
@@ -49,6 +50,7 @@ func _connect_signals() -> void:
 
 func _on_candy_collected() -> void:
 	_collected_candies += 1
+	collect_audio_player.play()
 	hud.set_candies(_collected_candies, _total_candies)
 
 
@@ -67,7 +69,7 @@ func _win() -> void:
 	hud.set_bonus_candies(LabyrinthService.bonus_candies)
 	if next_level == null:
 		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
-		ProgressionService.complete_world(WORLD_ID, total_candies)
+		ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	result_overlay.show_win(extra_candies)
