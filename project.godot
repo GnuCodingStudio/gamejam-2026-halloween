@@ -56,6 +56,10 @@ folder_colors={
 "res://services/": "green"
 }
 
+[filesystem]
+
+import/blender/enabled=false
+
 [gui]
 
 theme/custom="res://resources/theme/MenuTheme.tres"
