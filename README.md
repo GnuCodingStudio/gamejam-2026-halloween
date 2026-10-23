@@ -3,7 +3,7 @@
   <!-- <img src="./path/to/icon.png" width="215" /> -->
   <br/><br/>
   
-  # Game Name
+  # The Whole Adventure - across the universe
 
 ![GitHub release](https://img.shields.io/github/v/release/{user-name}/{repository-name}?include_prereleases)
 ![GitHub](https://img.shields.io/github/license/{user-name}/{repository-name})
@@ -15,22 +15,14 @@
 </div>
 
 
-## Quick start
-
-When forking this template you should:
-- [ ] Read the [Architecture document](ARCHITECTURE.md)
-- [ ] Update this README.md file & remove the "Quick start" section
-- [ ] Update config in `.github` folder and sub-folders
-
-
-## Feature
+## Featurue (TODO)
 
 - ✨ A list of main mecanisms of the game
 - 🎁 You can explain the main goal of users
 - 📝 And many others are coming soon !
 
 
-## Roadmap
+## Roadmap (TODO)
 
 - [x] Something done
 - [x] Something else
@@ -42,7 +34,7 @@ When forking this template you should:
 
 - Godot 4.7
 - Gimp
-- ...
+- Kay Assets
 
 
 ## Download
