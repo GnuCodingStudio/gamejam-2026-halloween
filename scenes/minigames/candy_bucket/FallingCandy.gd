@@ -3,6 +3,7 @@ extends Area2D
 
 
 var is_poison: bool = false
+var is_magic: bool = false
 var size_factor: float = 1.0
 var fall_speed: float = 220.0
 var oscillation_amplitude: float = 0.0
@@ -25,6 +26,7 @@ const COLLISION_SIZES: Array[Vector2] = [
     Vector2(48.0, 66.0),
     Vector2(88.0, 44.0),
     Vector2(88.0, 44.0),
+    Vector2(92.0, 56.0),
 ]
 
 
@@ -52,10 +54,11 @@ func configure(
     oscillation_direction: float = 1.0
 ) -> void:
     is_poison = appearance_index == CandyBucketCandyVisual.TOXIC_APPEARANCE_INDEX
+    is_magic = appearance_index == CandyBucketCandyVisual.MAGIC_APPEARANCE_INDEX
     fall_speed = new_fall_speed
     size_factor = new_size_factor
-    oscillation_amplitude = new_oscillation_amplitude if is_poison else 0.0
-    oscillation_frequency = new_oscillation_frequency if is_poison else 0.0
+    oscillation_amplitude = new_oscillation_amplitude if is_poison or is_magic else 0.0
+    oscillation_frequency = new_oscillation_frequency if is_poison or is_magic else 0.0
     _oscillation_direction = signf(oscillation_direction)
     _oscillation_origin_x = global_position.x
     _horizontal_limits = horizontal_limits
@@ -88,7 +91,7 @@ func _configure_collision(appearance_index: int, collision_scale: float) -> void
 
 
 func _update_horizontal_oscillation(delta: float) -> void:
-    if not is_poison or is_zero_approx(oscillation_amplitude):
+    if not (is_poison or is_magic) or is_zero_approx(oscillation_amplitude):
         return
 
     _oscillation_time += delta

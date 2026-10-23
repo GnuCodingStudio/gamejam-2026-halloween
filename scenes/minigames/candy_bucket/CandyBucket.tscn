@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scenes/minigames/candy_bucket/CandyBucket.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/candy_bucket/CandyBucketPlayer.tscn" id="2_player"]
 [ext_resource type="Texture2D" path="res://assets/2D/background_bucket.png" id="3_background"]
 [ext_resource type="AudioStream" path="res://assets/audio/spoky-halloween-617000.mp3" id="4_music"]
-[ext_resource type="AudioStream" path="res://assets/audio/winner_game.mp3" id="5_victory"]
-[ext_resource type="AudioStream" path="res://assets/audio/echec_game.mp3" id="6_failure"]
+[ext_resource type="AudioStream" path="res://assets/audio/winner_game.mp3" id="5_round_end"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
 bg_color = Color(0.0705882, 0.0470588, 0.105882, 0.94)
@@ -47,24 +46,9 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_background"]
-bg_color = Color(0.137255, 0.101961, 0.180392, 1)
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-corner_radius_bottom_right = 7
-corner_radius_bottom_left = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
-bg_color = Color(1, 0.419608, 0.615686, 1)
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-corner_radius_bottom_right = 7
-corner_radius_bottom_left = 7
-
 [node name="CandyBucket" type="Node2D"]
 script = ExtResource("1_game")
-victory_sound = ExtResource("5_victory")
-failure_sound = ExtResource("6_failure")
+round_end_jingle = ExtResource("5_round_end")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -10
@@ -157,26 +141,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
-text = "Bonbons : 0 / 30"
-
-[node name="ProgressRow" type="HBoxContainer" parent="HUD/HUDRoot/TopMargin/HUDPanel/HUDMargin/HUDVBox"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="ProgressLabel" type="Label" parent="HUD/HUDRoot/TopMargin/HUDPanel/HUDMargin/HUDVBox/ProgressRow"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Remplissage du seau"
-
-[node name="BucketProgress" type="ProgressBar" parent="HUD/HUDRoot/TopMargin/HUDPanel/HUDMargin/HUDVBox/ProgressRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 24)
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 30.0
-show_percentage = false
-theme_override_styles/background = SubResource("StyleBoxFlat_progress_background")
-theme_override_styles/fill = SubResource("StyleBoxFlat_progress_fill")
+text = "CANDY : 0"
 
 [node name="PoisonLabel" type="Label" parent="HUD/HUDRoot/TopMargin/HUDPanel/HUDMargin/HUDVBox"]
 unique_name_in_owner = true
@@ -184,7 +149,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Poison : inactif"
 
+[node name="MagicBoostLabel" type="Label" parent="HUD/HUDRoot/TopMargin/HUDPanel/HUDMargin/HUDVBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Vitesse +50 % : 5.0 s"
+
 [node name="InstructionPanel" type="PanelContainer" parent="HUD/HUDRoot"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
 anchor_left = 0.5
@@ -202,7 +175,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_instruction")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Déplacement : Q / D ou ← / →    •    Attrapez 30 bonbons !"
+text = "Déplacement : Q / D ou ← / →    •    Attrapez un maximum de bonbons !"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -269,14 +242,14 @@ theme_override_constants/separation = 20
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 52
-text = "VICTOIRE !"
+text = "TEMPS ÉCOULÉ !"
 horizontal_alignment = 1
 
 [node name="ResultDetails" type="Label" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 27
-text = "Objectif atteint en 00.00 secondes."
+text = "BONBONS RÉCOLTÉS : 0"
 horizontal_alignment = 1
 
 [node name="RestartButton" type="Button" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
@@ -285,3 +258,10 @@ custom_minimum_size = Vector2(330, 58)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "RECOMMENCER"
+
+[node name="ReturnLobbyButton" type="Button" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "RETOUR AU LOBBY"

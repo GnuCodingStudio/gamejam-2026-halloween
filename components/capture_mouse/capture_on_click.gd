@@ -1,6 +1,11 @@
 extends Node
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"exit"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var buttonEvent := event as InputEventMouseButton
@@ -8,7 +13,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if buttonEvent.is_pressed() and isFocused:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			get_window().grab_focus()
-	elif event is InputEventKey:
-		var keyEvent := event as InputEventKey
-		if keyEvent.is_pressed() and keyEvent.keycode == KEY_ESCAPE:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _exit_tree() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

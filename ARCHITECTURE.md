@@ -94,6 +94,11 @@ Make sure `ProgressionService.init()` is called while starting the game.
 Use:
 - `ProgressionService.data`: to get the current value of Progression
 - `ProgressionService.save(progression: Progression)`: to save the given progression
+- `ProgressionService.get_total_candy()`: to read the global CANDY score
+- `ProgressionService.is_world_completed(world_id)`: to query a world state
+- `ProgressionService.complete_world(world_id, candy_amount)`: to validate a
+  snake_case world id once, add its CANDY, and save both changes
+- `ProgressionService.start_new_game()`: to reset progression for a new run
 
 To change the values to save you'll have to change:
 - `ProgressionService._serialize()` method which serializes the progression object

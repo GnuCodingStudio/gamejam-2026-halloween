@@ -2,10 +2,9 @@ class_name CandyBucketGame
 extends Node2D
 
 
-## Emitted once when the target is reached, with the official elapsed time.
-signal minigame_won(completion_time: float)
-## Emitted once when time expires, with the number of normal candies collected.
-signal minigame_failed(collected_candies: int)
+## Public integration point for a future global score system.
+## Emitted once per completed round with the stable minigame id and candy count.
+signal round_completed(minigame_id: StringName, collected_candies: int)
 ## Emitted when a future host scene calls [method abandon].
 signal minigame_abandoned()
 
@@ -25,11 +24,19 @@ const SPAWN_SIDE_MARGIN: float = 42.0
 const MIN_SPAWN_SEPARATION: float = 96.0
 const MAX_SPAWN_POSITION_ATTEMPTS: int = 10
 const CANDY_HORIZONTAL_HALF_EXTENT: float = 52.0
+const ROUND_DURATION: float = 60.0
+const MINIGAME_ID: StringName = &"candy_bucket"
+const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
+const LOBBY_RETURN_META: StringName = &"candy_bucket_return_to_door5"
+const MAGIC_APPEARANCES_PER_ROUND: int = 2
+const MAGIC_BOOST_DURATION: float = 5.0
+const MAGIC_FIRST_SPAWN_WINDOW: Vector2 = Vector2(8.0, 28.0)
+const MAGIC_SECOND_SPAWN_WINDOW: Vector2 = Vector2(32.0, 52.0)
+const MAGIC_OSCILLATION_AMPLITUDE: float = 28.0
+const MAGIC_OSCILLATION_FREQUENCY: float = 0.55
 
 
 @export_category("Round")
-@export_range(1.0, 300.0, 1.0) var round_duration: float = 60.0
-@export_range(1, 100, 1) var target_candies: int = 30
 @export_range(1, 5, 1) var preparation_seconds: int = 3
 
 @export_category("Player")
@@ -75,17 +82,18 @@ const CANDY_HORIZONTAL_HALF_EXTENT: float = 52.0
 @export_range(0.05, 1.0, 0.01) var toxic_oscillation_frequency_max: float = 0.30
 
 @export_category("Result audio")
-@export var victory_sound: AudioStream
-@export var failure_sound: AudioStream
+@export var round_end_jingle: AudioStream
 
 
 var _round_active: bool = false
-var _timeout_pending: bool = false
 var _round_generation: int = 0
 var _remaining_time: float = 60.0
 var _poison_remaining: float = 0.0
+var _magic_boost_remaining: float = 0.0
 var _collected_candies: int = 0
 var _last_spawn_x: float = -1000.0
+var _magic_spawn_times: Array[float] = []
+var _next_magic_spawn_index: int = 0
 
 @onready var player: CandyBucketPlayer = %Player
 @onready var candies: Node2D = %Candies
@@ -94,14 +102,15 @@ var _last_spawn_x: float = -1000.0
 @onready var spawn_timer: Timer = %SpawnTimer
 @onready var time_label: Label = %TimeLabel
 @onready var candy_label: Label = %CandyLabel
-@onready var bucket_progress: ProgressBar = %BucketProgress
 @onready var poison_label: Label = %PoisonLabel
-@onready var instruction_label: Label = %InstructionLabel
+@onready var magic_boost_label: Label = %MagicBoostLabel
+@onready var instruction_panel: Control = %InstructionPanel
 @onready var countdown_label: Label = %CountdownLabel
 @onready var result_overlay: Control = %ResultOverlay
 @onready var result_title: Label = %ResultTitle
 @onready var result_details: Label = %ResultDetails
 @onready var restart_button: Button = %RestartButton
+@onready var return_lobby_button: Button = %ReturnLobbyButton
 
 
 func _ready() -> void:
@@ -110,6 +119,7 @@ func _ready() -> void:
     music_player.finished.connect(_on_music_finished)
     spawn_timer.timeout.connect(_on_spawn_timer_timeout)
     restart_button.pressed.connect(_on_restart_button_pressed)
+    return_lobby_button.pressed.connect(_on_return_lobby_button_pressed)
     _update_layout()
     _begin_preparation()
 
@@ -118,13 +128,12 @@ func _physics_process(delta: float) -> void:
     if not _round_active:
         return
 
-    _update_poison(delta)
+    _update_status_effects(delta)
     _remaining_time = maxf(0.0, _remaining_time - delta)
     _update_hud()
 
-    if is_zero_approx(_remaining_time) and not _timeout_pending:
-        _timeout_pending = true
-        _resolve_timeout.call_deferred()
+    if is_zero_approx(_remaining_time):
+        _finish_round()
 
 
 ## Stops the standalone round and notifies a future host scene.
@@ -141,17 +150,18 @@ func _begin_preparation() -> void:
     _round_active = false
     music_player.stop()
     result_audio_player.stop()
-    _timeout_pending = false
-    _remaining_time = round_duration
+    _remaining_time = ROUND_DURATION
     _poison_remaining = 0.0
+    _magic_boost_remaining = 0.0
     _collected_candies = 0
     _last_spawn_x = -1000.0
+    _prepare_magic_spawn_times()
 
     spawn_timer.stop()
     _clear_candies()
     result_overlay.hide()
     countdown_label.show()
-    instruction_label.show()
+    instruction_panel.show()
     _reset_player()
     _configure_hud()
     _run_preparation_countdown(_round_generation)
@@ -177,6 +187,7 @@ func _run_preparation_countdown(round_id: int) -> void:
 
 func _start_round() -> void:
     _round_active = true
+    instruction_panel.hide()
     player.set_movement_enabled(true)
     player.set_collection_enabled(true)
     music_player.play(0.0)
@@ -192,16 +203,14 @@ func _reset_player() -> void:
 
 
 func _configure_hud() -> void:
-    bucket_progress.max_value = target_candies
-    bucket_progress.value = 0.0
     poison_label.modulate = Color("d8d2df")
+    magic_boost_label.modulate = Color("ffd166")
     _update_hud()
 
 
 func _update_hud() -> void:
     time_label.text = "Temps : %.2f s" % _remaining_time
-    candy_label.text = "Bonbons : %d / %d" % [_collected_candies, target_candies]
-    bucket_progress.value = _collected_candies
+    candy_label.text = "CANDY : %d" % _collected_candies
 
     if _poison_remaining > 0.0:
         poison_label.text = "Poison actif : %.1f s" % _poison_remaining
@@ -209,6 +218,9 @@ func _update_hud() -> void:
     else:
         poison_label.text = "Poison : inactif"
         poison_label.modulate = Color("d8d2df")
+
+    magic_boost_label.visible = _magic_boost_remaining > 0.0
+    magic_boost_label.text = "Vitesse +50 %% : %.1f s" % _magic_boost_remaining
 
 
 func _update_layout() -> void:
@@ -233,13 +245,18 @@ func _spawn_candy() -> void:
     var new_node: Node = FALLING_CANDY_SCENE.instantiate()
     assert(new_node is CandyBucketFallingCandy)
     var candy: CandyBucketFallingCandy = new_node as CandyBucketFallingCandy
-    var poisoned: bool = randf() < _poison_chance_for_phase(phase)
-    var appearance_index: int = _pick_appearance_index(poisoned)
+    var magic: bool = _should_spawn_magic()
+    var poisoned: bool = not magic and randf() < _poison_chance_for_phase(phase)
+    var appearance_index: int = (
+        CandyBucketCandyVisual.MAGIC_APPEARANCE_INDEX
+        if magic
+        else _pick_appearance_index(poisoned)
+    )
     var size_factor: float = _random_between(candy_scale_min, candy_scale_max)
     var reference_speed: float = _fall_speed_for_phase(phase)
     var candy_fall_speed: float = _pick_fall_speed(reference_speed, poisoned)
-    var oscillation_amplitude: float = _pick_oscillation_amplitude(poisoned)
-    var oscillation_frequency: float = _pick_oscillation_frequency(poisoned)
+    var oscillation_amplitude: float = _pick_oscillation_amplitude(poisoned, magic)
+    var oscillation_frequency: float = _pick_oscillation_frequency(poisoned, magic)
     var spawn_x: float = _pick_spawn_x(oscillation_amplitude)
     var horizontal_limits := Vector2(
         CANDY_HORIZONTAL_HALF_EXTENT,
@@ -311,10 +328,11 @@ func _on_player_candy_entered(area: Area2D) -> void:
         _apply_poison()
         return
 
+    if candy.is_magic:
+        _apply_magic_boost()
+
     _collected_candies += 1
     _update_hud()
-    if _collected_candies >= target_candies:
-        _finish_victory()
 
 
 func _apply_poison() -> void:
@@ -332,45 +350,39 @@ func _update_poison(delta: float) -> void:
         player.set_poisoned(false)
 
 
-func _resolve_timeout() -> void:
-    _timeout_pending = false
+func _apply_magic_boost() -> void:
+    _magic_boost_remaining = MAGIC_BOOST_DURATION
+    player.set_magic_boosted(true)
+    _update_hud()
+
+
+func _update_status_effects(delta: float) -> void:
+    _update_poison(delta)
+    _update_magic_boost(delta)
+
+
+func _update_magic_boost(delta: float) -> void:
+    if _magic_boost_remaining <= 0.0:
+        return
+
+    _magic_boost_remaining = maxf(0.0, _magic_boost_remaining - delta)
+    if is_zero_approx(_magic_boost_remaining):
+        player.set_magic_boosted(false)
+
+
+func _finish_round() -> void:
     if not _round_active:
         return
 
-    if _collected_candies >= target_candies:
-        _finish_victory()
-    else:
-        _finish_failure()
-
-
-func _finish_victory() -> void:
-    if not _round_active:
-        return
-
-    var completion_time: float = round_duration - _remaining_time
     _stop_gameplay()
-    _play_result_sound(victory_sound)
-    result_title.text = "VICTOIRE !"
+    _play_result_sound(round_end_jingle)
+    result_title.text = "TEMPS ÉCOULÉ !"
     result_title.modulate = Color("ffd166")
-    result_details.text = "Objectif atteint en %.2f secondes." % completion_time
-    _show_result()
-    minigame_won.emit(completion_time)
-
-
-func _finish_failure() -> void:
-    if not _round_active:
-        return
-
-    _stop_gameplay()
-    _play_result_sound(failure_sound)
-    result_title.text = "TEMPS ÉCOULÉ"
-    result_title.modulate = Color("ff7b8b")
-    result_details.text = "Bonbons récoltés : %d / %d" % [
-        _collected_candies,
-        target_candies,
-    ]
-    _show_result()
-    minigame_failed.emit(_collected_candies)
+    result_details.text = "BONBONS RÉCOLTÉS : %d" % _collected_candies
+    restart_button.show()
+    return_lobby_button.show()
+    _show_result(restart_button)
+    round_completed.emit(MINIGAME_ID, _collected_candies)
 
 
 func _stop_gameplay() -> void:
@@ -381,19 +393,30 @@ func _stop_gameplay() -> void:
     player.set_movement_enabled(false)
     player.set_collection_enabled(false)
     player.set_poisoned(false)
+    player.set_magic_boosted(false)
     _poison_remaining = 0.0
+    _magic_boost_remaining = 0.0
     countdown_label.hide()
     _freeze_candies()
     _update_hud()
 
 
-func _show_result() -> void:
+func _show_result(focus_button: Button) -> void:
     result_overlay.show()
-    restart_button.grab_focus()
+    focus_button.grab_focus()
 
 
 func _on_restart_button_pressed() -> void:
     _begin_preparation()
+
+
+func _on_return_lobby_button_pressed() -> void:
+    _stop_gameplay()
+    ProgressionService.complete_world(MINIGAME_ID, _collected_candies)
+    get_tree().set_meta(LOBBY_RETURN_META, true)
+    var error := get_tree().change_scene_to_file(LOBBY_SCENE_PATH)
+    if error != OK:
+        push_error("Unable to return to lobby: %s" % error_string(error))
 
 
 func _on_music_finished() -> void:
@@ -471,13 +494,35 @@ func _pick_appearance_index(poisoned: bool) -> int:
     return CandyBucketCandyVisual.HEALTHY_APPEARANCE_INDICES.pick_random()
 
 
+func _prepare_magic_spawn_times() -> void:
+    _magic_spawn_times = [
+        randf_range(MAGIC_FIRST_SPAWN_WINDOW.x, MAGIC_FIRST_SPAWN_WINDOW.y),
+        randf_range(MAGIC_SECOND_SPAWN_WINDOW.x, MAGIC_SECOND_SPAWN_WINDOW.y),
+    ]
+    _next_magic_spawn_index = 0
+
+
+func _should_spawn_magic() -> bool:
+    if _next_magic_spawn_index >= MAGIC_APPEARANCES_PER_ROUND:
+        return false
+
+    var elapsed_time: float = ROUND_DURATION - _remaining_time
+    if elapsed_time < _magic_spawn_times[_next_magic_spawn_index]:
+        return false
+
+    _next_magic_spawn_index += 1
+    return true
+
+
 func _pick_fall_speed(reference_speed: float, poisoned: bool) -> float:
     var minimum_factor := toxic_speed_factor_min if poisoned else healthy_speed_factor_min
     var maximum_factor := toxic_speed_factor_max if poisoned else healthy_speed_factor_max
     return reference_speed * _random_between(minimum_factor, maximum_factor)
 
 
-func _pick_oscillation_amplitude(poisoned: bool) -> float:
+func _pick_oscillation_amplitude(poisoned: bool, magic: bool) -> float:
+    if magic:
+        return MAGIC_OSCILLATION_AMPLITUDE
     if not poisoned:
         return 0.0
     return _random_between(
@@ -486,7 +531,9 @@ func _pick_oscillation_amplitude(poisoned: bool) -> float:
     )
 
 
-func _pick_oscillation_frequency(poisoned: bool) -> float:
+func _pick_oscillation_frequency(poisoned: bool, magic: bool) -> float:
+    if magic:
+        return MAGIC_OSCILLATION_FREQUENCY
     if not poisoned:
         return 0.0
     return _random_between(

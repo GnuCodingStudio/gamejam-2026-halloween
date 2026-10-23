@@ -12,6 +12,7 @@ func _ready() -> void:
 
 
 func _on_start_button_pressed() -> void:
+	ProgressionService.start_new_game()
 	SceneTransition.change_scene("res://scenes/levels/main.tscn")
 
 

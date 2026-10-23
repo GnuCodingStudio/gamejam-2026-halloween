@@ -4,6 +4,8 @@
 [ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="2_2vj2h"]
 [ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="3_y0acb"]
 [ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="4_j4d2a"]
+[ext_resource type="PackedScene" path="res://scenes/levels/door5_candy_bucket_portal/Door5CandyBucketPortal.tscn" id="5_door5_portal"]
+[ext_resource type="Script" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
 sky_top_color = Color(0.79172325, 0.830605, 0.88276875, 1)
@@ -542,3 +544,33 @@ height = 3.7670898
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88563585, 0.12258363)
 
 [node name="CaptureOnClick" parent="." unique_id=523612670 instance=ExtResource("4_j4d2a")]
+
+[node name="Door5CandyBucketPortal" parent="CSGCombiner3D/door5" instance=ExtResource("5_door5_portal")]
+position = Vector3(0, 0, 1.8)
+player_path = NodePath("../../../Player")
+
+[node name="CandyHUD" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("6_candy_hud")
+
+[node name="CandyMargin" type="MarginContainer" parent="CandyHUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+
+[node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.0705882, 0.0352941, 0.0941176, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "CANDY : 0"

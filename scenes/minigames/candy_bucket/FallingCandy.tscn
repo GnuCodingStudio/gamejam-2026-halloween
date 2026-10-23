@@ -7,6 +7,7 @@
 size = Vector2(66, 50)
 
 [node name="FallingCandy" type="Area2D"]
+z_index = 3
 collision_layer = 1
 collision_mask = 0
 monitorable = true
@@ -15,6 +16,12 @@ script = ExtResource("1_candy")
 [node name="Visual" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_visual")
+
+[node name="Glow" type="Sprite2D" parent="Visual"]
+unique_name_in_owner = true
+visible = false
+z_index = -1
+modulate = Color(1, 0.65098, 0.168627, 0.22)
 
 [node name="Sprite" type="Sprite2D" parent="Visual"]
 unique_name_in_owner = true
