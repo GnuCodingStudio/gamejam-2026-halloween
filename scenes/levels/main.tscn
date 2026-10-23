@@ -1160,7 +1160,7 @@ player_path = NodePath("../Player")
 
 [node name="LabyrinthPortal" parent="." unique_id=1888599200 instance=ExtResource("18_px1c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.786613, 0.3572799, -9.696306)
-target_scene_path = "res://scenes/levels/labyrinth/Level01.tscn"
+target_scene_path = "res://scenes/minigames/labyrinth/Level01.tscn"
 prompt_text = "E - Labyrinth"
 world_id = &"labyrinth"
 player_path = NodePath("../Player")

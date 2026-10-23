@@ -80,7 +80,9 @@ Allowed types are: `string`, `int` or `float`.
 
 Need explanation?
 
-#### Levels/Labyrinth
+### Scenes/Minigames
+
+#### Minigames/Labyrinth
 
 `labyrinth/Labyrinth.tscn` is the base scene of every labyrinth (player, exit door, HUD, result overlay, timer).
 Each labyrinth is an **inherited scene** of it (eg: `Level01.tscn`) which only adds walls, a floor and candies.
@@ -99,7 +101,10 @@ Corridors are 4 m wide (the width of `wall.gltf`) and walls are 1 m thick, so ce
 The start cell is at the origin and the door is mounted on its south wall.
 
 `Level02` is an 8x8 cell maze with the same rules (40x40 m between wall centres, start cell in column 4 of the bottom row, door on its south wall), 9 candies and 8 extra candies.
-It is the last labyrinth: `Level01` points to it with `next_level`, and `Level02` has none.
+`Level01` points to it with `next_level`.
+
+`Level03` is a 12x12 cell maze with the same rules (60x60 m between wall centres, start cell in column 6 of the bottom row, door on its south wall), 12 candies (all at dead ends) and 12 extra candies.
+It is the last labyrinth: `Level02` points to it with `next_level`, and `Level03` has none.
 
 ### Scenes/Menus
 

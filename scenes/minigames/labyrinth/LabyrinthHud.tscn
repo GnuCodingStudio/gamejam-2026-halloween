@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scenes/levels/labyrinth/LabyrinthHud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scenes/minigames/labyrinth/LabyrinthHud.gd" id="1_hud"]
 
 [node name="LabyrinthHud" type="CanvasLayer"]
 script = ExtResource("1_hud")

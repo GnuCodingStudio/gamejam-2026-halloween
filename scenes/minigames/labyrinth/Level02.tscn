@@ -1,16 +1,18 @@
 [gd_scene format=3 uid="uid://25sf2p8iuru"]
 
-[ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/levels/labyrinth/Labyrinth.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/minigames/labyrinth/Labyrinth.tscn" id="1_base"]
 [ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="3_floor"]
 [ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
 [ext_resource type="PackedScene" path="res://objects/candy_crystalberry.tscn" id="4_crystalberry"]
 [ext_resource type="PackedScene" path="res://objects/candy_pumpkin.tscn" id="5_pumpkin"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/Level03.tscn" id="6_next"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
 size = Vector3(41, 0.2, 41)
 
 [node name="Level02" unique_id=990256691 instance=ExtResource("1_base")]
 extra_candies = 8
+next_level = ExtResource("6_next")
 
 [node name="DirectionalLight3D" parent="WorldEnvironment" parent_id_path=PackedInt32Array(864570109) index="0" unique_id=1691361756]
 transform = Transform3D(0.8300246, 0.31248504, -0.46196574, 0, 0.828301, 0.5602833, 0.55772674, -0.46504894, 0.6875102, 0, 7, 10)

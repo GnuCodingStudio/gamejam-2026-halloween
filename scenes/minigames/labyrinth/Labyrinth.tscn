@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://c31e4g2e5cqon"]
 
-[ext_resource type="Script" uid="uid://d3c7gqg47bb5c" path="res://scenes/levels/labyrinth/Labyrinth.gd" id="1_labyrinth"]
+[ext_resource type="Script" uid="uid://d3c7gqg47bb5c" path="res://scenes/minigames/labyrinth/Labyrinth.gd" id="1_labyrinth"]
 [ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://eflblh20nn1l" path="res://objects/exit_door.tscn" id="3_door"]
-[ext_resource type="PackedScene" path="res://scenes/levels/labyrinth/LabyrinthHud.tscn" id="4_hud"]
-[ext_resource type="PackedScene" path="res://scenes/levels/labyrinth/ResultOverlay.tscn" id="5_overlay"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/LabyrinthHud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/ResultOverlay.tscn" id="5_overlay"]
 [ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="6_capture"]
 [ext_resource type="AudioStream" uid="uid://ce11blu4iphxr" path="res://assets/audio/collect.wav" id="7_collect"]
 
