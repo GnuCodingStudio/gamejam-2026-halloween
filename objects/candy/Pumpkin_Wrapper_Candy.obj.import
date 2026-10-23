@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dyyyybocnh1px"
+path="res://.godot/imported/Pumpkin_Wrapper_Candy.obj-17c8d5398ac1df54dffd5b6de825b922.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Pumpkin_Wrapper_Candy.obj-17c8d5398ac1df54dffd5b6de825b922.mesh"]
+
+source_file="res://objects/candy/Pumpkin_Wrapper_Candy.obj"
+dest_files=["res://.godot/imported/Pumpkin_Wrapper_Candy.obj-17c8d5398ac1df54dffd5b6de825b922.mesh", "res://.godot/imported/Pumpkin_Wrapper_Candy.obj-17c8d5398ac1df54dffd5b6de825b922.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

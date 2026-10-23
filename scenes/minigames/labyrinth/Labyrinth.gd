@@ -2,18 +2,20 @@ class_name Labyrinth
 extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
-const WORLD_ID: StringName = &"labyrinth"
+const LABYRINTH_WORLD_ID: StringName = &"labyrinth"
 
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
 
 var _total_candies := 0
 var _collected_candies := 0
+var _is_time_up := false
 
 @onready var player: Player = %Player
 @onready var exit_door: ExitDoor = %ExitDoor
 @onready var hud: LabyrinthHud = %Hud
 @onready var result_overlay: ResultOverlay = %ResultOverlay
+@onready var collect_audio_player: AudioStreamPlayer = %CollectAudioPlayer
 
 
 func _ready() -> void:
@@ -25,7 +27,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	hud.set_time(LabyrinthService.remaining_time())
+	if not _is_time_up:
+		hud.set_time(LabyrinthService.remaining_time())
 
 
 #region setup
@@ -41,7 +44,8 @@ func _connect_signals() -> void:
 	player.started_moving.connect(LabyrinthService.resume)
 	exit_door.player_near.connect(hud.show_prompt)
 	exit_door.use_requested.connect(_on_door_use_requested)
-	result_overlay.continue_pressed.connect(_go_to_next_level)
+	result_overlay.continue_pressed.connect(_on_continue_pressed)
+	LabyrinthService.time_up.connect(_on_time_up)
 
 #endregion setup
 
@@ -49,6 +53,7 @@ func _connect_signals() -> void:
 
 func _on_candy_collected() -> void:
 	_collected_candies += 1
+	collect_audio_player.play()
 	hud.set_candies(_collected_candies, _total_candies)
 
 
@@ -67,18 +72,32 @@ func _win() -> void:
 	hud.set_bonus_candies(LabyrinthService.bonus_candies)
 	if next_level == null:
 		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
-		ProgressionService.complete_world(WORLD_ID, total_candies)
+		ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
+	_pause_game()
+	result_overlay.show_win(extra_candies)
+
+
+func _on_time_up() -> void:
+	_is_time_up = true
+	hud.set_time(0.0)
+	_pause_game()
+	result_overlay.show_time_up()
+
+
+func _pause_game() -> void:
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	result_overlay.show_win(extra_candies)
 
 #endregion round
 
 #region navigation
 
-func _go_to_next_level() -> void:
+func _on_continue_pressed() -> void:
 	get_tree().paused = false
-	if next_level == null:
+	if _is_time_up:
+		LabyrinthService.reset()
+		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+	elif next_level == null:
 		SceneTransition.change_scene(LOBBY_SCENE_PATH)
 	else:
 		SceneTransition.change_scene(next_level.resource_path)

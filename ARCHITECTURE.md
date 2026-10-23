@@ -80,7 +80,9 @@ Allowed types are: `string`, `int` or `float`.
 
 Need explanation?
 
-#### Levels/Labyrinth
+### Scenes/Minigames
+
+#### Minigames/Labyrinth
 
 `labyrinth/Labyrinth.tscn` is the base scene of every labyrinth (player, exit door, HUD, result overlay, timer).
 Each labyrinth is an **inherited scene** of it (eg: `Level01.tscn`) which only adds walls, a floor and candies.
@@ -90,13 +92,19 @@ To create a labyrinth:
 - inherit from `Labyrinth.tscn`;
 - set `extra_candies` (bonus candies won when the labyrinth is finished);
 - set `next_level` (empty on the last labyrinth: finishing it goes back to `scenes/levels/main.tscn`);
-- add `Candy` instances (`objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group;
+- add `Candy` instances (`objects/candy_crystalberry.tscn` or `objects/candy_pumpkin.tscn`, both inherit `objects/candy.tscn`) under `Candies`: the total is the number of nodes in the `candy` group. Candies float 0.6 m above the floor (`y = 0.6`) and bob up and down (`bob_height`, `bob_speed`, random phase per candy). They are self-lit and each one has a small `OmniLight3D` in its own colour. Collecting a candy spawns a one-shot `objects/candy_sparkles.tscn` burst tinted with the candy's `sparkle_color`, and `Labyrinth` plays `assets/audio/collect.wav` (the candy is freed on pickup, so the sound lives in the labyrinth);
 - keep corridors wide enough (~3 m) so the third-person camera does not clip into walls;
 - walls use physics layer `Wall` (3), floors use `Floor` (2). The player starts at the origin facing -Z, the door is behind it (`z = 4` in the base scene, a level may move it).
 
 `Level01` is a 6x6 cell maze built with `objects/wall.tscn` (the `assets/walls/wall.gltf` model, stretched to 5 m, with a collision box).
 Corridors are 4 m wide (the width of `wall.gltf`) and walls are 1 m thick, so cells are 5 m apart: the maze is 30x30 m between wall centres.
 The start cell is at the origin and the door is mounted on its south wall.
+
+`Level02` is an 8x8 cell maze with the same rules (40x40 m between wall centres, start cell in column 4 of the bottom row, door on its south wall), 9 candies and 8 extra candies.
+`Level01` points to it with `next_level`.
+
+`Level03` is a 12x12 cell maze with the same rules (60x60 m between wall centres, start cell in column 6 of the bottom row, door on its south wall), 12 candies (all at dead ends) and 12 extra candies.
+It is the last labyrinth: `Level02` points to it with `next_level`, and `Level03` has none.
 
 ### Scenes/Menus
 

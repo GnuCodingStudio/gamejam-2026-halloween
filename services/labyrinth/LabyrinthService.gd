@@ -1,7 +1,8 @@
 extends Node
 
+signal time_up
+
 const TOTAL_TIME := 600.0
-const TIME_UP_SCENE := "res://scenes/levels/main.tscn"
 
 var bonus_candies := 0
 var collected_candies := 0
@@ -52,5 +53,4 @@ func add_collected_candies(amount: int) -> void:
 
 
 func _on_time_up() -> void:
-	reset()
-	SceneTransition.change_scene(TIME_UP_SCENE)
+	time_up.emit()
