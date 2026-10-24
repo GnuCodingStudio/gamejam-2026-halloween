@@ -9,6 +9,7 @@ enum State {
 	ALERT,
 	CHASE,
 	REPELLED,
+	RECOVERING,
 	STUNNED,
 	RETURN,
 }
@@ -42,7 +43,7 @@ var _slow_multiplier: float = 1.0
 var _corruption_detection_multiplier: float = 1.0
 var _aim_label: Label3D
 var _aim_aura: MeshInstance3D
-var _model_yaw_offset: float = PI * 0.5
+var _model_yaw_offset: float = PI
 var _random := RandomNumberGenerator.new()
 var _patrol_burst_time: float = 0.0
 var _idle_target_yaw: float = 0.0
@@ -75,7 +76,7 @@ func configure(
 	detection_radius = float(settings.get("detection_radius", detection_radius))
 	chase_limit = float(settings.get("chase_limit", chase_limit))
 	monster_type = StringName(settings.get("monster_type", monster_type))
-	_model_yaw_offset = float(settings.get("model_yaw_offset", PI * 0.5))
+	_model_yaw_offset = float(settings.get("model_yaw_offset", PI))
 	_random.randomize()
 	_build_patrol_points()
 	_animation_names = animations
@@ -153,7 +154,7 @@ func get_state_name() -> String:
 
 
 func can_steal_candy() -> bool:
-	return _state != State.REPELLED and _state != State.STUNNED
+	return _state != State.REPELLED and _state != State.RECOVERING and _state != State.STUNNED
 
 
 func stop_gameplay() -> void:
@@ -206,6 +207,9 @@ func _update_state(delta: float) -> void:
 			_repel_velocity = _repel_velocity.move_toward(Vector3.ZERO, 5.0 * delta)
 			_spin_model(delta, 8.0)
 			if _state_time <= 0.0:
+				_set_state(State.RECOVERING, 0.65)
+		State.RECOVERING:
+			if _state_time <= 0.0:
 				_set_state(State.RETURN)
 		State.STUNNED:
 			_spin_model(delta, 4.0)
@@ -255,24 +259,31 @@ func _chase(delta: float) -> void:
 
 
 func _move_toward(target: Vector3, speed: float, delta: float) -> void:
-	var direction := target - global_position
-	direction.y = 0.0
-	if direction.is_zero_approx():
+	var desired_direction := target - global_position
+	desired_direction.y = 0.0
+	if desired_direction.is_zero_approx():
 		return
-	direction = _clear_movement_direction(direction.normalized(), speed * delta)
-	if direction.is_zero_approx():
+	desired_direction = _clear_movement_direction(desired_direction.normalized(), speed * delta)
+	if desired_direction.is_zero_approx():
 		return
-	global_position += direction * speed * delta
-	var target_yaw := atan2(-direction.x, -direction.z)
-	rotation.y = lerp_angle(rotation.y, target_yaw, minf(delta * 6.0, 1.0))
+	_face_direction(desired_direction, delta)
+	var forward := -global_basis.z
+	forward.y = 0.0
+	forward = forward.normalized()
+	var alignment := clampf(forward.dot(desired_direction), 0.0, 1.0)
+	if alignment < 0.2:
+		return
+	var distance := speed * delta * alignment
+	if not _has_obstacle(forward, distance + OBSTACLE_CLEARANCE):
+		global_position += forward * distance
 
 
 func _move_in_direction(direction: Vector3, distance: float) -> void:
 	if direction.is_zero_approx() or distance <= 0.0:
 		return
-	var clear_direction := _clear_movement_direction(direction, distance)
-	if not clear_direction.is_zero_approx():
-		global_position += clear_direction * distance
+	var normalized_direction := direction.normalized()
+	if not _has_obstacle(normalized_direction, distance + 0.15):
+		global_position += normalized_direction * distance
 
 
 func _clear_movement_direction(direction: Vector3, distance: float) -> Vector3:
@@ -300,8 +311,12 @@ func _face_position(target: Vector3, delta: float) -> void:
 	direction.y = 0.0
 	if direction.is_zero_approx():
 		return
+	_face_direction(direction.normalized(), delta)
+
+
+func _face_direction(direction: Vector3, delta: float) -> void:
 	var target_yaw := atan2(-direction.x, -direction.z)
-	rotation.y = lerp_angle(rotation.y, target_yaw, minf(delta * 7.0, 1.0))
+	rotation.y = lerp_angle(rotation.y, target_yaw, minf(delta * 5.5, 1.0))
 
 
 func _can_detect_player() -> bool:
@@ -327,7 +342,7 @@ func _set_state(next_state: int, duration: float = 0.0) -> void:
 	if _state == State.IDLE:
 		var look_range := 0.65 if monster_type == &"goblin" else 0.28
 		_idle_target_yaw = rotation.y + _random.randf_range(-look_range, look_range)
-	if _model_pivot != null and _state != State.REPELLED and _state != State.STUNNED:
+	if _model_pivot != null and _state != State.REPELLED and _state != State.RECOVERING and _state != State.STUNNED:
 		_model_pivot.rotation.z = 0.0
 	if _alert_marker != null:
 		_alert_marker.visible = _state == State.ALERT
@@ -345,7 +360,7 @@ func _play_state_animation() -> void:
 			key = "alert"
 		State.CHASE:
 			key = "run"
-		State.REPELLED, State.STUNNED:
+		State.REPELLED, State.RECOVERING, State.STUNNED:
 			key = "stunned"
 	var animation_name := StringName(_animation_names.get(key, _animation_names.get("idle", "")))
 	if animation_name != &"" and _animation_player.has_animation(animation_name):

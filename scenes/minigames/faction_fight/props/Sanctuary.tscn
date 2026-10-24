@@ -67,6 +67,10 @@ size = Vector3(24, 10, 3)
 [sub_resource type="BoxShape3D" id="PillarShape"]
 size = Vector3(2.3, 10, 2.3)
 
+[sub_resource type="CylinderShape3D" id="TowerShape"]
+height = 18.0
+radius = 3.5
+
 [node name="Sanctuary" type="Node3D" unique_id=1358529099]
 
 [node name="Dais" type="MeshInstance3D" parent="." unique_id=1281851350]
@@ -153,22 +157,34 @@ mesh = SubResource("RuneStone")
 transform = Transform3D(0.5, 0, 0, 0, 1.8, 0, 0, 0, 0.5, 0, 16, -8)
 mesh = SubResource("RoofMesh")
 
-[node name="Collision" type="StaticBody3D" parent="." unique_id=226407458]
+[node name="WalkableCollision" type="StaticBody3D" parent="." unique_id=226407458]
 collision_layer = 2
 collision_mask = 0
 
-[node name="DaisShape" type="CollisionShape3D" parent="Collision" unique_id=1750511693]
+[node name="DaisShape" type="CollisionShape3D" parent="WalkableCollision" unique_id=1750511693]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("DaisShape")
 
-[node name="BackWallShape" type="CollisionShape3D" parent="Collision" unique_id=2050043135]
+[node name="StructureCollision" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="BackWallShape" type="CollisionShape3D" parent="StructureCollision" unique_id=2050043135]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -8)
 shape = SubResource("WallShape")
 
-[node name="ArchLeftShape" type="CollisionShape3D" parent="Collision" unique_id=619257031]
+[node name="ArchLeftShape" type="CollisionShape3D" parent="StructureCollision" unique_id=619257031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 5.4, 1)
 shape = SubResource("PillarShape")
 
-[node name="ArchRightShape" type="CollisionShape3D" parent="Collision" unique_id=726601414]
+[node name="ArchRightShape" type="CollisionShape3D" parent="StructureCollision" unique_id=726601414]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8, 5.4, 1)
 shape = SubResource("PillarShape")
+
+[node name="LeftTowerShape" type="CollisionShape3D" parent="StructureCollision"]
+position = Vector3(-11, 9, -7.5)
+shape = SubResource("TowerShape")
+
+[node name="RightTowerShape" type="CollisionShape3D" parent="StructureCollision"]
+position = Vector3(11, 9, -7.5)
+shape = SubResource("TowerShape")

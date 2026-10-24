@@ -1,0 +1,713 @@
+[gd_scene format=3 uid="uid://d1ohqcmxsf4qo"]
+
+[ext_resource type="Script" uid="uid://brlgpixpch7ns" path="res://scenes/minigames/faction_fight/FactionFight.gd" id="1_rdcc6"]
+[ext_resource type="AudioStream" uid="uid://bbk5cvgbhxr1" path="res://assets/audio/fantasy_V2.mp3" id="2_qeuif"]
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/ground.tres" id="3_52fbt"]
+[ext_resource type="Script" uid="uid://b5bvyc8ftrybp" path="res://scenes/minigames/faction_fight/ScenicDressing.gd" id="4_2cupl"]
+[ext_resource type="Material" uid="uid://cxq474uaq5t4y" path="res://assets/textures/Metal041A_1k/Metal041A_1K-PNG.tres" id="5_gqwk4"]
+[ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="6_1a8a4"]
+[ext_resource type="PackedScene" uid="uid://chfflpt6swt5o" path="res://scenes/minigames/faction_fight/props/DeadTree.tscn" id="7_ujver"]
+[ext_resource type="PackedScene" uid="uid://dv17mkoo5l6gh" path="res://scenes/minigames/faction_fight/props/AncientTree.tscn" id="8_tt073"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/CandyPlant.tscn" id="9_yq5tr"]
+[ext_resource type="PackedScene" uid="uid://cs58ofs2qwo51" path="res://scenes/minigames/faction_fight/props/RockCluster.tscn" id="10_gcpod"]
+[ext_resource type="PackedScene" uid="uid://vmktkssicuv6" path="res://scenes/minigames/faction_fight/props/Lantern.tscn" id="11_62nbn"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/Signpost.tscn" id="12_atspj"]
+[ext_resource type="PackedScene" uid="uid://cfllhtjbtpyjw" path="res://scenes/minigames/faction_fight/props/CorruptedRoot.tscn" id="13_uiois"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/MistPatch.tscn" id="14_2k8os"]
+[ext_resource type="PackedScene" uid="uid://bh38kvql4l13k" path="res://scenes/minigames/faction_fight/props/Bridge.tscn" id="15_l755t"]
+[ext_resource type="PackedScene" uid="uid://bcr1jc10clxpl" path="res://scenes/minigames/faction_fight/props/SyrupFall.tscn" id="16_hbltl"]
+[ext_resource type="PackedScene" uid="uid://cjed2iwo8bmdu" path="res://scenes/minigames/faction_fight/props/Sanctuary.tscn" id="17_7gxmb"]
+[ext_resource type="PackedScene" uid="uid://dyydy1n4qiaya" path="res://scenes/minigames/faction_fight/props/FinalPortal.tscn" id="18_a421m"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="19_gasek"]
+[ext_resource type="PackedScene" uid="uid://cbnqyoq2w8866" path="res://scenes/minigames/faction_fight/props/CandyTreeDecoration.tscn" id="20_rhcd6"]
+[ext_resource type="PackedScene" uid="uid://cvb058sh74sot" path="res://scenes/minigames/faction_fight/props/HauntedLamppostDecoration.tscn" id="21_kksbj"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/CrystalMushroomsDecoration.tscn" id="22_qpha7"]
+[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_mint.tres" id="23_yssur"]
+[ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="24_ic5u1"]
+[ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="25_yq5gd"]
+[ext_resource type="Script" uid="uid://musdfndqfksn" path="res://scenes/minigames/faction_fight/gameplay/FactionFightGameplay.gd" id="26_ftu1b"]
+
+[sub_resource type="Environment" id="Environment_lon4l"]
+fog_enabled = true
+fog_light_color = Color(0.3291451, 0.38513568, 0.5050464, 1)
+fog_light_energy = 0.85
+fog_density = 0.113
+
+[sub_resource type="BoxMesh" id="Zone1Mesh"]
+material = ExtResource("3_52fbt")
+size = Vector3(44, 1, 62)
+
+[sub_resource type="BoxMesh" id="Zone2Mesh"]
+material = ExtResource("3_52fbt")
+size = Vector3(52, 1, 66)
+
+[sub_resource type="BoxMesh" id="Zone3Mesh"]
+material = ExtResource("3_52fbt")
+size = Vector3(38, 1, 28)
+
+[sub_resource type="BoxMesh" id="Zone4Mesh"]
+material = ExtResource("3_52fbt")
+size = Vector3(58, 1, 64)
+
+[sub_resource type="BoxMesh" id="RavineMesh"]
+material = ExtResource("3_52fbt")
+size = Vector3(56, 1, 52)
+
+[sub_resource type="BoxShape3D" id="Zone1Shape"]
+size = Vector3(44, 1, 62)
+
+[sub_resource type="BoxShape3D" id="Zone2Shape"]
+size = Vector3(52, 1, 66)
+
+[sub_resource type="BoxShape3D" id="Zone3Shape"]
+size = Vector3(38, 1, 28)
+
+[sub_resource type="BoxShape3D" id="Zone4Shape"]
+size = Vector3(58, 1, 64)
+
+[sub_resource type="BoxShape3D" id="EndBoundaryShape"]
+size = Vector3(59.305664, 6, 1)
+
+[sub_resource type="BoxShape3D" id="SideBoundaryShape"]
+size = Vector3(1.2290039, 7, 61.723553)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2c8bc"]
+size = Vector3(1, 7, 61.857986)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6lqlt"]
+size = Vector3(6.3032227, 7, 65.21306)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cmq77"]
+size = Vector3(1, 7, 65.224464)
+
+[sub_resource type="BoxShape3D" id="BridgeApproachShape"]
+size = Vector3(15.078613, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fob6g"]
+size = Vector3(15.900269, 6.535034, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tn7l8"]
+size = Vector3(15.986481, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ohtio"]
+size = Vector3(3.848755, 6.2163086, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m5ps5"]
+size = Vector3(16.4458, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bixrs"]
+size = Vector3(1, 7, 60.44864)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5fkde"]
+size = Vector3(1, 7, 57.333424)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_87a2x"]
+size = Vector3(1.2290039, 7, 58.060467)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtlfo"]
+size = Vector3(1, 7, 64.225296)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8dg7x"]
+size = Vector3(1, 7.3911133, 46.812355)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0bvi3"]
+size = Vector3(1, 7, 54.374855)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stbo2"]
+size = Vector3(1.2290039, 7, 59.53489)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uxx04"]
+size = Vector3(1, 7, 63.04854)
+
+[sub_resource type="BoxMesh" id="PathMesh"]
+lightmap_size_hint = Vector2i(165, 97)
+material = ExtResource("5_gqwk4")
+size = Vector3(14.329803, 0.12, 17.969238)
+
+[sub_resource type="BoxMesh" id="PathWideMesh"]
+material = ExtResource("6_1a8a4")
+size = Vector3(12, 0.12, 18)
+
+[sub_resource type="CylinderMesh" id="CrystalMesh"]
+material = ExtResource("19_gasek")
+top_radius = 0.0
+bottom_radius = 0.65
+height = 3.8
+radial_segments = 6
+
+[sub_resource type="SphereMesh" id="CandyStoneMesh"]
+material = ExtResource("23_yssur")
+radius = 0.55
+height = 1.1
+radial_segments = 10
+rings = 5
+
+[node name="FactionFight" type="Node3D" unique_id=1941807568]
+script = ExtResource("1_rdcc6")
+
+[node name="ChaseweenMusic" type="AudioStreamPlayer" parent="." unique_id=1719765913]
+stream = ExtResource("2_qeuif")
+volume_db = -12.0
+bus = &"Music"
+
+[node name="Atmosphere" type="Node3D" parent="." unique_id=1423217955]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Atmosphere" unique_id=1101806741]
+environment = SubResource("Environment_lon4l")
+
+[node name="MoonLight" type="DirectionalLight3D" parent="Atmosphere" unique_id=1892897741]
+transform = Transform3D(0.88294756, 0.36994863, -0.2890356, 0, 0.6156615, 0.7880107, 0.46947157, -0.6957722, 0.5435968, 0, 0, 0)
+light_color = Color(0.77111346, 0.65250725, 0.85159624, 1)
+light_energy = 2.45
+shadow_enabled = true
+directional_shadow_max_distance = 85.0
+
+[node name="Lightning" type="DirectionalLight3D" parent="Atmosphere" unique_id=705733584]
+unique_name_in_owner = true
+transform = Transform3D(0.95105654, -0.2865156, 0.11575982, 0, 0.37460664, 0.92718387, -0.309017, -0.8818043, 0.3562721, 0, 0, 0)
+light_color = Color(0.658824, 0.384314, 1, 1)
+light_energy = 0.0
+
+[node name="ForestFill" type="OmniLight3D" parent="Atmosphere" unique_id=1022451778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 7, -82)
+light_color = Color(0.17, 0.72, 0.71, 1)
+light_energy = 5.026
+omni_range = 18.0
+
+[node name="BridgeFill" type="OmniLight3D" parent="Atmosphere" unique_id=1282542805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3.0757718, -154)
+light_color = Color(0.95, 0.31, 0.48, 1)
+light_energy = 10.513
+omni_range = 16.0
+
+[node name="BridgeFill2" type="OmniLight3D" parent="Atmosphere" unique_id=893702768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.607506, 4.904839, -218.71902)
+light_color = Color(0.95, 0.31, 0.48, 1)
+light_energy = 13.048
+omni_range = 16.0
+
+[node name="SanctuaryFill" type="OmniLight3D" parent="Atmosphere" unique_id=1854248545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 9, -239)
+light_color = Color(0.32, 0.57, 1, 1)
+light_energy = 10.981
+omni_range = 19.0
+
+[node name="Ground" type="Node3D" parent="." unique_id=1505014319]
+
+[node name="Zone1Surface" type="MeshInstance3D" parent="Ground" unique_id=1843776427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -18)
+mesh = SubResource("Zone1Mesh")
+
+[node name="Zone2Surface" type="MeshInstance3D" parent="Ground" unique_id=1032668831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, -80)
+mesh = SubResource("Zone2Mesh")
+
+[node name="Zone3Entry" type="MeshInstance3D" parent="Ground" unique_id=319666605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -0.5, -127)
+mesh = SubResource("Zone3Mesh")
+
+[node name="Zone3Exit" type="MeshInstance3D" parent="Ground" unique_id=1944188198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -0.5, -181)
+mesh = SubResource("Zone3Mesh")
+
+[node name="Zone4Surface" type="MeshInstance3D" parent="Ground" unique_id=525742626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, -226)
+mesh = SubResource("Zone4Mesh")
+
+[node name="RavineFloor" type="MeshInstance3D" parent="Ground" unique_id=1269318655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -8.5, -154)
+mesh = SubResource("RavineMesh")
+
+[node name="GroundCollision" type="StaticBody3D" parent="Ground" unique_id=466819750]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Zone1" type="CollisionShape3D" parent="Ground/GroundCollision" unique_id=910053961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -18)
+shape = SubResource("Zone1Shape")
+
+[node name="Zone2" type="CollisionShape3D" parent="Ground/GroundCollision" unique_id=58879956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, -80)
+shape = SubResource("Zone2Shape")
+
+[node name="Zone3Entry" type="CollisionShape3D" parent="Ground/GroundCollision" unique_id=1611726924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -0.5, -127)
+shape = SubResource("Zone3Shape")
+
+[node name="Zone3Exit" type="CollisionShape3D" parent="Ground/GroundCollision" unique_id=651346124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -0.5, -181)
+shape = SubResource("Zone3Shape")
+
+[node name="Zone4" type="CollisionShape3D" parent="Ground/GroundCollision" unique_id=1929443330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, -226)
+shape = SubResource("Zone4Shape")
+
+[node name="MapBoundaries" type="StaticBody3D" parent="Ground" unique_id=1777021265]
+collision_layer = 4
+collision_mask = 0
+
+[node name="StartBoundary" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1470247508]
+transform = Transform3D(0.76, 0, 0, 0, 1, 0, 0, 0, 1, -0.49615234, 1.5, 13.5)
+shape = SubResource("EndBoundaryShape")
+
+[node name="Zone1Left" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1533134956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.5, -17.209433)
+shape = SubResource("SideBoundaryShape")
+
+[node name="Zone1Right" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1009878934]
+transform = Transform3D(15.082808, 0, 0, 0, 1, 0, 0, 0, 1, 27.373402, 1.5, -17.295326)
+shape = SubResource("BoxShape3D_2c8bc")
+
+[node name="Zone2Left" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=925130320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.651611, 1.5, -80.91339)
+shape = SubResource("BoxShape3D_6lqlt")
+
+[node name="Zone2Right" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1748917706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 1.5, -80.82512)
+shape = SubResource("BoxShape3D_cmq77")
+
+[node name="BridgeEntryLeft" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1613418186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.277208, 1.5, -141.02496)
+shape = SubResource("BridgeApproachShape")
+
+[node name="BridgeEntryRight" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1972391758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.562457, 1.7675171, -141.5)
+shape = SubResource("BoxShape3D_fob6g")
+
+[node name="BridgeExitLeft" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1741467931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.208519, 1.5, -166.58705)
+shape = SubResource("BoxShape3D_tn7l8")
+
+[node name="BridgeExitLeft2" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1340808227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.231056, 1.6081543, -194.5651)
+shape = SubResource("BoxShape3D_ohtio")
+
+[node name="BridgeExitRight" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=521847514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.660118, 1.5, -166.54092)
+shape = SubResource("BoxShape3D_m5ps5")
+
+[node name="Zone3EntryLeft" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=12870812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, -24.227316, 1.5, -127)
+shape = SubResource("BoxShape3D_bixrs")
+
+[node name="Zone3EntryLeft2" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1066568912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, -8.656216, 1.5, -154.27483)
+shape = SubResource("BoxShape3D_5fkde")
+
+[node name="Zone3EntryLeft3" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1197688165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, -0.8121147, 1.5, -154.06454)
+shape = SubResource("BoxShape3D_87a2x")
+
+[node name="Zone3EntryRight" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1301936070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, 13.949015, 1.5, -127.44351)
+shape = SubResource("BoxShape3D_jtlfo")
+
+[node name="Zone3EntryRight2" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=498216994]
+transform = Transform3D(-4.371139e-08, 0, 0.45, 0, 1, 0, -1, 0, -1.9670125e-08, 24.116278, 1.1955566, -112.905685)
+shape = SubResource("BoxShape3D_8dg7x")
+
+[node name="Zone3EntryRight3" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1602839027]
+transform = Transform3D(-4.371139e-08, 0, 0.45, 0, 1, 0, -1, 0, -1.9670125e-08, 25.791782, 1, -193.74977)
+shape = SubResource("BoxShape3D_0bvi3")
+
+[node name="Zone3ExitLeft" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1124388996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, -23.651997, 1.5, -180.01718)
+shape = SubResource("SideBoundaryShape")
+
+[node name="Zone3ExitRight" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1516053813]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, 14, 1.5, -180.37515)
+shape = SubResource("BoxShape3D_stbo2")
+
+[node name="Zone4Left" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=930705741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.114502, 1.5, -225.1127)
+shape = SubResource("SideBoundaryShape")
+
+[node name="Zone4Right" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1243505563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 1.5, -225.54172)
+shape = SubResource("BoxShape3D_uxx04")
+
+[node name="FinalBoundary" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1729034450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, -258)
+shape = SubResource("EndBoundaryShape")
+
+[node name="ScenicDressing" type="Node3D" parent="." unique_id=1970358126]
+script = ExtResource("4_2cupl")
+
+[node name="MainPath" type="Node3D" parent="." unique_id=1332291352]
+
+[node name="GardenPath01" type="MeshInstance3D" parent="MainPath" unique_id=913225351]
+transform = Transform3D(0.9961947, 0, -0.08715574, 0, 0.4830044, 0, 0.08715574, 0, 0.9961947, 0.75840986, 0.012212332, 3.0663524)
+gi_lightmap_texel_scale = 0.4065
+mesh = SubResource("PathMesh")
+
+[node name="GardenPath02" type="MeshInstance3D" parent="MainPath" unique_id=1604519162]
+transform = Transform3D(0.99026805, 0, 0.1391731, 0, 0.7133051, 0, -0.1391731, 0, 0.99026805, 1.6, -0.037788812, -14)
+mesh = SubResource("PathMesh")
+
+[node name="GardenPath03" type="MeshInstance3D" parent="MainPath" unique_id=1917759237]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 0.5819717, 0, 0.17364818, 0, 0.9848077, -0.5, -0.0060629286, -31)
+mesh = SubResource("PathMesh")
+
+[node name="ForestPath01" type="MeshInstance3D" parent="MainPath" unique_id=1279778545]
+transform = Transform3D(0.9702957, 0, 0.2419219, 0, 1, 0, -0.2419219, 0, 0.9702957, 2, 0.01891571, -49)
+mesh = SubResource("PathMesh")
+
+[node name="ForestPath02" type="MeshInstance3D" parent="MainPath" unique_id=1323429757]
+transform = Transform3D(0.8746197, 0, 0.4848096, 0, 1, 0, -0.4848096, 0, 0.8746197, 9, -0.023055494, -65)
+mesh = SubResource("PathMesh")
+
+[node name="ForestPath03" type="MeshInstance3D" parent="MainPath" unique_id=1473269554]
+transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 14, -0.0005106367, -82)
+mesh = SubResource("PathMesh")
+
+[node name="ForestPath04" type="MeshInstance3D" parent="MainPath" unique_id=765942619]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 8, 0.06, -98)
+gi_lightmap_texel_scale = 2.9782
+mesh = SubResource("PathMesh")
+
+[node name="ForestSidePath01" type="MeshInstance3D" parent="MainPath" unique_id=2051766046]
+transform = Transform3D(0.30901697, 0, 0.95105654, 0, 1, 0, -0.95105654, 0, 0.30901697, -1, -0.04857773, -84)
+mesh = SubResource("PathMesh")
+
+[node name="ForestSidePath02" type="MeshInstance3D" parent="MainPath" unique_id=1350413755]
+transform = Transform3D(0.7250462, 0, 0.33809462, 0, 1, 0, -0.33809462, 0, 0.7250462, 2.553056, 0.06, -96.941216)
+mesh = SubResource("PathMesh")
+
+[node name="BridgeApproach" type="MeshInstance3D" parent="MainPath" unique_id=1019785437]
+transform = Transform3D(0.95105654, 0, -0.309017, 0, 1, 0, 0.309017, 0, 0.95105654, -1, 0.06, -116)
+mesh = SubResource("PathWideMesh")
+
+[node name="BridgeApproach" type="MeshInstance3D" parent="MainPath/BridgeApproach" unique_id=972204994]
+transform = Transform3D(0.95105714, 0, -0.30901733, 0, 1, 0, 0.30901733, 0, 0.95105714, -6.516464, -0.045586046, -14.594315)
+mesh = SubResource("PathWideMesh")
+
+[node name="SanctuaryPath01" type="MeshInstance3D" parent="MainPath" unique_id=2016039793]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 0.93729055, 0, -0.2079117, 0, 0.9781476, -2, 0.06, -194)
+mesh = SubResource("PathWideMesh")
+
+[node name="SanctuaryPath02" type="MeshInstance3D" parent="MainPath" unique_id=1295613315]
+transform = Transform3D(0.95105654, 0, 0.309017, 0, 1, 0, -0.309017, 0, 0.95105654, 4, 0.06, -211)
+mesh = SubResource("PathWideMesh")
+
+[node name="SanctuaryPath03" type="MeshInstance3D" parent="MainPath" unique_id=222144414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.06, -228)
+mesh = SubResource("PathWideMesh")
+
+[node name="Zone1_LeJardinOublie" type="Node3D" parent="." unique_id=1134732272]
+
+[node name="Tree01" parent="Zone1_LeJardinOublie" unique_id=635352309 instance=ExtResource("7_ujver")]
+transform = Transform3D(1.0049, 0, 0.44741032, 0, 1.1, 0, -0.44741032, 0, 1.0049, -12, 0, 1)
+
+[node name="Tree02" parent="Zone1_LeJardinOublie" unique_id=638313620 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.61886185, 0, -0.5379684, 0, 0.95, 0, 0.5379684, 0, 0.61886185, 12, 0, -9)
+
+[node name="Tree03" parent="Zone1_LeJardinOublie" unique_id=1465983127 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.28118882, 0, 1.2179626, 0, 1.2, 0, -1.2179626, 0, 0.28118882, -15, 0, -26)
+
+[node name="Tree04" parent="Zone1_LeJardinOublie" unique_id=980080460 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, 15, 0, -38)
+
+[node name="ElderTree" parent="Zone1_LeJardinOublie" unique_id=431163950 instance=ExtResource("8_tt073")]
+transform = Transform3D(0.97124237, 0, -0.51641876, 0, 1.1, 0, 0.51641876, 0, 0.97124237, -17, 0, -35)
+
+[node name="Plant01" parent="Zone1_LeJardinOublie" unique_id=1800361191 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(0.90807855, 0, 0.64203614, 0, 1.2435048, 0, -0.76045245, 0, 0.7666743, -7, 0, -6)
+
+[node name="Plant02" parent="Zone1_LeJardinOublie" unique_id=1862237098 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(-0.383188, 0, 0.83144236, 0, 1.0503972, 0, -1.0528005, 0, -0.30262023, 7.5265617, 0, -24)
+
+[node name="Plant03" parent="Zone1_LeJardinOublie" unique_id=218314944 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(0.07166475, 0, -1.2777406, 0, 1.4196943, 0, 1.355882, 0, 0.06753445, -10.288217, 4.7683716e-07, -39.467445)
+
+[node name="Plant03" parent="Zone1_LeJardinOublie/Plant03" unique_id=1778744244 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(0.6156615, 0, -0.7880107, 0, 1, 0, 0.7880107, 0, 0.6156615, -4.303459, 0, -5.011257)
+
+[node name="Rock01" parent="Zone1_LeJardinOublie" unique_id=2100327404 instance=ExtResource("10_gcpod")]
+transform = Transform3D(0.9242512, 0, -0.74620944, 0, 1.115836, 0, 1.091485, 0, 0.63187766, 16, 0, 3)
+
+[node name="Rock02" parent="Zone1_LeJardinOublie" unique_id=1037708245 instance=ExtResource("10_gcpod")]
+transform = Transform3D(0.42261824, 0, 0.9063078, 0, 1, 0, -0.9063078, 0, 0.42261824, -16, 0, -13)
+
+[node name="Lantern01" parent="Zone1_LeJardinOublie" unique_id=490719796 instance=ExtResource("11_62nbn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 6)
+
+[node name="Lantern02" parent="Zone1_LeJardinOublie" unique_id=1337127456 instance=ExtResource("11_62nbn")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 7, 0, -31)
+
+[node name="SignToForest" parent="Zone1_LeJardinOublie" unique_id=2047872012 instance=ExtResource("12_atspj")]
+transform = Transform3D(-0.44283527, 0, -0.89660305, 0, 1, 0, 0.89660305, 0, -0.44283527, 13.646283, 0, -44.594795)
+
+[node name="Zone2_LaForetDesRacines" type="Node3D" parent="." unique_id=1928837549]
+
+[node name="Tree01" parent="Zone2_LaForetDesRacines" unique_id=927158511 instance=ExtResource("7_ujver")]
+transform = Transform3D(1.4, 0, 0, 0, 1.3, 0, 0, 0, 1.4, -10, 0, -56)
+
+[node name="Tree02" parent="Zone2_LaForetDesRacines" unique_id=1518944228 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.66913056, 0, 0.74314487, 0, 1, 0, -0.74314487, 0, 0.66913056, 22, 0, -58)
+
+[node name="Tree03" parent="Zone2_LaForetDesRacines" unique_id=181074045 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.815677, 0, -0.38035643, 0, 1.15, 0, 0.38035643, 0, 0.815677, -12, 0, -76)
+
+[node name="Tree04" parent="Zone2_LaForetDesRacines" unique_id=1081011636 instance=ExtResource("7_ujver")]
+transform = Transform3D(-5.4639237e-08, 0, 1.25, 0, 1.1, 0, -1.25, 0, -5.4639237e-08, 27, 0, -79)
+
+[node name="Tree05" parent="Zone2_LaForetDesRacines" unique_id=1606840878 instance=ExtResource("7_ujver")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, -9, 0, -99)
+
+[node name="Tree06" parent="Zone2_LaForetDesRacines" unique_id=397798491 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.72721434, 0, -1.3119296, 0, 1.35, 0, 1.3119296, 0, 0.72721434, 25, 0, -105)
+
+[node name="ElderTree" parent="Zone2_LaForetDesRacines" unique_id=521276332 instance=ExtResource("8_tt073")]
+transform = Transform3D(-0.3494057, 0, 1.3039999, 0, 1.25, 0, -1.3039999, 0, -0.3494057, 28, 0, -69)
+
+[node name="Root01" parent="Zone2_LaForetDesRacines" unique_id=1966724119 instance=ExtResource("13_uiois")]
+transform = Transform3D(0.88294756, 0, 0.46947157, 0, 1, 0, -0.46947157, 0, 0.88294756, 1.3382394, 0, -58.565674)
+
+[node name="Root02" parent="Zone2_LaForetDesRacines" unique_id=845491864 instance=ExtResource("13_uiois")]
+transform = Transform3D(0.8619261, 0, -1.103215, 0, 1.4, 0, 1.103215, 0, 0.8619261, 18, 0, -73)
+
+[node name="Root03" parent="Zone2_LaForetDesRacines" unique_id=1708558389 instance=ExtResource("13_uiois")]
+transform = Transform3D(-0.12991704, 0, 1.5340892, 0, 1.3921056, 0, -1.4849583, 0, -0.13421544, -8.2449875, 0, -89.96108)
+collision_enabled = false
+
+[node name="Root04" parent="Zone2_LaForetDesRacines" unique_id=96765592 instance=ExtResource("13_uiois")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 17, 0, -104)
+
+[node name="MistAmongRoots" parent="Zone2_LaForetDesRacines" unique_id=631327737 instance=ExtResource("14_2k8os")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.16, -87)
+
+[node name="MistAtForestExit" parent="Zone2_LaForetDesRacines" unique_id=812645733 instance=ExtResource("14_2k8os")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.16, -104)
+
+[node name="Plant01" parent="Zone2_LaForetDesRacines" unique_id=1510708409 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(2.3723714, 0, 0, 0, 1.4873277, 0, 0, 0, 1.25, 21, 0, -91)
+
+[node name="Plant02" parent="Zone2_LaForetDesRacines" unique_id=3920244 instance=ExtResource("9_yq5tr")]
+transform = Transform3D(0.7193398, 0, 0.6946584, 0, 1, 0, -0.6946584, 0, 0.7193398, -11, 0, -108)
+
+[node name="Rock01" parent="Zone2_LaForetDesRacines" unique_id=391551533 instance=ExtResource("10_gcpod")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.964461, 0, -62.085392)
+
+[node name="Rock02" parent="Zone2_LaForetDesRacines" unique_id=610988006 instance=ExtResource("10_gcpod")]
+transform = Transform3D(-0.66125095, 0, 1.0272764, 0, 1.4114631, 0, -1.14532, 0, -0.59309834, 28, 0, -94)
+
+[node name="Lantern01" parent="Zone2_LaForetDesRacines" unique_id=485081230 instance=ExtResource("11_62nbn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.752432, 0, -53)
+
+[node name="Lantern02" parent="Zone2_LaForetDesRacines" unique_id=409766761 instance=ExtResource("11_62nbn")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 19, 0, -86)
+
+[node name="SignToBridges" parent="Zone2_LaForetDesRacines" unique_id=1357826304 instance=ExtResource("12_atspj")]
+transform = Transform3D(0.08493537, 0, 0.99638647, 0, 1, 0, -0.99638647, 0, 0.08493537, -6.3536386, 0, -103.814644)
+
+[node name="Zone3_LesPontsDeSirop" type="Node3D" parent="." unique_id=669759679]
+
+[node name="MainBridge" parent="Zone3_LesPontsDeSirop" unique_id=1864841658 instance=ExtResource("15_l755t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.5095354, -5, -0.117316246, -154)
+
+[node name="SideBridge" parent="Zone3_LesPontsDeSirop" unique_id=1000579334 instance=ExtResource("15_l755t")]
+transform = Transform3D(0.757325, -0.05002005, -0.06448981, 0.052972503, 0.71552527, 0, 0.018141564, -0.0011982202, 2.6921453, -19.564425, -5.1157365, -154)
+
+[node name="SyrupFall01" parent="Zone3_LesPontsDeSirop" unique_id=648416460 instance=ExtResource("16_hbltl")]
+transform = Transform3D(1.535517, 0, -0.07784521, 0, 3.8343685, 0, 0.12100553, 0, 0.98782784, 4.20643, -7.699999, -166.50117)
+
+[node name="SyrupFall02" parent="Zone3_LesPontsDeSirop" unique_id=303892044 instance=ExtResource("16_hbltl")]
+transform = Transform3D(0.6620605, 0, 0.14542548, 0, 3.1457853, 0, -0.17185397, 0, 0.560246, -11.995419, -7.699996, -166.13626)
+
+[node name="Rock01" parent="Zone3_LesPontsDeSirop" unique_id=830918615 instance=ExtResource("10_gcpod")]
+transform = Transform3D(1.3, 0, 0, 0, 1.1, 0, 0, 0, 1.3, -16, 0, -124)
+
+[node name="Rock02" parent="Zone3_LesPontsDeSirop" unique_id=1826361599 instance=ExtResource("10_gcpod")]
+transform = Transform3D(0.4694716, 0, 0.88294756, 0, 1, 0, -0.88294756, 0, 0.4694716, 3.0697803, 0, -137.9953)
+
+[node name="Rock03" parent="Zone3_LesPontsDeSirop" unique_id=1250529436 instance=ExtResource("10_gcpod")]
+transform = Transform3D(-0.42261833, 0, 0.90630776, 0, 1, 0, -0.90630776, 0, -0.42261833, -15, 0, -185)
+
+[node name="Lantern01" parent="Zone3_LesPontsDeSirop" unique_id=916708370 instance=ExtResource("11_62nbn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -137)
+
+[node name="Lantern02" parent="Zone3_LesPontsDeSirop" unique_id=1334302257 instance=ExtResource("11_62nbn")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1, 0, -173)
+
+[node name="SignToSanctuary" parent="Zone3_LesPontsDeSirop" unique_id=1282858150 instance=ExtResource("12_atspj")]
+transform = Transform3D(-0.04305026, 0, -0.99907285, 0, 1, 0, 0.99907285, 0, -0.04305026, -10, 0, -189)
+
+[node name="Zone4_LeSanctuaireCorrompu" type="Node3D" parent="." unique_id=2063707931]
+
+[node name="Sanctuary" parent="Zone4_LeSanctuaireCorrompu" unique_id=1326051034 instance=ExtResource("17_7gxmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -243)
+
+[node name="ExitPortal" parent="Zone4_LeSanctuaireCorrompu" unique_id=703243323 instance=ExtResource("18_a421m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -238)
+
+[node name="Tree01" parent="Zone4_LeSanctuaireCorrompu" unique_id=2120059562 instance=ExtResource("7_ujver")]
+transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, -14, 0, -206)
+
+[node name="Tree02" parent="Zone4_LeSanctuaireCorrompu" unique_id=699166049 instance=ExtResource("7_ujver")]
+transform = Transform3D(-0.041879356, 0, 1.199269, 0, 1.25, 0, -1.199269, 0, -0.041879356, 29, 0, -211)
+
+[node name="Tree03" parent="Zone4_LeSanctuaireCorrompu" unique_id=1595044751 instance=ExtResource("7_ujver")]
+transform = Transform3D(0.6946584, 0, -0.7193398, 0, 1, 0, 0.7193398, 0, 0.6946584, -15, 0, -239)
+
+[node name="Root01" parent="Zone4_LeSanctuaireCorrompu" unique_id=1059823769 instance=ExtResource("13_uiois")]
+transform = Transform3D(0.46352547, 0, 1.4265848, 0, 1.5, 0, -1.4265848, 0, 0.46352547, -4, 0, -217)
+
+[node name="Root02" parent="Zone4_LeSanctuaireCorrompu" unique_id=846202889 instance=ExtResource("13_uiois")]
+transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 22, 0, -225)
+
+[node name="MistAtSanctuary" parent="Zone4_LeSanctuaireCorrompu" unique_id=474992045 instance=ExtResource("14_2k8os")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.16, -219)
+
+[node name="Rock01" parent="Zone4_LeSanctuaireCorrompu" unique_id=75152033 instance=ExtResource("10_gcpod")]
+transform = Transform3D(1.2451121, 0, 0.6623556, 0, 1.5015886, 0, -0.74813884, 0, 1.1023449, -12.8943615, 0, -220.7286)
+
+[node name="Rock02" parent="Zone4_LeSanctuaireCorrompu" unique_id=304323888 instance=ExtResource("10_gcpod")]
+transform = Transform3D(1.6139185, 0, -1.9841744, 0, 2.1517386, 0, 2.221368, 0, 1.4415872, 29.415714, 0, -238.77565)
+
+[node name="Lantern01" parent="Zone4_LeSanctuaireCorrompu" unique_id=1659104083 instance=ExtResource("11_62nbn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -207)
+
+[node name="Lantern02" parent="Zone4_LeSanctuaireCorrompu" unique_id=1571599880 instance=ExtResource("11_62nbn")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17, 0, -207)
+
+[node name="Crystal01" type="MeshInstance3D" parent="Zone4_LeSanctuaireCorrompu" unique_id=714118095]
+transform = Transform3D(1.7164521, 0.46209386, 0, -0.3648432, 2.1739805, 0, 0, 0, 1, -0.63772106, 3.596309, -244.5314)
+gi_lightmap_texel_scale = 1.8902
+mesh = SubResource("CrystalMesh")
+
+[node name="Crystal02" type="MeshInstance3D" parent="Zone4_LeSanctuaireCorrompu" unique_id=987691826]
+transform = Transform3D(0.56694204, -0.16256802, 0.41297507, 0.19845891, 0.69210845, 0, -0.39697713, 0.113831356, 0.5897895, 24, 1.35, -232)
+mesh = SubResource("CrystalMesh")
+
+[node name="ChaseweenDecorations" type="Node3D" parent="." unique_id=161677819]
+
+[node name="CandyTrees" type="Node3D" parent="ChaseweenDecorations" unique_id=1375330129]
+
+[node name="GardenCandyTreeWest" parent="ChaseweenDecorations/CandyTrees" unique_id=1651896310 instance=ExtResource("20_rhcd6")]
+transform = Transform3D(1.086878, 0, 0.7861673, 0, 1.2427115, 0, -1.0863814, 0, 0.7865265, -10.619087, 0, -17.377975)
+
+[node name="GardenCandyTreeEast" parent="ChaseweenDecorations/CandyTrees" unique_id=1293094263 instance=ExtResource("20_rhcd6")]
+transform = Transform3D(0.7877337, 0, -0.70927817, 0, 1.06, 0, 0.70927817, 0, 0.7877337, 17.5, 0, -22)
+
+[node name="ForestCandyTreeEntrance" parent="ChaseweenDecorations/CandyTrees" unique_id=1174519515 instance=ExtResource("20_rhcd6")]
+transform = Transform3D(0.25881895, 0, 0.9659259, 0, 1, 0, -0.9659259, 0, 0.25881895, -16, 0, -56)
+
+[node name="ForestCandyTreeDeep" parent="ChaseweenDecorations/CandyTrees" unique_id=1661652165 instance=ExtResource("20_rhcd6")]
+transform = Transform3D(-0.45991063, 0, -1.2784286, 0, 1.6325533, 0, 1.7164084, 0, -0.3425542, 30.600372, 0, -86.509964)
+
+[node name="ForestCandyTreeExit" parent="ChaseweenDecorations/CandyTrees" unique_id=1395069169 instance=ExtResource("20_rhcd6")]
+transform = Transform3D(-0.94897604, 0, 0.82733095, 0, 1.5230919, 0, -0.8544624, 0, -0.9188436, 8.413631, 0, -111.64583)
+
+[node name="HauntedLampposts" type="Node3D" parent="ChaseweenDecorations" unique_id=953645613]
+
+[node name="GardenToForestLamppost" parent="ChaseweenDecorations/HauntedLampposts" unique_id=1862661106 instance=ExtResource("21_kksbj")]
+transform = Transform3D(0.11705339, 0, -1.1093024, 0, 1.1095916, 0, 1.1581216, 0, 0.11211914, 14.09416, 0, -51.31702)
+
+[node name="ForestToBridgeLamppost" parent="ChaseweenDecorations/HauntedLampposts" unique_id=2132583536 instance=ExtResource("21_kksbj")]
+transform = Transform3D(0.9425602, 0, -0.43952268, 0, 1.04, 0, 0.43952268, 0, 0.9425602, 18, 0, -102.46698)
+
+[node name="BridgeApproachLamppost" parent="ChaseweenDecorations/HauntedLampposts" unique_id=707937339 instance=ExtResource("21_kksbj")]
+transform = Transform3D(-0.98, 0, -3.1932456e-07, 0, 0.98, 0, 3.1932456e-07, 0, -0.98, 4, 0, -134)
+
+[node name="SanctuaryApproachLamppost" parent="ChaseweenDecorations/HauntedLampposts" unique_id=1596137918 instance=ExtResource("21_kksbj")]
+transform = Transform3D(-0.8683008, 0, 0.60799146, 0, 1.06, 0, -0.60799146, 0, -0.8683008, 13.928057, 0, -219.42215)
+
+[node name="CrystalMushrooms" type="Node3D" parent="ChaseweenDecorations" unique_id=1076390014]
+
+[node name="GardenCrystalEast" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=839461429 instance=ExtResource("22_qpha7")]
+transform = Transform3D(1.0493014, 0, -0.7348459, 0, 1.1880519, 0, 0.9012778, 0, 0.8555351, 9.23632, 0, -5.60444)
+
+[node name="GardenCrystalWest" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=672890772 instance=ExtResource("22_qpha7")]
+transform = Transform3D(-1.0430341, 0, -0.12074697, 0, 1.0500001, 0, 0.12074697, 0, -1.0430341, -7.327524, 0, -42.656578)
+
+[node name="ForestCrystalWest" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=1641211222 instance=ExtResource("22_qpha7")]
+transform = Transform3D(1.2208803, 0, 1.3775821, 0, 1.4192691, 0, -1.1251044, 0, 1.4948499, -1.4997656, 4.7683716e-07, -61.808483)
+
+[node name="ForestCrystalExit" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=1087613886 instance=ExtResource("22_qpha7")]
+transform = Transform3D(0.42731354, 0, -0.9918685, 0, 1.0799999, 0, 0.9918685, 0, 0.42731354, 13.598746, 0, -92.0039)
+
+[node name="BridgeCrystalNorth" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=1329364601 instance=ExtResource("22_qpha7")]
+transform = Transform3D(0.86451715, 0, -0.31465867, 0, 0.92, 0, 0.31465867, 0, 0.86451715, 10, 0, -122)
+
+[node name="BridgeCrystalSouth" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=164497335 instance=ExtResource("22_qpha7")]
+transform = Transform3D(1.6696683, 0, 1.0437826, 0, 1.3368487, 0, -0.9036441, 0, 1.9286032, -5.37187, 0, -204.61829)
+
+[node name="BridgeCrystalSouth2" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=786064326 instance=ExtResource("22_qpha7")]
+transform = Transform3D(4.198939, 0, 2.0790176, 0, 3.7501707, 0, -3.6110609, 0, 2.4174805, -14.769344, -9.536743e-07, -250.96422)
+
+[node name="SanctuaryCrystalEast" parent="ChaseweenDecorations/CrystalMushrooms" unique_id=1043720178 instance=ExtResource("22_qpha7")]
+transform = Transform3D(-0.6813549, 0, 0.81200707, 0, 1.06, 0, -0.81200707, 0, -0.6813549, 11.831681, 0, -205.22934)
+
+[node name="AccentLights" type="Node3D" parent="ChaseweenDecorations" unique_id=1447298580]
+
+[node name="GardenLamppostGlow" type="OmniLight3D" parent="ChaseweenDecorations/AccentLights" unique_id=1358735036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4.35, -45)
+light_color = Color(1, 0.47, 0.18, 1)
+light_energy = 0.32
+omni_range = 4.8
+
+[node name="BridgeLamppostGlow" type="OmniLight3D" parent="ChaseweenDecorations/AccentLights" unique_id=1032777941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.25, -134)
+light_color = Color(1, 0.42, 0.14, 1)
+light_energy = 0.28
+omni_range = 4.5
+
+[node name="ForestCrystalGlow" type="OmniLight3D" parent="ChaseweenDecorations/AccentLights" unique_id=750602715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.45, -70)
+light_color = Color(0.78, 0.35, 1, 1)
+light_energy = 5.269
+omni_range = 3.6
+
+[node name="SanctuaryCrystalGlow" type="OmniLight3D" parent="ChaseweenDecorations/AccentLights" unique_id=1925677078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.55, -219)
+light_color = Color(1, 0.4, 0.16, 1)
+light_energy = 0.22
+omni_range = 3.8
+
+[node name="CandyRemnants" type="Node3D" parent="." unique_id=95518420]
+
+[node name="CandyStone01" type="MeshInstance3D" parent="CandyRemnants" unique_id=1488116712]
+transform = Transform3D(1.1056988, 0, -0.39708328, 0, 4.256335, 0, 0.08500159, 0, 5.1652503, -8.969977, 0.49999952, -29.159578)
+layers = 5
+mesh = SubResource("CandyStoneMesh")
+
+[node name="CandyStone02" type="MeshInstance3D" parent="CandyRemnants" unique_id=610418441]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 12.708037, 0.45, -72.90001)
+layers = 5
+mesh = SubResource("CandyStoneMesh")
+
+[node name="CandyStone03" type="MeshInstance3D" parent="CandyRemnants" unique_id=163109185]
+transform = Transform3D(1.4, 0, 0, 0, 0.8, 0, 0, 0, 1.1, -7.392429, 0.5500005, -121.75129)
+layers = 5
+mesh = SubResource("CandyStoneMesh")
+
+[node name="FuturePlacementMarkers" type="Node3D" parent="." unique_id=1782625712]
+
+[node name="EnemySpawn_Goblin" type="Marker3D" parent="FuturePlacementMarkers" unique_id=872089161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.5, -74)
+
+[node name="EnemySpawn_PumpkinGuard" type="Marker3D" parent="FuturePlacementMarkers" unique_id=35189139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.5, -178)
+
+[node name="EnemySpawn_ThirdMonster" type="Marker3D" parent="FuturePlacementMarkers" unique_id=2137724958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, -217)
+
+[node name="FutureChest_01" type="Marker3D" parent="FuturePlacementMarkers" unique_id=1684602364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, -92)
+
+[node name="FutureCollectibleArea_01" type="Marker3D" parent="FuturePlacementMarkers" unique_id=2031871291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.5, -102)
+
+[node name="FutureGameplayZone_01" type="Marker3D" parent="FuturePlacementMarkers" unique_id=619094703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.5, -126)
+
+[node name="PlayerStart" type="Marker3D" parent="." unique_id=1699746170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 8)
+
+[node name="Player" parent="." unique_id=547159142 instance=ExtResource("24_ic5u1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.86735773, 8)
+
+[node name="CaptureOnClick" parent="." unique_id=2038378437 instance=ExtResource("25_yq5gd")]
+
+[node name="FactionFightGameplay" type="Node3D" parent="." unique_id=493061443]
+script = ExtResource("26_ftu1b")

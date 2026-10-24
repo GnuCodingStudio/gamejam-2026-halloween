@@ -57,6 +57,11 @@ radial_segments = 8
 
 [node name="FinalPortal" type="Node3D" unique_id=521195430]
 
+[node name="ObjectivePoint" type="Marker3D" parent="."]
+
+[node name="InteractionPoint" type="Marker3D" parent="."]
+position = Vector3(0, 0.5, 2.4)
+
 [node name="PortalSurface" type="MeshInstance3D" parent="." unique_id=1480487213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, 0)
 mesh = SubResource("PortalMesh")

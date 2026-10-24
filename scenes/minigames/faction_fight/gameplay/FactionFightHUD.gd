@@ -3,6 +3,13 @@ extends CanvasLayer
 
 signal summary_closed
 
+enum MessageCategory {
+	OBJECTIVE,
+	INFORMATION,
+	SUCCESS,
+	DANGER,
+}
+
 var summary_visible: bool = false
 
 var _candy_label: Label
@@ -11,9 +18,18 @@ var _item_label: Label
 var _second_item_label: Label
 var _shield_label: Label
 var _prompt_panel: PanelContainer
-var _prompt_label: Label
+var _prompt_key_panel: PanelContainer
+var _prompt_key_label: Label
+var _prompt_action_label: Label
+var _prompt_text: String = ""
+var _prompt_tween: Tween
 var _toast_panel: PanelContainer
 var _toast_label: Label
+var _toast_tween: Tween
+var _message_priority: int = -1
+var _queued_message_text: String = ""
+var _queued_message_category: int = MessageCategory.OBJECTIVE
+var _help_label: Label
 var _summary_overlay: ColorRect
 var _summary_candy: Label
 var _inventory_label: Label
@@ -98,19 +114,77 @@ func show_final_spell() -> void:
 
 
 func set_prompt(text: String) -> void:
-	_prompt_panel.visible = not text.is_empty()
-	_prompt_label.text = text
+	if text == _prompt_text:
+		return
+	_prompt_text = text
+	if _prompt_tween != null and _prompt_tween.is_valid():
+		_prompt_tween.kill()
+	if text.is_empty():
+		_fade_prompt_out()
+		return
+	_set_prompt_content(text)
+	_prompt_panel.visible = true
+	_prompt_panel.modulate.a = 0.0
+	_prompt_panel.scale = Vector2(0.96, 0.96)
+	_prompt_panel.call_deferred("set_pivot_offset", _prompt_panel.size * 0.5)
+	_prompt_tween = create_tween().set_parallel(true)
+	_prompt_tween.tween_property(_prompt_panel, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_prompt_tween.tween_property(_prompt_panel, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
-func show_toast(text: String, color: Color = Color(1.0, 0.86, 0.38)) -> void:
+func show_gameplay_message(text: String, category: int) -> void:
+	var priority := _category_priority(category)
+	if _toast_panel.visible and _toast_tween != null and _toast_tween.is_valid() and priority < _message_priority:
+		_queued_message_text = text
+		_queued_message_category = category
+		return
+	if _toast_tween != null and _toast_tween.is_valid():
+		_toast_tween.kill()
+	_message_priority = priority
 	_toast_label.text = text
-	_toast_label.modulate = color
-	_toast_panel.modulate.a = 1.0
+	_toast_label.modulate = message_color(category)
+	_toast_panel.modulate.a = 0.0
 	_toast_panel.visible = true
-	var tween := create_tween()
-	tween.tween_interval(1.65)
-	tween.tween_property(_toast_panel, "modulate:a", 0.0, 0.35)
-	tween.finished.connect(func() -> void: _toast_panel.visible = false)
+	_toast_tween = create_tween()
+	_toast_tween.tween_property(_toast_panel, "modulate:a", 1.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_toast_tween.tween_interval(4.2)
+	_toast_tween.tween_property(_toast_panel, "modulate:a", 0.0, 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_toast_tween.finished.connect(_finish_gameplay_message)
+
+
+static func message_color(category: int) -> Color:
+	match category:
+		MessageCategory.INFORMATION:
+			return Color8(72, 199, 188)
+		MessageCategory.SUCCESS:
+			return Color8(120, 205, 132)
+		MessageCategory.DANGER:
+			return Color8(240, 107, 112)
+		_:
+			return Color8(231, 184, 77)
+
+
+func _category_priority(category: int) -> int:
+	match category:
+		MessageCategory.DANGER:
+			return 3
+		MessageCategory.SUCCESS:
+			return 2
+		MessageCategory.INFORMATION:
+			return 1
+		_:
+			return 0
+
+
+func _finish_gameplay_message() -> void:
+	_toast_panel.visible = false
+	_message_priority = -1
+	if _queued_message_text.is_empty():
+		return
+	var next_text := _queued_message_text
+	var next_category := _queued_message_category
+	_queued_message_text = ""
+	show_gameplay_message(next_text, next_category)
 
 
 func show_summary(candy: int, guarantee_added: int, zones: int, discoveries: int, exit_mode: String) -> void:
@@ -149,8 +223,8 @@ func _build_status_panel() -> void:
 	box.add_child(_shield_label)
 	_inventory_label = _label("TROUVAILLES  —", 15, Color(0.75, 0.92, 1.0))
 	box.add_child(_inventory_label)
-	var help := _label("Q changer • R viser • F utiliser • E interagir • J carnet", 14, Color(0.76, 0.7, 0.84))
-	box.add_child(help)
+	_help_label = _label("Q changer d’outil • Clic gauche utiliser • E interagir • J carnet", 14, Color(0.76, 0.7, 0.84))
+	box.add_child(_help_label)
 
 
 func _build_objective_panel() -> void:
@@ -184,23 +258,78 @@ func _build_prompt() -> void:
 	center.offset_top = -100.0
 	add_child(center)
 	_prompt_panel = PanelContainer.new()
-	_prompt_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.03, 0.02, 0.07, 0.92), Color(1.0, 0.68, 0.22)))
+	_prompt_panel.custom_minimum_size = Vector2(360.0, 66.0)
+	_prompt_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.008, 0.065, 0.94), Color(0.78, 0.30, 1.0), 1))
 	center.add_child(_prompt_panel)
-	_prompt_label = _label("", 22, Color.WHITE)
-	_prompt_panel.add_child(_prompt_label)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 14)
+	_prompt_panel.add_child(row)
+	_prompt_key_panel = PanelContainer.new()
+	_prompt_key_panel.custom_minimum_size = Vector2(44.0, 40.0)
+	_prompt_key_panel.add_theme_stylebox_override("panel", _key_style())
+	row.add_child(_prompt_key_panel)
+	_prompt_key_label = _label("E", 21, Color(1.0, 0.90, 0.64))
+	_prompt_key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prompt_key_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_prompt_key_panel.add_child(_prompt_key_label)
+	_prompt_action_label = _label("", 20, Color(0.98, 0.96, 1.0))
+	_prompt_action_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(_prompt_action_label)
 	_prompt_panel.visible = false
+
+
+func _set_prompt_content(text: String) -> void:
+	var parts: PackedStringArray = text.split("•", false, 1)
+	var has_key := parts.size() > 1 and parts[0].strip_edges() == "E"
+	_prompt_key_panel.visible = has_key
+	_prompt_action_label.text = parts[1].strip_edges() if has_key else text
+
+
+func _fade_prompt_out() -> void:
+	if not _prompt_panel.visible:
+		return
+	_prompt_tween = create_tween().set_parallel(true)
+	_prompt_tween.tween_property(_prompt_panel, "modulate:a", 0.0, 0.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_prompt_tween.tween_property(_prompt_panel, "scale", Vector2(0.98, 0.98), 0.15)
+	_prompt_tween.finished.connect(_finish_prompt_hide)
+
+
+func _finish_prompt_hide() -> void:
+	if _prompt_text.is_empty():
+		_prompt_panel.visible = false
+
+
+func _key_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.18, 0.055, 0.25, 0.98)
+	style.border_color = Color(1.0, 0.60, 0.20, 0.95)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(9)
+	style.content_margin_left = 10.0
+	style.content_margin_right = 10.0
+	style.content_margin_top = 4.0
+	style.content_margin_bottom = 4.0
+	return style
 
 
 func _build_toast() -> void:
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	center.offset_top = 24.0
-	center.offset_bottom = 100.0
+	center.offset_top = 250.0
+	center.offset_bottom = 330.0
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
 	_toast_panel = PanelContainer.new()
-	_toast_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.08, 0.02, 0.13, 0.94), Color(0.55, 1.0, 0.72)))
+	_toast_panel.custom_minimum_size = Vector2(900.0, 56.0)
+	_toast_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	center.add_child(_toast_panel)
-	_toast_label = _label("", 22, Color.WHITE)
+	_toast_label = _label("", 24, Color.WHITE)
+	_toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_toast_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_toast_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_toast_label.add_theme_constant_override("outline_size", 3)
 	_toast_panel.add_child(_toast_label)
 	_toast_panel.visible = false
 

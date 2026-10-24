@@ -79,7 +79,7 @@ mesh = SubResource("CageBarMesh")
 
 [node name="Light" type="OmniLight3D" parent="LanternHead" unique_id=435113420]
 light_color = Color(1, 0.388235, 0.117647, 1)
-light_energy = 10.037
+light_energy = 11.463
 omni_range = 8.5
 
 [node name="Collision" type="StaticBody3D" parent="." unique_id=1293881565]

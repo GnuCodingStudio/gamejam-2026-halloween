@@ -2,6 +2,7 @@
 
 [ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/bark.tres" id="1_bark"]
 [ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="2_glow"]
+[ext_resource type="Script" path="res://scenes/minigames/faction_fight/props/CorruptedRoot.gd" id="3_script"]
 
 [sub_resource type="CylinderMesh" id="RootMesh"]
 material = ExtResource("1_bark")
@@ -10,7 +11,12 @@ bottom_radius = 0.42
 height = 4.8
 radial_segments = 6
 
+[sub_resource type="CapsuleShape3D" id="RootCollision"]
+radius = 0.34
+height = 4.45
+
 [node name="CorruptedRoot" type="Node3D" unique_id=536381091]
+script = ExtResource("3_script")
 
 [node name="RootA" type="MeshInstance3D" parent="." unique_id=2048985753]
 transform = Transform3D(0.09067161, -0.99588084, 0, 0.99588084, 0.09067161, 0, 0, 0, 0.72, 0, 0.32, 0)
@@ -24,3 +30,12 @@ mesh = SubResource("RootMesh")
 transform = Transform3D(0.0033966182, -0.8196715, 0, 0.119951926, 0.023210231, 0, 0, 0, 0.12, 0.1, 0.5109195, -0.03)
 material_override = ExtResource("2_glow")
 mesh = SubResource("RootMesh")
+
+[node name="Collision" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MainRootShape" type="CollisionShape3D" parent="Collision"]
+position = Vector3(0, 0.32, 0)
+rotation = Vector3(0, 0, 1.48)
+shape = SubResource("RootCollision")

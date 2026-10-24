@@ -5,6 +5,9 @@ const MonsterScript := preload("res://scenes/minigames/faction_fight/gameplay/Mo
 const PickupScript := preload("res://scenes/minigames/faction_fight/gameplay/GameplayPickup.gd")
 const HUDScript := preload("res://scenes/minigames/faction_fight/gameplay/FactionFightHUD.gd")
 const VFX := preload("res://scenes/minigames/faction_fight/gameplay/FactionFightVFX.gd")
+const PresentationScript := preload("res://scenes/minigames/faction_fight/gameplay/ChaseweenItemPresentation.gd")
+const FallProtectionScript := preload("res://scenes/minigames/faction_fight/gameplay/FallProtection.gd")
+const MissionMarkerScript := preload("res://scenes/minigames/faction_fight/gameplay/MissionMarker.gd")
 const COLLECT_SOUND: AudioStream = preload("res://assets/audio/collect.wav")
 const CRYSTALBERRY_SCENE: PackedScene = preload("res://objects/candy_crystalberry.tscn")
 const PUMPKIN_SCENE: PackedScene = preload("res://objects/candy_pumpkin.tscn")
@@ -15,8 +18,12 @@ const CONQUEROR_MODEL := "res://assets/chaseween/Meshy_AI_Candy_Corn_Conqueror_A
 const ZONE_THRESHOLDS: Array[float] = [-45.0, -112.0, -195.0, -230.0]
 const THEFT_IMMUNITY_DURATION: float = 3.0
 const MINIMUM_EXIT_CANDY: int = 20
-const SESSION_DURATION: float = 600.0
+const SESSION_DURATION: float = 240.0
 const RESCUE_HINT_DELAY: float = 40.0
+const PORTAL_INTERACTION_RADIUS: float = 2.4
+const PORTAL_MIN_FRONT_DISTANCE: float = 0.6
+const PORTAL_MAX_SIDE_DISTANCE: float = 2.8
+const HEART_POSITION: Vector3 = Vector3(2.0, 1.05, -238.0)
 const MISSIONS: Array[Dictionary] = [
 	{
 		"id": &"garden_reserve",
@@ -58,6 +65,7 @@ const KEY_ITEM_NAMES: Dictionary = {
 	&"sugar_crystal": "CRISTAL SUCRÉ",
 	&"syrup_capsule": "CAPSULE DE SIROP",
 	&"spectral_badge": "INSIGNE SPECTRAL",
+	&"chewingland_heart": "CŒUR DE CHEWINGLAND",
 }
 
 var result_data: Dictionary = {
@@ -92,23 +100,25 @@ var _base_fog_density: float = 0.0
 var _base_fog_color: Color
 var _base_moon_color: Color
 var _base_moon_energy: float = 0.0
-var _heart: MeshInstance3D
+var _heart: FactionFightPickup
+var _held_tool_visual: PresentationScript
+var _fall_protection: FallProtectionScript
 var _environment_controller: FactionFightEnvironment
 var _portal_light: OmniLight3D
 var _base_portal_energy: float = 0.0
-var _base_lightning_min: float = 0.0
-var _base_lightning_max: float = 0.0
 var _corruption_particles: GPUParticles3D
 var _last_corruption_phase: int = -1
 var _tool_slots: Array[Dictionary] = []
 var _active_tool_index: int = 0
 var _aiming: bool = false
 var _aim_preview: Node3D
+var _aim_preview_tool_id: StringName = &""
 var _mission_index: int = 0
 var _mission_elapsed: float = 0.0
 var _mission_hint_shown: bool = false
 var _objective_marker: Node3D
 var _mission_tactical_done: Dictionary[StringName, bool] = {}
+var _mouse_was_captured: bool = false
 
 
 func _ready() -> void:
@@ -119,6 +129,7 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
+	_create_fall_protection()
 	_random.randomize()
 	_create_hud()
 	_create_collect_audio_player()
@@ -131,10 +142,11 @@ func _ready() -> void:
 	_refresh_mission()
 	_refresh_journal()
 	_update_hud()
-	_hud.show_toast("MISSION 1 • Suis le faisceau doré")
+	_hud.show_gameplay_message("RÉCUPÈRE LE BÂTON BONBON POUR REPOUSSER LE GOBELIN", FactionFightHUD.MessageCategory.OBJECTIVE)
 
 
 func _process(delta: float) -> void:
+	_mouse_was_captured = Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 	if _hud == null or _completed or _finishing:
 		return
 	_shield_time = maxf(_shield_time - delta, 0.0)
@@ -162,19 +174,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"action_activate"):
 		_interact()
 		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT and _mouse_was_captured:
+			_use_active_item()
+			get_viewport().set_input_as_handled()
 	elif event is InputEventKey:
 		var key_event := event as InputEventKey
-		if key_event.physical_keycode == KEY_R and not key_event.echo:
-			_set_aiming(key_event.pressed)
-			get_viewport().set_input_as_handled()
-		elif key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_Q:
+		if key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_Q:
 			_switch_tool()
-			get_viewport().set_input_as_handled()
-		elif key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_F:
-			if _aiming:
-				_use_active_item()
-			else:
-				_hud.show_toast("Maintiens R pour préparer et visualiser l’action", Color(0.72, 0.88, 1.0))
 			get_viewport().set_input_as_handled()
 		elif key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_J:
 			_hud.toggle_journal()
@@ -294,10 +302,10 @@ func _spawn_unlock_chains() -> void:
 	_spawn_device("CASIER HANTÉ", Vector3(-11.0, 0.05, -92.0), &"caramel_key", &"ghost_lamp", &"forest_locker")
 	_spawn_key_item("CRISTAL D’ÉNERGIE SUCRÉE", Vector3(20.0, 0.45, -95.0), &"sugar_crystal")
 	_spawn_device("MÉCANISME MAGIQUE", Vector3(-10.0, 0.05, -120.0), &"sugar_crystal", &"crystal_chest")
-	_spawn_key_item("CAPSULE DE SIROP", Vector3(-10.0, 0.45, -148.0), &"syrup_capsule")
+	_spawn_key_item("CAPSULE DE SIROP", Vector3(-5.0, 0.45, -148.0), &"syrup_capsule")
 	_spawn_device("DISTRIBUTEUR DE SIROP", Vector3(-8.0, 0.05, -134.0), &"syrup_capsule", &"spray_refill")
 	_spawn_key_item("INSIGNE SPECTRAL", Vector3(14.0, 0.45, -207.0), &"spectral_badge")
-	_spawn_device("AUTEL SPECTRAL", Vector3(9.0, 0.05, -239.0), &"spectral_badge", &"spectral_secret")
+	_spawn_device("AUTEL SPECTRAL", Vector3(20.0, 0.05, -236.0), &"spectral_badge", &"spectral_secret")
 
 
 func _spawn_candy(position_3d: Vector3, amount: int) -> void:
@@ -328,9 +336,8 @@ func _spawn_key_item(item_name: String, position_3d: Vector3, item_id: StringNam
 
 
 func _spawn_device(device_name: String, position_3d: Vector3, required_id: StringName, reward_id: StringName, mission_id: StringName = &"") -> void:
-	var placed_position := Vector3(position_3d.x, 0.22, position_3d.z)
+	var placed_position := Vector3(position_3d.x, 0.05, position_3d.z)
 	_spawn_pickup(FactionFightPickup.Kind.DEVICE, device_name, placed_position, 0, &"", 0, 0, required_id, reward_id, mission_id)
-	_spawn_support(position_3d, Color(0.72, 0.25, 1.0))
 
 
 func _spawn_pickup(
@@ -354,6 +361,11 @@ func _spawn_pickup(
 
 
 func _spawn_support(position_3d: Vector3, color: Color) -> void:
+	var support_root := Node3D.new()
+	support_root.name = "GameplaySupport"
+	support_root.add_to_group(&"faction_fight_support")
+	add_child(support_root)
+	support_root.global_position = Vector3(position_3d.x, 0.0, position_3d.z)
 	var support := MeshInstance3D.new()
 	var mesh := CylinderMesh.new()
 	mesh.top_radius = 0.9
@@ -362,8 +374,20 @@ func _spawn_support(position_3d: Vector3, color: Color) -> void:
 	mesh.radial_segments = 12
 	mesh.material = _particle_material(color.darkened(0.35))
 	support.mesh = mesh
-	add_child(support)
-	support.global_position = Vector3(position_3d.x, 0.11, position_3d.z)
+	support.position.y = 0.11
+	support_root.add_child(support)
+	var body := StaticBody3D.new()
+	body.name = "SupportCollision"
+	body.collision_layer = 4
+	body.collision_mask = 0
+	support_root.add_child(body)
+	var collision := CollisionShape3D.new()
+	var shape := CylinderShape3D.new()
+	shape.radius = 1.0
+	shape.height = 0.22
+	collision.shape = shape
+	collision.position.y = 0.11
+	body.add_child(collision)
 
 
 func _on_shared_candy_collected(pickup: FactionFightPickup) -> void:
@@ -373,7 +397,7 @@ func _on_shared_candy_collected(pickup: FactionFightPickup) -> void:
 	_update_hud()
 	_collect_audio_player.pitch_scale = 1.0
 	_collect_audio_player.play()
-	_hud.show_toast("+%d CANDY" % pickup.candy_value)
+	_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 
 
 func _update_zone_progress() -> void:
@@ -382,52 +406,22 @@ func _update_zone_progress() -> void:
 			break
 		_zones_completed += 1
 		_add_candy(5)
-		_hud.show_toast("ZONE %d / 4 • RÉCOMPENSE GARANTIE +5 CANDY" % _zones_completed)
+		_hud.show_gameplay_message("ZONE %d / 4 • RÉCOMPENSE GARANTIE +5 CANDY" % _zones_completed, FactionFightHUD.MessageCategory.SUCCESS)
 		_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.62, 0.18))
 
 
 func _create_objective_marker() -> void:
-	_objective_marker = Node3D.new()
+	_objective_marker = MissionMarkerScript.new() as Node3D
 	_objective_marker.name = "UniqueMissionMarker"
 	add_child(_objective_marker)
-	var beam := MeshInstance3D.new()
-	var beam_mesh := CylinderMesh.new()
-	beam_mesh.top_radius = 0.16
-	beam_mesh.bottom_radius = 0.48
-	beam_mesh.height = 8.0
-	beam_mesh.radial_segments = 12
-	beam_mesh.material = _transparent_marker_material(Color(1.0, 0.68, 0.12, 0.34))
-	beam.mesh = beam_mesh
-	beam.position.y = 4.0
-	_objective_marker.add_child(beam)
-	var ring := MeshInstance3D.new()
-	var ring_mesh := TorusMesh.new()
-	ring_mesh.inner_radius = 0.95
-	ring_mesh.outer_radius = 1.22
-	ring_mesh.material = _particle_material(Color(1.0, 0.68, 0.12))
-	ring.mesh = ring_mesh
-	ring.position.y = 0.12
-	_objective_marker.add_child(ring)
-	var label := Label3D.new()
-	label.text = "◆ OBJECTIF"
-	label.position.y = 3.2
-	label.font_size = 38
-	label.outline_size = 10
-	label.modulate = Color(1.0, 0.82, 0.34)
-	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	_objective_marker.add_child(label)
 
 
 func _update_mission(delta: float) -> void:
 	_mission_elapsed += delta
-	if _objective_marker != null:
-		_objective_marker.rotation.y += delta * 0.55
-		var pulse := 1.0 + sin(_session_time * 2.4) * 0.06
-		_objective_marker.scale = Vector3.ONE * pulse
 	if not _mission_hint_shown and _mission_elapsed >= RESCUE_HINT_DELAY and _mission_index < MISSIONS.size():
 		_mission_hint_shown = true
 		_ensure_mission_tool()
-		_hud.show_toast("INDICE • %s" % String(MISSIONS[_mission_index]["hint"]), Color(0.48, 0.92, 1.0))
+		_hud.show_gameplay_message("INDICE • %s" % String(MISSIONS[_mission_index]["hint"]), FactionFightHUD.MessageCategory.INFORMATION)
 	_refresh_mission_hud()
 
 
@@ -468,7 +462,7 @@ func _mission_target() -> Vector3:
 			return Vector3(4.0, 0.1, -169.0)
 		var target: Vector3 = MISSIONS[_mission_index]["target"]
 		return target
-	return _portal.global_position if _portal != null else Vector3(8.0, 0.0, -242.0)
+	return _portal_objective_position()
 
 
 func _mission_objective_text() -> String:
@@ -476,12 +470,12 @@ func _mission_objective_text() -> String:
 		if not _tool_has_charges(&"candy_cane") and not _mission_tactical_done.get(&"garden_reserve", false):
 			return "Ramasse le bâton bonbon sur son socle."
 		if not _mission_tactical_done.get(&"garden_reserve", false):
-			return "Maintiens R, vise le Gobelin puis utilise le bâton avec F."
+			return "Oriente-toi vers le Gobelin puis utilise le bâton au clic gauche."
 		return "Le Gobelin est repoussé : ouvre la réserve."
 	if _mission_index == 1:
 		return "Ouvre le casier gardé par le Paladin avec la clé." if _inventory.get(&"caramel_key", false) else "Trouve la clé caramel au bord du chemin."
 	if _mission_index == 2:
-		return "L’affinité est testée : ouvre la cache de sirop." if _mission_tactical_done.get(&"syrup_cache", false) else "Vise le Conquérant avec R et teste un outil avec F."
+		return "L’affinité est testée : ouvre la cache de sirop." if _mission_tactical_done.get(&"syrup_cache", false) else "Oriente-toi vers le Conquérant puis utilise un outil au clic gauche."
 	return String(MISSIONS[_mission_index]["objective"]) if _mission_index < MISSIONS.size() else "Rejoins le portail."
 
 
@@ -509,12 +503,12 @@ func _ensure_mission_tool() -> void:
 		if not _tool_has_charges(&"candy_cane"):
 			_equip_tool(&"candy_cane", 1)
 			_objective_marker.global_position = _mission_target()
-			_hud.show_toast("AIDE • 1 charge de bâton restaurée", Color(0.48, 0.92, 1.0))
+			_hud.show_gameplay_message("AIDE • 1 charge de bâton restaurée", FactionFightHUD.MessageCategory.INFORMATION)
 	elif _mission_index == 2 and not _mission_tactical_done.get(&"syrup_cache", false):
 		if _tool_slots.is_empty():
 			_equip_tool(&"candy_cane", 1)
 			_objective_marker.global_position = _mission_target()
-			_hud.show_toast("AIDE • 1 outil restauré pour tester l’affinité", Color(0.48, 0.92, 1.0))
+			_hud.show_gameplay_message("AIDE • 1 outil restauré pour tester l’affinité", FactionFightHUD.MessageCategory.INFORMATION)
 
 
 func _tool_has_charges(tool_id: StringName) -> bool:
@@ -531,21 +525,21 @@ func _complete_mission(mission_id: StringName, reward_amount: int = 0) -> void:
 	_zones_completed = maxi(_zones_completed, _mission_index)
 	_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.72, 0.16))
 	var reward_text := " • +%d CANDY" % reward_amount if reward_amount > 0 else ""
-	_hud.show_toast("MISSION ACCOMPLIE • %d / 4%s" % [_mission_index, reward_text], Color(1.0, 0.82, 0.3))
+	_hud.show_gameplay_message("MISSION ACCOMPLIE • %d / 4%s" % [_mission_index, reward_text], FactionFightHUD.MessageCategory.SUCCESS)
 	_refresh_mission()
 
 
 func _celebrate_chest(pickup: FactionFightPickup, amount: int) -> void:
 	_collect_audio_player.pitch_scale = 0.9
 	_collect_audio_player.play()
-	_hud.show_toast("COFFRE OUVERT • RÉCOMPENSE +%d CANDY" % amount)
+	_hud.show_gameplay_message("COFFRE OUVERT • RÉCOMPENSE +%d CANDY" % amount, FactionFightHUD.MessageCategory.SUCCESS)
 	for index: int in 3:
 		var candy_scene := CRYSTALBERRY_SCENE if index % 2 == 0 else PUMPKIN_SCENE
 		var candy_visual := candy_scene.instantiate() as Node3D
 		if candy_visual == null:
 			continue
 		add_child(candy_visual)
-		candy_visual.global_position = pickup.global_position + Vector3(0.0, 0.8, 0.0)
+		candy_visual.global_position = pickup.get_interaction_position() + Vector3(0.0, 0.8, 0.0)
 		if candy_visual is Area3D:
 			(candy_visual as Area3D).monitoring = false
 			(candy_visual as Area3D).monitorable = false
@@ -559,14 +553,6 @@ func _celebrate_chest(pickup: FactionFightPickup, amount: int) -> void:
 		tween.finished.connect(candy_visual.queue_free)
 
 
-func _transparent_marker_material(color: Color) -> StandardMaterial3D:
-	var material := _particle_material(color)
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-	return material
-
-
 func _update_interaction_prompt() -> void:
 	_nearest_interactive = null
 	var nearest_distance := 3.2
@@ -575,16 +561,16 @@ func _update_interaction_prompt() -> void:
 			continue
 		if pickup.mission_id != &"" and not _is_active_mission(pickup.mission_id):
 			continue
-		var distance := _player.global_position.distance_to(pickup.global_position)
+		var distance := _player.global_position.distance_to(pickup.get_interaction_position())
 		if distance < nearest_distance:
 			nearest_distance = distance
 			_nearest_interactive = pickup
 	if _nearest_interactive != null:
 		_hud.set_prompt("E  •  %s" % _nearest_interactive.display_name)
 		return
-	if _portal != null and _player.global_position.distance_to(_portal.global_position) <= 5.0:
+	if _is_player_near_portal():
 		if _mission_index >= MISSIONS.size():
-			_hud.set_prompt("E  •  TERMINER FACTION FIGHT")
+			_hud.set_prompt("E  •  QUITTER CHASEWEEN")
 		else:
 			_hud.set_prompt("Termine d’abord la mission active")
 		return
@@ -595,25 +581,50 @@ func _interact() -> void:
 	if _nearest_interactive != null and is_instance_valid(_nearest_interactive):
 		_collect_pickup(_nearest_interactive)
 		return
-	if _portal != null and _player.global_position.distance_to(_portal.global_position) <= 5.0:
+	if _is_player_near_portal():
 		if _mission_index >= MISSIONS.size():
 			_complete_world()
 		else:
-			_hud.show_toast("Le portail attend les quatre missions", Color(0.75, 0.75, 1.0))
+			_hud.show_gameplay_message("Le portail attend les quatre missions", FactionFightHUD.MessageCategory.INFORMATION)
+
+
+func _is_player_near_portal() -> bool:
+	if not is_instance_valid(_portal):
+		return false
+	var local_player_position := _portal.to_local(_player.global_position)
+	if local_player_position.z < PORTAL_MIN_FRONT_DISTANCE:
+		return false
+	if absf(local_player_position.x) > PORTAL_MAX_SIDE_DISTANCE:
+		return false
+	return _player.global_position.distance_to(_portal_interaction_position()) <= PORTAL_INTERACTION_RADIUS
+
+
+func _portal_interaction_position() -> Vector3:
+	if not is_instance_valid(_portal):
+		return Vector3(8.0, 1.5, -235.6)
+	var interaction_point := _portal.get_node_or_null("InteractionPoint") as Node3D
+	return interaction_point.global_position if interaction_point != null else _portal.global_position
+
+
+func _portal_objective_position() -> Vector3:
+	if not is_instance_valid(_portal):
+		return Vector3(8.0, 1.0, -238.0)
+	var objective_point := _portal.get_node_or_null("ObjectivePoint") as Node3D
+	return objective_point.global_position if objective_point != null else _portal.global_position
 
 
 func _collect_pickup(pickup: FactionFightPickup) -> void:
 	if pickup.mission_id != &"" and not _is_active_mission(pickup.mission_id):
-		_hud.show_toast("Cet objectif appartient à une mission suivante", Color(0.72, 0.82, 1.0))
+		_hud.show_gameplay_message("Cet objectif appartient à une mission suivante", FactionFightHUD.MessageCategory.INFORMATION)
 		return
 	if pickup.mission_id == &"garden_reserve" and not _mission_tactical_done.get(&"garden_reserve", false):
-		_hud.show_toast("Repousse d’abord le Gobelin avec ton bâton", Color(1.0, 0.72, 0.24))
+		_hud.show_gameplay_message("Repousse d’abord le Gobelin avec ton bâton", FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if pickup.mission_id == &"syrup_cache" and not _mission_tactical_done.get(&"syrup_cache", false):
-		_hud.show_toast("Teste d’abord une affinité sur le Conquérant", Color(1.0, 0.72, 0.24))
+		_hud.show_gameplay_message("Teste d’abord une affinité sur le Conquérant", FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if pickup.kind == FactionFightPickup.Kind.DEVICE and not _inventory.get(pickup.required_item_id, false):
-		_hud.show_toast("NÉCESSITE : %s" % KEY_ITEM_NAMES.get(pickup.required_item_id, "OBJET MANQUANT"), Color(1.0, 0.7, 0.24))
+		_hud.show_gameplay_message("NÉCESSITE : %s" % KEY_ITEM_NAMES.get(pickup.required_item_id, "OBJET MANQUANT"), FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if not pickup.collect_once():
 		return
@@ -624,18 +635,18 @@ func _collect_pickup(pickup: FactionFightPickup) -> void:
 	match pickup.kind:
 		FactionFightPickup.Kind.CANDY:
 			_add_candy(pickup.candy_value)
-			_hud.show_toast("+%d CANDY" % pickup.candy_value)
+			_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 		FactionFightPickup.Kind.CHEST:
 			_add_candy(pickup.candy_value)
 			_celebrate_chest(pickup, pickup.candy_value)
 		FactionFightPickup.Kind.ITEM:
 			_equip_tool(pickup.item_id, pickup.item_charges)
-			_hud.show_toast("OBJET ACTIF : %s ×%d • R viser, F utiliser" % [ITEM_NAMES.get(_active_item, "OBJET"), _item_charges])
+			_hud.show_gameplay_message("OBJET ACTIF : %s ×%d • CLIC GAUCHE POUR UTILISER" % [ITEM_NAMES.get(_active_item, "OBJET"), _item_charges], FactionFightHUD.MessageCategory.INFORMATION)
 			if _mission_index == 0:
 				_refresh_mission()
 		FactionFightPickup.Kind.KEY_ITEM:
 			_inventory[pickup.item_id] = true
-			_hud.show_toast("TROUVÉ : %s" % KEY_ITEM_NAMES.get(pickup.item_id, "OBJET"))
+			_hud.show_gameplay_message("TROUVÉ : %s" % KEY_ITEM_NAMES.get(pickup.item_id, "OBJET"), FactionFightHUD.MessageCategory.SUCCESS)
 			if pickup.item_id == &"caramel_key" and _mission_index == 1:
 				_refresh_mission()
 		FactionFightPickup.Kind.DEVICE:
@@ -650,24 +661,24 @@ func _apply_unlock_reward(reward_id: StringName) -> void:
 	match reward_id:
 		&"ghost_lamp":
 			_equip_tool(&"ghost_lamp", 4)
-			_hud.show_toast("LAMPE FANTÔME DÉBLOQUÉE !")
+			_hud.show_gameplay_message("LAMPE FANTÔME DÉBLOQUÉE !", FactionFightHUD.MessageCategory.SUCCESS)
 		&"crystal_chest":
 			_add_candy(7)
-			_hud.show_toast("MÉCANISME ACTIVÉ • +7 CANDY")
+			_hud.show_gameplay_message("MÉCANISME ACTIVÉ • +7 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		&"spray_refill":
 			_equip_tool(&"sugar_spray", 5)
 			_add_candy(3)
-			_hud.show_toast("SPRAY RECHARGÉ • SECRET +3 CANDY")
+			_hud.show_gameplay_message("SPRAY RECHARGÉ • SECRET +3 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		&"spectral_secret":
 			_add_candy(10)
-			_hud.show_toast("PASSAGE SECRET DÉCOUVERT • +10 CANDY")
+			_hud.show_gameplay_message("PASSAGE SECRET DÉCOUVERT • +10 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		_:
 			push_warning("FactionFight: récompense inconnue %s" % reward_id)
 
 
 func _use_active_item() -> void:
 	if _active_item == &"" or _item_charges <= 0:
-		_hud.show_toast("Aucun objet actif", Color(0.8, 0.76, 0.88))
+		_hud.show_gameplay_message("Aucun objet actif", FactionFightHUD.MessageCategory.DANGER)
 		return
 	match _active_item:
 		&"candy_cane":
@@ -698,27 +709,63 @@ func _equip_tool(tool_id: StringName, charges: int) -> void:
 
 func _switch_tool() -> void:
 	if _tool_slots.size() < 2:
-		_hud.show_toast("Un seul outil équipé", Color(0.75, 0.8, 0.9))
+		_hud.show_gameplay_message("Un seul outil équipé", FactionFightHUD.MessageCategory.INFORMATION)
 		return
 	_active_tool_index = (_active_tool_index + 1) % _tool_slots.size()
 	_sync_active_tool()
-	if _aiming:
-		_rebuild_aim_preview()
-	_hud.show_toast("OUTIL : %s" % ITEM_NAMES.get(_active_item, "OBJET"))
+	_hud.show_gameplay_message("OUTIL : %s" % ITEM_NAMES.get(_active_item, "OBJET"), FactionFightHUD.MessageCategory.INFORMATION)
 
 
 func _sync_active_tool() -> void:
 	if _tool_slots.is_empty():
 		_active_item = &""
 		_item_charges = 0
+		_refresh_held_tool_visual()
+		_set_aiming(false)
 		return
 	_active_tool_index = clampi(_active_tool_index, 0, _tool_slots.size() - 1)
 	_active_item = StringName(_tool_slots[_active_tool_index].get("id", &""))
 	_item_charges = int(_tool_slots[_active_tool_index].get("charges", 0))
+	_refresh_held_tool_visual()
+	_set_aiming(_item_charges > 0)
+
+
+func _refresh_held_tool_visual() -> void:
+	if is_instance_valid(_held_tool_visual) and _held_tool_visual.presentation_id == _active_item:
+		return
+	if is_instance_valid(_held_tool_visual):
+		_held_tool_visual.queue_free()
+	_held_tool_visual = null
+	if _active_item == &"" or not is_instance_valid(_player):
+		return
+	var knight := _player.get_node_or_null("Player") as Node3D
+	if knight == null:
+		return
+	_held_tool_visual = PresentationScript.new() as PresentationScript
+	_held_tool_visual.name = "FactionFightHeldTool"
+	knight.add_child(_held_tool_visual)
+	_held_tool_visual.configure(_active_item, true)
+	_held_tool_visual.position = Vector3(0.48, 1.02, 0.18)
+	_held_tool_visual.rotation = _held_tool_rotation(_active_item)
+
+
+func _held_tool_rotation(tool_id: StringName) -> Vector3:
+	match tool_id:
+		&"candy_cane":
+			return Vector3(0.0, 0.0, deg_to_rad(-24.0))
+		&"caramel_shield":
+			return Vector3(0.0, deg_to_rad(90.0), deg_to_rad(8.0))
+		&"ghost_lamp":
+			return Vector3(0.0, deg_to_rad(180.0), 0.0)
+		_:
+			return Vector3.ZERO
 
 
 func _set_aiming(enabled: bool) -> void:
-	_aiming = enabled and _active_item != &"" and _item_charges > 0
+	var should_aim := enabled and _active_item != &"" and _item_charges > 0
+	if should_aim and _aiming and is_instance_valid(_aim_preview) and _aim_preview_tool_id == _active_item:
+		return
+	_aiming = should_aim
 	if _aiming:
 		_rebuild_aim_preview()
 	else:
@@ -730,6 +777,7 @@ func _rebuild_aim_preview() -> void:
 	if not _aiming:
 		return
 	_aim_preview = VFX.create_preview(_active_item, self)
+	_aim_preview_tool_id = _active_item
 	_update_aim_preview()
 
 
@@ -753,6 +801,7 @@ func _clear_aim_preview() -> void:
 	if _aim_preview != null and is_instance_valid(_aim_preview):
 		_aim_preview.queue_free()
 	_aim_preview = null
+	_aim_preview_tool_id = &""
 	for monster: FactionFightMonster in _monsters:
 		if is_instance_valid(monster):
 			monster.clear_aim_feedback()
@@ -763,7 +812,7 @@ func _targets_for_tool(tool_id: StringName) -> Array[FactionFightMonster]:
 		&"sugar_spray":
 			return _monsters_in_cone(7.0, deg_to_rad(30.0))
 		&"ghost_lamp":
-			return _monsters_in_cone(8.0, deg_to_rad(26.0))
+			return _monsters_in_cone(VFX.GHOST_BEAM_DISTANCE, VFX.GHOST_BEAM_HALF_ANGLE)
 		&"caramel_shield":
 			return _monsters_in_cone(1.65, PI)
 		_:
@@ -774,11 +823,11 @@ func _use_candy_cane() -> void:
 	var targets := _monsters_in_cone(6.0, deg_to_rad(75.0))
 	var affected := targets.size()
 	if affected == 0:
-		_hud.show_toast("Aucun monstre assez proche", Color(0.8, 0.76, 0.88))
+		_hud.show_gameplay_message("Aucun monstre assez proche", FactionFightHUD.MessageCategory.DANGER)
 		return
 	for monster: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"candy_cane", monster)
-		monster.apply_repel(_player.global_position, 1.4 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 0.6, 5.0 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 2.0)
+		monster.apply_repel(_player.global_position, 1.5 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 0.6, 8.0 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 2.6)
 		if monster.monster_type == &"conqueror":
 			monster.apply_stun(0.8)
 	_consume_charge("BÂTON BONBON • ARC TACTIQUE !")
@@ -788,7 +837,7 @@ func _use_candy_cane() -> void:
 func _use_sugar_spray() -> void:
 	var targets := _monsters_in_cone(7.0, deg_to_rad(30.0))
 	if targets.is_empty():
-		_hud.show_toast("Aucun monstre à portée du spray", Color(0.8, 0.76, 0.88))
+		_hud.show_gameplay_message("Aucun monstre à portée du spray", FactionFightHUD.MessageCategory.DANGER)
 		return
 	for target: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"sugar_spray", target)
@@ -810,20 +859,21 @@ func _use_caramel_shield() -> void:
 
 
 func _use_ghost_lamp() -> void:
-	var targets := _monsters_in_cone(8.0, deg_to_rad(26.0))
+	VFX.pulse_spectral_beam(_aim_preview)
+	var targets := _monsters_in_cone(VFX.GHOST_BEAM_DISTANCE, VFX.GHOST_BEAM_HALF_ANGLE)
 	if targets.is_empty():
-		_hud.show_toast("Aucun monstre dans le faisceau", Color(0.8, 0.76, 0.88))
+		_hud.show_gameplay_message("Aucun monstre dans le faisceau", FactionFightHUD.MessageCategory.DANGER)
 		return
 	for target: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"ghost_lamp", target)
+		VFX.spawn_spectral_impact(self, target.global_position + Vector3.UP * 1.1)
 		if target.monster_type == &"goblin":
-			target.apply_repel(_player.global_position, 2.8, 3.8)
+			target.apply_repel(_player.global_position, 1.45, 7.0)
 		elif reaction == FactionFightAffinityRules.Reaction.EFFECTIVE:
 			target.apply_slow(4.0, 0.45)
 		else:
 			target.apply_slow(1.0, 0.8)
 	_consume_charge("LAMPE FANTÔME • FAISCEAU SPECTRAL !")
-	VFX.spawn_cone(self, _player.global_transform, 8.0, deg_to_rad(26.0), Color(0.35, 0.25, 1.0, 0.3))
 
 
 func _monsters_in_cone(max_distance: float, half_angle: float) -> Array[FactionFightMonster]:
@@ -877,7 +927,7 @@ func _consume_charge(message: String) -> void:
 	_item_charges -= 1
 	_collect_audio_player.pitch_scale = 0.82
 	_collect_audio_player.play()
-	_hud.show_toast(message)
+	_hud.show_gameplay_message(message, FactionFightHUD.MessageCategory.INFORMATION)
 	if _tool_slots.is_empty():
 		if _item_charges <= 0:
 			_active_item = &""
@@ -889,11 +939,6 @@ func _consume_charge(message: String) -> void:
 	else:
 		_tool_slots[_active_tool_index]["charges"] = _item_charges
 	_sync_active_tool()
-	if _aiming:
-		if _active_item == &"":
-			_set_aiming(false)
-		else:
-			_rebuild_aim_preview()
 
 
 func _on_player_bumped(monster: FactionFightMonster, direction: Vector3, strength: float) -> void:
@@ -903,12 +948,12 @@ func _on_player_bumped(monster: FactionFightMonster, direction: Vector3, strengt
 		var reaction := _apply_affinity(&"caramel_shield", monster)
 		if reaction == FactionFightAffinityRules.Reaction.INVERSE:
 			_shield_time = maxf(_shield_time - 2.0, 0.5)
-		monster.apply_repel(_player.global_position, 1.2, 4.0)
-		_hud.show_toast("BOUCLIER ACTIF • AUCUN CANDY VOLÉ")
+		monster.apply_repel(_player.global_position, 1.35, 6.5)
+		_hud.show_gameplay_message("BOUCLIER ACTIF • AUCUN CANDY VOLÉ", FactionFightHUD.MessageCategory.SUCCESS)
 		_spawn_burst(_player.global_position + Vector3.UP, FactionFightAffinityRules.color(reaction))
 		return
 	_player.move_and_collide(direction * strength)
-	monster.apply_repel(_player.global_position, 0.65, 2.5)
+	monster.apply_repel(_player.global_position, 0.65, 3.2)
 	if _theft_immunity_time > 0.0:
 		return
 	_steal_candy(monster)
@@ -918,7 +963,7 @@ func _steal_candy(monster: FactionFightMonster) -> int:
 	var requested_amount := _roll_theft_amount()
 	var stolen_amount := mini(requested_amount, _candy)
 	if stolen_amount <= 0:
-		_hud.show_toast("%s n’a trouvé aucun CANDY" % monster.display_name, Color(1.0, 0.58, 0.25))
+		_hud.show_gameplay_message("%s n’a trouvé aucun CANDY" % monster.display_name, FactionFightHUD.MessageCategory.INFORMATION)
 		return 0
 	_candy -= stolen_amount
 	result_data.candy_amount = _candy
@@ -927,7 +972,7 @@ func _steal_candy(monster: FactionFightMonster) -> int:
 	_hud.pulse_candy(Color(1.0, 0.25, 0.14))
 	_collect_audio_player.pitch_scale = 0.62
 	_collect_audio_player.play()
-	_hud.show_toast("-%d CANDY • VOLÉ PAR %s • IMMUNITÉ 3 S" % [stolen_amount, monster.display_name], Color(1.0, 0.28, 0.14))
+	_hud.show_gameplay_message("-%d CANDY • VOLÉ PAR %s • IMMUNITÉ 3 S" % [stolen_amount, monster.display_name], FactionFightHUD.MessageCategory.DANGER)
 	_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.24, 0.08))
 	VFX.spawn_dome(self, _player.global_position, 1.0, Color(0.3, 0.85, 1.0, 0.14), THEFT_IMMUNITY_DURATION)
 	return stolen_amount
@@ -1012,9 +1057,6 @@ func _setup_corruption() -> void:
 		_base_moon_energy = _moon_light.light_energy
 	if _portal_light != null:
 		_base_portal_energy = _portal_light.light_energy
-	if _environment_controller != null:
-		_base_lightning_min = _environment_controller.lightning_delay_min
-		_base_lightning_max = _environment_controller.lightning_delay_max
 	_create_corruption_particles()
 
 
@@ -1022,10 +1064,12 @@ func _update_corruption(delta: float) -> void:
 	_session_time = minf(_session_time + delta, SESSION_DURATION)
 	var progress := _session_time / SESSION_DURATION
 	var phase_name := _corruption_phase_name(_session_time)
-	var phase_index := mini(int(_session_time / 180.0), 3)
+	var phase_index := mini(int(_session_time / 60.0), 3)
 	_hud.update_corruption(progress * 100.0, phase_name)
 	if phase_index != _last_corruption_phase:
 		_last_corruption_phase = phase_index
+		if _environment_controller != null:
+			_environment_controller.set_storm_phase(phase_index)
 		for monster: FactionFightMonster in _monsters:
 			if is_instance_valid(monster):
 				monster.set_corruption_level(progress)
@@ -1037,23 +1081,19 @@ func _update_corruption(delta: float) -> void:
 		_moon_light.light_energy = lerpf(_base_moon_energy, _base_moon_energy * 0.78, progress)
 	if _portal_light != null:
 		_portal_light.light_energy = lerpf(_base_portal_energy, _base_portal_energy * 1.65, progress)
-	if _environment_controller != null:
-		var storm_progress := clampf((_session_time - 360.0) / 240.0, 0.0, 1.0)
-		_environment_controller.lightning_delay_min = lerpf(_base_lightning_min, 3.0, storm_progress)
-		_environment_controller.lightning_delay_max = lerpf(_base_lightning_max, 6.0, storm_progress)
 	if _corruption_particles != null:
-		_corruption_particles.emitting = _session_time >= 360.0
+		_corruption_particles.emitting = _session_time >= 120.0
 		_corruption_particles.global_position = _player.global_position + Vector3.UP * 6.0
 	if _session_time >= SESSION_DURATION:
 		_begin_final_spell()
 
 
 func _corruption_phase_name(seconds: float) -> String:
-	if seconds < 180.0:
+	if seconds < 60.0:
 		return "LES DERNIÈRES DOUCEURS"
-	if seconds < 360.0:
+	if seconds < 120.0:
 		return "L’ÉVEIL DE LA CORRUPTION"
-	if seconds < 540.0:
+	if seconds < 180.0:
 		return "LA TEMPÊTE DES CONFISERIES"
 	return "LE DERNIER SORT"
 
@@ -1077,25 +1117,31 @@ func _stop_world_interactions() -> void:
 	_nearest_interactive = null
 	_set_aiming(false)
 	_hud.set_prompt("")
+	if _environment_controller != null:
+		_environment_controller.stop_storm()
 	for monster: FactionFightMonster in _monsters:
 		if is_instance_valid(monster):
 			monster.stop_gameplay()
 	for pickup: FactionFightPickup in _pickups:
 		if is_instance_valid(pickup):
 			pickup.stop_gameplay()
+	if is_instance_valid(_fall_protection):
+		_fall_protection.set_active(false)
+
+
+func _create_fall_protection() -> void:
+	_fall_protection = FallProtectionScript.new() as FallProtectionScript
+	_fall_protection.name = "FallProtection"
+	add_child(_fall_protection)
+	_fall_protection.configure(_player)
 
 
 func _create_chewingland_heart() -> void:
-	_heart = MeshInstance3D.new()
-	var mesh := CylinderMesh.new()
-	mesh.top_radius = 0.0
-	mesh.bottom_radius = 0.75
-	mesh.height = 2.6
-	mesh.radial_segments = 6
-	mesh.material = _particle_material(Color(0.42, 0.85, 1.0))
-	_heart.mesh = mesh
+	_heart = PickupScript.new() as FactionFightPickup
+	_heart.name = "ChewinglandHeart"
 	add_child(_heart)
-	_heart.global_position = Vector3(8.0, 2.0, -242.0)
+	_heart.configure(FactionFightPickup.Kind.KEY_ITEM, "CŒUR DE CHEWINGLAND", HEART_POSITION, 0, &"chewingland_heart")
+	_pickups.append(_heart)
 
 
 func _create_corruption_particles() -> void:
@@ -1121,16 +1167,11 @@ func _create_corruption_particles() -> void:
 
 
 func _update_heart() -> void:
-	if _heart == null:
+	if not is_instance_valid(_heart) or _heart.collected or not is_instance_valid(_heart._presentation):
 		return
-	var progress := _session_time / SESSION_DURATION
-	_heart.rotation.y += get_process_delta_time() * 0.45
-	_heart.position.y = 2.0 + sin(_session_time * 1.4) * 0.2
-	var material := _heart.get_active_material(0) as StandardMaterial3D
-	if material != null:
-		var color := Color(0.42, 0.85, 1.0).lerp(Color(1.0, 0.08, 0.55), progress)
-		material.albedo_color = color
-		material.emission = color
+	var progress := clampf(_session_time / SESSION_DURATION, 0.0, 1.0)
+	var color := Color(1.0, 0.20, 0.74).lerp(Color(0.72, 0.12, 1.0), progress)
+	_heart._presentation.set_glow_color(color)
 
 
 func _spawn_burst(position_3d: Vector3, color: Color) -> void:

@@ -35,10 +35,12 @@ func _run() -> void:
 	_test_tool_slots(gameplay)
 	_test_corruption_phases(gameplay)
 	_test_obstacle_detection(gameplay)
+	_test_voluntary_exit_prompt(gameplay)
 	_test_random_roll(gameplay)
 	_test_theft_rules(gameplay)
 	_test_protections(gameplay)
 	_test_exit_guarantee(gameplay)
+	await _test_ghost_lamp_impacts()
 	await _test_auto_finish()
 
 	scene.queue_free()
@@ -63,7 +65,7 @@ func _test_population(gameplay: FactionFightGameplay) -> void:
 				"%s peut jouer l’animation %s" % [monster.display_name, animation_name]
 			)
 		_check(monster._patrol_points.size() >= 3, "%s suit une ronde à plusieurs points" % monster.display_name)
-		_check(monster._model_pivot != null and is_equal_approx(monster._model_pivot.rotation.y, PI * 0.5), "%s corrige l’axe du modèle importé" % monster.display_name)
+		_check(monster._model_pivot != null and is_equal_approx(monster._model_pivot.rotation.y, PI), "%s aligne son +Z visuel sur l’avant -Z de l’acteur" % monster.display_name)
 	var facing_monster: FactionFightMonster = gameplay._monsters[0]
 	facing_monster._face_position(facing_monster.global_position + Vector3.RIGHT * 5.0, 1.0)
 	_check((-facing_monster.global_basis.z).dot(Vector3.RIGHT) > 0.99, "Le monstre oriente bien son avant -Z vers son déplacement")
@@ -146,8 +148,17 @@ func _test_action_vfx(gameplay: FactionFightGameplay) -> void:
 	_check(is_equal_approx(preview_mesh.height, 7.0), "La prévisualisation du spray reprend exactement sa portée")
 	var cane_preview := FactionFightVFX.create_preview(&"candy_cane", gameplay)
 	_check(cane_preview.get_child_count() == 8, "La prévisualisation du bâton dessine tout son secteur et sa limite")
+	var ghost_preview := FactionFightVFX.create_preview(&"ghost_lamp", gameplay)
+	var ghost_beam := ghost_preview.get_node_or_null("SpectralBeam") as MeshInstance3D
+	var ghost_mesh := ghost_beam.mesh as CylinderMesh if ghost_beam != null else null
+	_check(ghost_mesh != null and is_equal_approx(ghost_mesh.height, 8.0), "La prévisualisation spectrale conserve la portée réelle de la lampe")
+	_check(ghost_preview.get_node_or_null("SpectralMotes") != null, "La lampe possède des poussières spectrales discrètes")
+	FactionFightVFX.pulse_spectral_beam(ghost_preview)
+	var ghost_material := ghost_beam.get_active_material(0) as ShaderMaterial if ghost_beam != null else null
+	_check(ghost_material != null and is_equal_approx(float(ghost_material.get_shader_parameter(&"impulse")), 1.0), "Le clic peut intensifier le faisceau existant sans en créer un second")
 	spray_preview.queue_free()
 	cane_preview.queue_free()
+	ghost_preview.queue_free()
 
 
 func _test_mission_start(gameplay: FactionFightGameplay) -> void:
@@ -187,7 +198,7 @@ func _test_unlock_chains(gameplay: FactionFightGameplay) -> void:
 			key_items[pickup.item_id] = pickup
 		elif pickup.kind == FactionFightPickup.Kind.DEVICE:
 			devices[pickup.required_item_id] = pickup
-	_check(key_items.size() == 4 and devices.size() == 4, "Quatre objets de déblocage et quatre dispositifs existent")
+	_check(key_items.size() == 5 and key_items.has(&"chewingland_heart") and devices.size() == 4, "Le cœur, quatre objets de déblocage et quatre dispositifs existent")
 	var unlock_order: Array[StringName] = [&"caramel_key", &"sugar_crystal", &"syrup_capsule", &"spectral_badge"]
 	for item_id: StringName in unlock_order:
 		gameplay._collect_pickup(key_items[item_id])
@@ -207,7 +218,7 @@ func _test_mission_finish(gameplay: FactionFightGameplay) -> void:
 	_check(gameplay._mission_index == 3, "La cache de sirop ouvre la mission du Sanctuaire")
 	gameplay._collect_pickup(_mission_pickup(gameplay, &"sanctuary_treasure"))
 	_check(gameplay._mission_index == 4, "Les quatre missions se terminent dans l’ordre")
-	_check(gameplay._objective_marker.global_position.is_equal_approx(gameplay._portal.global_position), "Le marqueur final conduit au portail")
+	_check(gameplay._objective_marker.global_position.is_equal_approx(gameplay._portal_objective_position()), "Le marqueur final est centré sous le portail")
 
 
 func _mission_pickup(gameplay: FactionFightGameplay, mission_id: StringName) -> FactionFightPickup:
@@ -223,21 +234,41 @@ func _test_tool_slots(gameplay: FactionFightGameplay) -> void:
 	gameplay._equip_tool(&"sugar_spray", 3)
 	gameplay._equip_tool(&"caramel_shield", 1)
 	_check(gameplay._tool_slots.size() == 2, "Le joueur ne transporte jamais plus de deux outils d’action")
+	_check(gameplay._aim_preview != null, "La zone d’action apparaît automatiquement avec l’outil")
 	var first_tool := gameplay._active_item
 	gameplay._switch_tool()
 	_check(gameplay._active_item != first_tool, "Q alterne entre les deux outils")
-	gameplay._set_aiming(true)
-	_check(gameplay._aim_preview != null, "R prépare une zone d’action visible")
-	gameplay._set_aiming(false)
-	_check(gameplay._aim_preview == null, "Relâcher R retire la prévisualisation")
+	_check(gameplay._aim_preview != null, "La zone permanente suit le nouvel outil actif")
+	var charges_before_old_keys := gameplay._item_charges
+	var old_key := InputEventKey.new()
+	old_key.pressed = true
+	old_key.physical_keycode = KEY_F
+	gameplay._unhandled_input(old_key)
+	_check(gameplay._item_charges == charges_before_old_keys, "F ne déclenche plus l’outil")
+	old_key.physical_keycode = KEY_R
+	gameplay._unhandled_input(old_key)
+	_check(gameplay._aim_preview != null, "R n’est plus nécessaire à la prévisualisation")
+	gameplay._switch_tool()
+	var mouse_event := InputEventMouseButton.new()
+	mouse_event.pressed = true
+	mouse_event.button_index = MOUSE_BUTTON_LEFT
+	gameplay._mouse_was_captured = false
+	gameplay._unhandled_input(mouse_event)
+	_check(gameplay._tool_has_charges(&"caramel_shield"), "Le clic qui capture la souris ne déclenche pas l’outil")
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	gameplay._mouse_was_captured = true
+	gameplay._unhandled_input(mouse_event)
+	_check(gameplay._shield_time > 0.0 and not gameplay._tool_has_charges(&"caramel_shield"), "Le clic gauche utilise l’outil actif avec la souris capturée")
+	_check(gameplay._active_item == &"candy_cane" and gameplay._aim_preview != null, "La zone permanente passe à l’outil utilisable suivant")
+	gameplay._shield_time = 0.0
 
 
 func _test_corruption_phases(gameplay: FactionFightGameplay) -> void:
 	_check(gameplay._corruption_phase_name(0.0) == "LES DERNIÈRES DOUCEURS", "Phase climatique 1")
-	_check(gameplay._corruption_phase_name(180.0) == "L’ÉVEIL DE LA CORRUPTION", "Phase climatique 2")
-	_check(gameplay._corruption_phase_name(360.0) == "LA TEMPÊTE DES CONFISERIES", "Phase climatique 3")
-	_check(gameplay._corruption_phase_name(540.0) == "LE DERNIER SORT", "Phase climatique 4")
-	gameplay._session_time = 300.0
+	_check(gameplay._corruption_phase_name(60.0) == "L’ÉVEIL DE LA CORRUPTION", "Phase climatique 2 à 60 secondes")
+	_check(gameplay._corruption_phase_name(120.0) == "LA TEMPÊTE DES CONFISERIES", "Phase climatique 3 à 120 secondes")
+	_check(gameplay._corruption_phase_name(180.0) == "LE DERNIER SORT", "Phase climatique 4 à 180 secondes")
+	gameplay._session_time = 120.0
 	gameplay._update_corruption(0.0)
 	_check(is_equal_approx(gameplay._hud._corruption_bar.value, 50.0), "La jauge affiche la corruption sans secondes")
 	gameplay._session_time = 0.0
@@ -246,9 +277,41 @@ func _test_corruption_phases(gameplay: FactionFightGameplay) -> void:
 func _test_obstacle_detection(gameplay: FactionFightGameplay) -> void:
 	var monster: FactionFightMonster = gameplay._monsters[0]
 	var original_position := monster.global_position
+	var original_rotation := monster.rotation
 	monster.global_position = Vector3(-20.8, 0.02, -18.0)
 	_check(monster._has_obstacle(Vector3.LEFT, 1.0), "Les monstres détectent les collisions du décor")
+	monster._move_in_direction(Vector3.LEFT, 3.0)
+	_check(monster.global_position.x > -21.5, "Le recul ne traverse pas la limite de la carte")
+	monster.global_position = Vector3(0.0, 0.02, -18.0)
+	monster.rotation.y = 0.0
+	var movement_start := monster.global_position
+	for _step: int in 12:
+		monster._move_toward(Vector3(5.0, 0.02, -18.0), 2.0, 0.1)
+	var displacement := monster.global_position - movement_start
+	var visual_forward := -monster.global_basis.z
+	visual_forward.y = 0.0
+	_check(displacement.length() > 0.2 and displacement.normalized().dot(visual_forward.normalized()) > 0.98, "Le monstre avance dans la direction de son corps")
+	monster.global_position = Vector3(0.0, 0.02, -18.0)
+	monster.apply_repel(Vector3(0.0, 0.02, -17.0), 1.5, 8.0)
+	var repel_start := monster.global_position
+	for _step: int in 16:
+		monster._physics_process(0.1)
+	_check(monster.global_position.distance_to(repel_start) >= 5.0, "Un repoussement efficace crée une vraie fenêtre d’action")
+	_check(monster.get_state_name() == "RECOVERING", "Le monstre récupère brièvement après le recul")
 	monster.global_position = original_position
+	monster.rotation = original_rotation
+	monster._repel_velocity = Vector3.ZERO
+	monster._set_state(FactionFightMonster.State.IDLE, 0.1)
+
+
+func _test_voluntary_exit_prompt(gameplay: FactionFightGameplay) -> void:
+	var original_position := gameplay._player.global_position
+	gameplay._mission_index = FactionFightGameplay.MISSIONS.size()
+	gameplay._player.global_position = gameplay._portal_interaction_position()
+	gameplay._update_interaction_prompt()
+	_check(not gameplay._completed, "Approcher le portail ne termine pas la partie")
+	_check(gameplay._hud._prompt_action_label.text == "QUITTER CHASEWEEN", "Le portail annonce une sortie volontaire avec E")
+	gameplay._player.global_position = original_position
 
 
 func _test_random_roll(gameplay: FactionFightGameplay) -> void:
@@ -297,7 +360,13 @@ func _test_protections(gameplay: FactionFightGameplay) -> void:
 func _test_exit_guarantee(gameplay: FactionFightGameplay) -> void:
 	gameplay._candy = 0
 	gameplay._zones_completed = 4
-	gameplay._complete_world()
+	gameplay._mission_index = FactionFightGameplay.MISSIONS.size()
+	gameplay._player.global_position = gameplay._portal_interaction_position()
+	var interact_event := InputEventKey.new()
+	interact_event.pressed = true
+	interact_event.physical_keycode = KEY_E
+	gameplay._unhandled_input(interact_event)
+	_check(gameplay._completed, "E déclenche la sortie volontaire au portail")
 	_check(gameplay._candy == 20, "La sortie garantit vingt CANDY")
 	_check(int(gameplay.result_data.candy_amount) == 20, "Le résultat local contient le minimum garanti")
 	_check("BONUS DE SORTIE : +20 CANDY" in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
@@ -317,14 +386,44 @@ func _test_auto_finish() -> void:
 	await process_frame
 	var gameplay := scene.get_node("FactionFightGameplay") as FactionFightGameplay
 	gameplay._candy = 12
-	gameplay._session_time = 599.9
+	gameplay._session_time = 239.9
 	gameplay._update_corruption(0.1)
-	_check(gameplay._finishing, "La fin automatique démarre à 600 secondes")
+	_check(gameplay._finishing, "La fin automatique démarre à 240 secondes")
 	_check(gameplay._hud._cinematic_overlay.visible, "Le message du Dernier Sort est affiché")
 	gameplay._finish_final_spell()
 	_check(gameplay._completed, "Le Dernier Sort termine le mini-jeu sans défaite")
 	_check(gameplay._candy == 20, "La fin automatique applique aussi le minimum garanti")
 	_check("SORTIE : DERNIER SORT" in gameplay._hud._summary_candy.text, "Le résumé distingue la fin automatique")
+	scene.queue_free()
+	await process_frame
+
+
+func _test_ghost_lamp_impacts() -> void:
+	var packed_scene := load(SCENE_PATH) as PackedScene
+	var scene := packed_scene.instantiate()
+	root.add_child(scene)
+	await process_frame
+	await process_frame
+	var gameplay := scene.get_node("FactionFightGameplay") as FactionFightGameplay
+	gameplay._tool_slots.clear()
+	gameplay._equip_tool(&"ghost_lamp", 4)
+	for monster: FactionFightMonster in gameplay._monsters:
+		monster.global_position = Vector3(100.0, 0.02, 100.0)
+	var beam := gameplay._aim_preview.get_node_or_null("SpectralBeam") as MeshInstance3D
+	var beam_material := beam.get_active_material(0) as ShaderMaterial if beam != null else null
+	gameplay._use_ghost_lamp()
+	_check(gameplay.find_children("SpectralImpact", "Node3D", true, false).is_empty(), "La lampe ne crée aucun impact sans cible réellement touchée")
+	_check(beam_material != null and is_equal_approx(float(beam_material.get_shader_parameter(&"impulse")), 1.0), "Le clic produit une impulsion visuelle même sans cible")
+	_check(gameplay._item_charges == 4, "Une utilisation sans cible ne modifie pas les charges")
+	var target: FactionFightMonster = gameplay._monsters[0]
+	var forward := -gameplay._player.global_basis.z
+	forward.y = 0.0
+	target.global_position = gameplay._player.global_position + forward.normalized() * 3.0
+	var beam_before := gameplay._aim_preview.get_node_or_null("SpectralBeam")
+	gameplay._use_ghost_lamp()
+	_check(gameplay.find_children("SpectralImpact", "Node3D", true, false).size() == 1, "Un impact spectral apparaît uniquement sur le monstre touché")
+	_check(gameplay._aim_preview.get_node_or_null("SpectralBeam") == beam_before, "L’impulsion réutilise le faisceau permanent sans superposition")
+	_check(gameplay._item_charges == 3, "La lampe conserve sa consommation normale d’une charge")
 	scene.queue_free()
 	await process_frame
 
