@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cw0j4g7in1atd"]
 
-[ext_resource type="PackedScene" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
+[ext_resource type="PackedScene" uid="uid://1hprd6rnjk7e" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
 [ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/territory/Territory.gd" id="2_territory"]
 [ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/territory/UnitSpawner.gd" id="3_spawner"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/territory/TerritoryHud.tscn" id="4_hud"]
@@ -22,13 +22,13 @@ ambient_light_source = 3
 glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_ground"]
-size = Vector3(60, 0.2, 24)
+size = Vector3(100, 0.2, 100)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
 albedo_color = Color(0.16, 0.12, 0.22, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_road"]
-size = Vector3(46, 0.05, 3)
+size = Vector3(100, 0.05, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_road"]
 albedo_color = Color(0.3, 0.24, 0.38, 1)
@@ -90,7 +90,7 @@ autostart = true
 
 [node name="RoundTimer" type="Timer" parent="." unique_id=1698337324]
 unique_name_in_owner = true
-wait_time = 180.0
+wait_time = 120.0
 one_shot = true
 autostart = true
 

@@ -7,7 +7,7 @@ const ALL_STATS: Array[UnitStats] = [
 	preload("res://scenes/minigames/territory/units/ranger.tres"),
 	preload("res://scenes/minigames/territory/units/mage.tres"),
 ]
-const CANDIES_PER_SITE := 5
+const CANDIES_PER_SITE := 2
 
 var _candies := 0
 
