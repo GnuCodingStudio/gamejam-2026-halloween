@@ -78,6 +78,7 @@ home_x = 24.0
 unique_name_in_owner = true
 script = ExtResource("5_enemy_ai")
 spawner = NodePath("../EnemySpawner")
+spawn_interval = 2.5
 
 [node name="SpawnTimer" type="Timer" parent="EnemyAI" unique_id=1544961547]
 unique_name_in_owner = true

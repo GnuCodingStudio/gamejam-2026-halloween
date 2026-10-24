@@ -11,5 +11,5 @@ max_health = 120.0
 damage = 25.0
 attack_range = 5.0
 attack_interval = 1.8
-move_speed = 2.5
+move_speed = 1.5
 cooldown = 20.0

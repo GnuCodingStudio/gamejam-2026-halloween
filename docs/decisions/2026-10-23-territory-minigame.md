@@ -14,7 +14,7 @@
 | Roster | 3 unit types, using `assets/characters/Rogue_Hooded.glb`, `Ranger.glb` and `Mage.glb` | Models provided by the user | more models are added |
 | Unit cost | Cooldown only, no currency. Cheap = short cooldown but weak, expensive = long cooldown but strong | User choice | — |
 | Cooldown model | One cooldown per button | Real choice between types | — |
-| After a flip | Units keep marching, they do not stay as defenders. Exception: the unit which captured a site waits there for the site's `capture_wait_time` (set per site, default 3s) to slow the game down. It still fights while waiting | User choice | the game feels too slow |
+| After a flip | Units keep marching, they do not stay as defenders. Exception: every player unit waits once at each site it reaches, owned or not, for the site's `capture_wait_time` (set per site, default 3s) to slow the game down. It still fights while waiting. Enemy units never wait (reverses the first version: only the capturing unit waited, on both sides) | User choice | the game feels too slow |
 | Capture | Killing the defenders flips the site at once | User choice | — |
 | Defenses | Only units fight, no turrets | Smallest version | towers are wanted |
 | Losing all sites | The player can still spawn units | Never stuck at 0 | — |
@@ -28,7 +28,7 @@
 - End of the timer — **assumed** a result overlay with the candy total and "Continue" to `scenes/levels/main.tscn` through `SceneTransition`.
 - Spawn when a side owns no site — **assumed** a permanent home spawn behind its end of the line, not capturable.
 - "Defenders" — **assumed** the enemy units standing in or fighting at the site. A marching unit that reaches a site with no enemy unit present flips it.
-- Capture wait — **assumed** it applies to both factions' units, not only the player's, to keep the rules the same for both.
+- Site wait — **assumed** player-only, since the request says "the player's mob". The property is still named `capture_wait_time` to keep the values already set per site in `Territory.tscn`.
 - Enemy candies — **assumed** none, the AI earns no score.
 - Role per model — **assumed** Rogue = cheap/weak, Ranger = medium, Mage = expensive/strong.
 - Enemy look — **assumed** the same three models, tinted to tell the factions apart.

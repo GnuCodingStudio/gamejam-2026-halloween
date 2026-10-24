@@ -21,6 +21,7 @@ var health: float
 
 var _attack_cooldown := 0.0
 var _capture_wait_remaining := 0.0
+var _waited_sites: Array[Site] = []
 var _current_animation := &""
 
 
@@ -124,21 +125,30 @@ func _march(delta: float) -> void:
 		return
 	_play(&"run")
 	global_position.x += _heading() * stats.move_speed * delta
-	_try_capture_sites()
+	_handle_reached_sites()
 	if absf(global_position.x) > FIELD_HALF_LENGTH:
 		queue_free()
 
 
-func _try_capture_sites() -> void:
+func _handle_reached_sites() -> void:
 	for node in get_tree().get_nodes_in_group(Site.GROUP):
 		var site := node as Site
-		if site.faction == faction:
-			continue
 		if absf(site.global_position.x - global_position.x) > SITE_REACHED_DISTANCE:
 			continue
-		if not _is_defended(site):
-			site.flip_to(faction)
-			_capture_wait_remaining = site.capture_wait_time
+		_try_capture(site)
+		_try_wait_at(site)
+
+
+func _try_capture(site: Site) -> void:
+	if site.faction != faction and not _is_defended(site):
+		site.flip_to(faction)
+
+
+func _try_wait_at(site: Site) -> void:
+	if faction != Faction.Side.PLAYER or _waited_sites.has(site):
+		return
+	_waited_sites.append(site)
+	_capture_wait_remaining = site.capture_wait_time
 
 
 func _is_defended(site: Site) -> bool:

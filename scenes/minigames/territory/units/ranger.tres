@@ -10,4 +10,5 @@ model_scene = ExtResource("2_model")
 max_health = 60.0
 attack_range = 7.0
 attack_interval = 1.2
-cooldown = 8.0
+move_speed = 2.0
+cooldown = 10.0
