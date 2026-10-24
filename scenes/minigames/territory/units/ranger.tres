@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitStats" format=3]
+
+[ext_resource type="Script" path="res://scenes/minigames/territory/UnitStats.gd" id="1_stats"]
+[ext_resource type="PackedScene" path="res://assets/characters/Ranger.glb" id="2_model"]
+
+[resource]
+script = ExtResource("1_stats")
+display_name = "Ranger"
+model_scene = ExtResource("2_model")
+max_health = 60.0
+damage = 10.0
+attack_range = 7.0
+attack_interval = 1.2
+move_speed = 3.0
+cooldown = 6.0

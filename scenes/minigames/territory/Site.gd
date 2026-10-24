@@ -3,6 +3,8 @@ extends Node3D
 
 signal owner_changed(site: Site, side: Faction.Side)
 
+const GROUP := &"sites"
+
 @export var faction: Faction.Side = Faction.Side.ENEMY:
 	set(value):
 		faction = value
@@ -15,6 +17,7 @@ var _flag_material := StandardMaterial3D.new()
 
 
 func _ready() -> void:
+	add_to_group(GROUP)
 	_flag.material_override = _flag_material
 	_refresh_flag()
 

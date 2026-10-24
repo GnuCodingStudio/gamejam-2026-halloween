@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cw0j4g7in1atd"]
 
 [ext_resource type="PackedScene" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
+[ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/territory/Territory.gd" id="2_territory"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_territory"]
 sky_top_color = Color(0.12, 0.1, 0.25, 1)
@@ -29,6 +30,7 @@ size = Vector3(46, 0.05, 3)
 albedo_color = Color(0.3, 0.24, 0.38, 1)
 
 [node name="Territory" type="Node3D" unique_id=141314897]
+script = ExtResource("2_territory")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=422297814]
 environment = SubResource("Environment_territory")
@@ -50,6 +52,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ground")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 mesh = SubResource("BoxMesh_road")
 surface_material_override/0 = SubResource("StandardMaterial3D_road")
+
+[node name="Units" type="Node3D" parent="." unique_id=198964728]
+unique_name_in_owner = true
 
 [node name="Sites" type="Node3D" parent="." unique_id=1437432550]
 
