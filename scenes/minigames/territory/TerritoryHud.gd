@@ -12,6 +12,7 @@ var _gain_tween: Tween
 @onready var _buttons: HBoxContainer = %Buttons
 @onready var _candy_label: Label = %CandyLabel
 @onready var _sites_label: Label = %SitesLabel
+@onready var _time_label: Label = %TimeLabel
 @onready var _gain_label: Label = %GainLabel
 
 
@@ -25,6 +26,12 @@ func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
 
 func set_candies(total: int) -> void:
 	_candy_label.text = "Candies: %d" % total
+
+
+func set_time(seconds: float) -> void:
+	var whole_seconds := ceili(seconds)
+	var minutes := floori(whole_seconds / 60.0)
+	_time_label.text = "%d:%02d" % [minutes, whole_seconds % 60]
 
 
 func set_sites(owned: int, total: int) -> void:
