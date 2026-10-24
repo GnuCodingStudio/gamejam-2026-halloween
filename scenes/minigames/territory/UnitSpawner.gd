@@ -10,7 +10,11 @@ const UNIT_SCENE := preload("res://scenes/minigames/territory/Unit.tscn")
 @export var home_x := 0.0
 @export var spawn_at_rearmost_site := false
 
+var spawned_count := 0
+var damage_multiplier := 1.0
+
 var _cooldowns: Dictionary[UnitStats, float] = {}
+var _alive: Dictionary[UnitStats, int] = {}
 
 
 func _process(delta: float) -> void:
@@ -24,6 +28,18 @@ func _process(delta: float) -> void:
 
 func remaining_cooldown(stats: UnitStats) -> float:
 	return _cooldowns.get(stats, 0.0)
+
+
+func alive_count(stats: UnitStats) -> int:
+	return _alive.get(stats, 0)
+
+
+func is_unlocked(stats: UnitStats) -> bool:
+	return spawned_count >= stats.unlock_after_spawns
+
+
+func is_at_max_alive(stats: UnitStats) -> bool:
+	return stats.max_alive > 0 and alive_count(stats) >= stats.max_alive
 
 
 func start_cooldowns(all_stats: Array[UnitStats]) -> void:
@@ -41,11 +57,18 @@ func spawn(stats: UnitStats) -> Unit:
 
 func spawn_free(stats: UnitStats) -> Unit:
 	var unit: Unit = UNIT_SCENE.instantiate()
-	unit.setup(stats, faction)
+	unit.setup(stats, faction, self)
 	units_root.add_child(unit)
 	unit.position = Vector3(_spawn_x(), 0.0, 0.0)
+	_alive[stats] = alive_count(stats) + 1
+	unit.died.connect(_on_unit_died)
+	spawned_count += 1
 	unit_spawned.emit(unit)
 	return unit
+
+
+func _on_unit_died(unit: Unit) -> void:
+	_alive[unit.stats] = alive_count(unit.stats) - 1
 
 
 func _spawn_x() -> float:

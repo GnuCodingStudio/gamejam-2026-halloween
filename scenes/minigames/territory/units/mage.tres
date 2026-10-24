@@ -12,4 +12,6 @@ damage = 25.0
 attack_range = 5.0
 attack_interval = 1.8
 move_speed = 1.5
-cooldown = 20.0
+cooldown = 16.0
+unlock_after_spawns = 10
+max_alive = 2

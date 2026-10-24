@@ -17,6 +17,7 @@ const PUNCH_TIME := 0.08
 
 var faction: Faction.Side
 var stats: UnitStats
+var spawner: UnitSpawner
 var health: float
 
 var _attack_cooldown := 0.0
@@ -25,9 +26,10 @@ var _waited_sites: Array[Site] = []
 var _current_animation := &""
 
 
-func setup(unit_stats: UnitStats, side: Faction.Side) -> void:
+func setup(unit_stats: UnitStats, side: Faction.Side, unit_spawner: UnitSpawner) -> void:
 	stats = unit_stats
 	faction = side
+	spawner = unit_spawner
 	health = stats.max_health
 
 
@@ -109,7 +111,7 @@ func _fight(target: Unit) -> void:
 	if _attack_cooldown > 0.0:
 		return
 	_attack_cooldown = stats.attack_interval
-	target.take_damage(stats.damage)
+	target.take_damage(stats.damage * spawner.damage_multiplier)
 	_punch()
 
 

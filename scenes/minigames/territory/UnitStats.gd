@@ -15,3 +15,7 @@ extends Resource
 
 @export_group("Spawn")
 @export var cooldown := 5.0
+## Number of spawned units required before the button appears (0 = available from start).
+@export var unlock_after_spawns := 0
+## Maximum number of simultaneously alive units (0 = unlimited).
+@export var max_alive := 0
