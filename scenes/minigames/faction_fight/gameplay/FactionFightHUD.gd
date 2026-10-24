@@ -3,6 +3,10 @@ extends CanvasLayer
 
 signal summary_closed
 
+const RESULT_OVERLAY_SCENE: PackedScene = preload(
+	"res://scenes/minigames/labyrinth/ResultOverlay.tscn"
+)
+
 enum MessageCategory {
 	OBJECTIVE,
 	INFORMATION,
@@ -30,8 +34,9 @@ var _message_priority: int = -1
 var _queued_message_text: String = ""
 var _queued_message_category: int = MessageCategory.OBJECTIVE
 var _help_label: Label
-var _summary_overlay: ColorRect
+var _summary_overlay: ResultOverlay
 var _summary_candy: Label
+var _summary_button: Button
 var _inventory_label: Label
 var _corruption_bar: ProgressBar
 var _phase_label: Label
@@ -190,11 +195,10 @@ func _finish_gameplay_message() -> void:
 func show_summary(candy: int, guarantee_added: int, zones: int, discoveries: int, exit_mode: String) -> void:
 	summary_visible = true
 	_cinematic_overlay.visible = false
-	_summary_candy.text = "SCORE FINAL : %d CANDY\nMISSIONS TERMINÉES : %d / 4\nDÉCOUVERTES : %d\nSORTIE : %s" % [candy, zones, discoveries, exit_mode]
+	var details := "MISSIONS TERMINÉES : %d / 4\nDÉCOUVERTES : %d\nSORTIE : %s" % [zones, discoveries, exit_mode]
 	if guarantee_added > 0:
-		_summary_candy.text += "\nBONUS DE SORTIE : +%d CANDY" % guarantee_added
-	_summary_overlay.visible = true
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		details += "\nBONUS DE SORTIE : +%d CANDY" % guarantee_added
+	_summary_overlay.show_result("CHASEWEEN TERMINÉ", candy, details)
 
 
 func _build_status_panel() -> void:
@@ -209,7 +213,7 @@ func _build_status_panel() -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 5)
 	panel.add_child(box)
-	var title := _label("FACTION FIGHT", 24, Color(1.0, 0.66, 0.2))
+	var title := _label("CHASEWEEN", 24, Color(1.0, 0.66, 0.2))
 	box.add_child(title)
 	_candy_label = _label("CANDY  0", 22, Color.WHITE)
 	_zones_label = _label("MISSIONS  0 / 4", 18, Color(0.8, 0.85, 1.0))
@@ -390,35 +394,11 @@ func _build_cinematic_overlay() -> void:
 
 
 func _build_summary() -> void:
-	_summary_overlay = ColorRect.new()
-	_summary_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_summary_overlay.color = Color(0.01, 0.0, 0.03, 0.86)
-	_summary_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_summary_overlay = RESULT_OVERLAY_SCENE.instantiate() as ResultOverlay
 	add_child(_summary_overlay)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_summary_overlay.add_child(center)
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(520.0, 300.0)
-	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.1, 0.025, 0.16, 0.98), Color(1.0, 0.58, 0.18), 4))
-	center.add_child(panel)
-	var box := VBoxContainer.new()
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
-	box.add_theme_constant_override("separation", 20)
-	panel.add_child(box)
-	var title := _label("FACTION FIGHT TERMINÉ", 34, Color(1.0, 0.68, 0.18))
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(title)
-	_summary_candy = _label("", 24, Color.WHITE)
-	_summary_candy.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(_summary_candy)
-	var close_button := Button.new()
-	close_button.text = "FERMER LE RÉSUMÉ"
-	close_button.custom_minimum_size = Vector2(300.0, 54.0)
-	close_button.add_theme_font_size_override("font_size", 19)
-	close_button.pressed.connect(_close_summary)
-	box.add_child(close_button)
-	_summary_overlay.visible = false
+	_summary_candy = _summary_overlay.details_label
+	_summary_button = _summary_overlay.continue_button
+	_summary_overlay.continue_pressed.connect(_close_summary)
 
 
 func _close_summary() -> void:

@@ -1166,6 +1166,14 @@ world_id = &"labyrinth"
 return_meta = &"labyrinth_return_to_door"
 player_path = NodePath("../Player")
 
+[node name="ChaseweenPortal" parent="." instance=ExtResource("18_px1c8")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6.483225, 0.3572799, 20.4333)
+target_scene_path = "res://scenes/minigames/faction_fight/Chaseween.tscn"
+prompt_text = "E - CHASEWEEN"
+world_id = &"chaseween"
+return_meta = &"chaseween_return_to_door"
+player_path = NodePath("../Player")
+
 [node name="CaptureOnClick" parent="." unique_id=523612670 instance=ExtResource("4_j4d2a")]
 
 [node name="CandyHUD" type="CanvasLayer" parent="." unique_id=655506461]

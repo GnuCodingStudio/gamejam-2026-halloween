@@ -24,6 +24,9 @@ const PORTAL_INTERACTION_RADIUS: float = 2.4
 const PORTAL_MIN_FRONT_DISTANCE: float = 0.6
 const PORTAL_MAX_SIDE_DISTANCE: float = 2.8
 const HEART_POSITION: Vector3 = Vector3(2.0, 1.05, -238.0)
+const WORLD_ID: StringName = &"chaseween"
+const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
+const LOBBY_RETURN_META: StringName = &"chaseween_return_to_door"
 const MISSIONS: Array[Dictionary] = [
 	{
 		"id": &"garden_reserve",
@@ -69,7 +72,7 @@ const KEY_ITEM_NAMES: Dictionary = {
 }
 
 var result_data: Dictionary = {
-	"world_id": "faction_fight",
+	"world_id": "chaseween",
 	"candy_amount": 0,
 	"completed": false,
 }
@@ -119,6 +122,7 @@ var _mission_hint_shown: bool = false
 var _objective_marker: Node3D
 var _mission_tactical_done: Dictionary[StringName, bool] = {}
 var _mouse_was_captured: bool = false
+var _return_transition_started: bool = false
 
 
 func _ready() -> void:
@@ -129,9 +133,11 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_create_fall_protection()
 	_random.randomize()
 	_create_hud()
+	_hud.summary_closed.connect(_on_summary_closed)
 	_create_collect_audio_player()
 	_setup_corruption()
 	_create_chewingland_heart()
@@ -393,10 +399,8 @@ func _spawn_support(position_3d: Vector3, color: Color) -> void:
 func _on_shared_candy_collected(pickup: FactionFightPickup) -> void:
 	if _completed:
 		return
-	_add_candy(pickup.candy_value)
+	_add_candy(pickup.candy_value, true)
 	_update_hud()
-	_collect_audio_player.pitch_scale = 1.0
-	_collect_audio_player.play()
 	_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 
 
@@ -405,7 +409,7 @@ func _update_zone_progress() -> void:
 		if _player.global_position.z > ZONE_THRESHOLDS[_zones_completed]:
 			break
 		_zones_completed += 1
-		_add_candy(5)
+		_add_candy(5, true)
 		_hud.show_gameplay_message("ZONE %d / 4 • RÉCOMPENSE GARANTIE +5 CANDY" % _zones_completed, FactionFightHUD.MessageCategory.SUCCESS)
 		_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.62, 0.18))
 
@@ -446,7 +450,7 @@ func _refresh_mission_hud() -> void:
 			rescue_text = "RETOUR VERS LA MISSION"
 		_hud.set_objective(String(mission["title"]), _mission_objective_text(), distance, _mission_direction_symbol(target), rescue_text)
 	else:
-		_hud.set_objective("MISSIONS ACCOMPLIES", "Rejoins le portail et termine Faction Fight.", distance, _mission_direction_symbol(target))
+		_hud.set_objective("MISSIONS ACCOMPLIES", "Rejoins le portail et termine CHASEWEEN.", distance, _mission_direction_symbol(target))
 
 
 func _mission_target() -> Vector3:
@@ -530,8 +534,6 @@ func _complete_mission(mission_id: StringName, reward_amount: int = 0) -> void:
 
 
 func _celebrate_chest(pickup: FactionFightPickup, amount: int) -> void:
-	_collect_audio_player.pitch_scale = 0.9
-	_collect_audio_player.play()
 	_hud.show_gameplay_message("COFFRE OUVERT • RÉCOMPENSE +%d CANDY" % amount, FactionFightHUD.MessageCategory.SUCCESS)
 	for index: int in 3:
 		var candy_scene := CRYSTALBERRY_SCENE if index % 2 == 0 else PUMPKIN_SCENE
@@ -629,15 +631,12 @@ func _collect_pickup(pickup: FactionFightPickup) -> void:
 	if not pickup.collect_once():
 		return
 	_spawn_burst(pickup.global_position + Vector3.UP * 0.4, Color(0.4, 1.0, 0.72))
-	if pickup.kind != FactionFightPickup.Kind.CHEST:
-		_collect_audio_player.pitch_scale = 1.12
-		_collect_audio_player.play()
 	match pickup.kind:
 		FactionFightPickup.Kind.CANDY:
-			_add_candy(pickup.candy_value)
+			_add_candy(pickup.candy_value, true)
 			_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 		FactionFightPickup.Kind.CHEST:
-			_add_candy(pickup.candy_value)
+			_add_candy(pickup.candy_value, true)
 			_celebrate_chest(pickup, pickup.candy_value)
 		FactionFightPickup.Kind.ITEM:
 			_equip_tool(pickup.item_id, pickup.item_charges)
@@ -663,14 +662,14 @@ func _apply_unlock_reward(reward_id: StringName) -> void:
 			_equip_tool(&"ghost_lamp", 4)
 			_hud.show_gameplay_message("LAMPE FANTÔME DÉBLOQUÉE !", FactionFightHUD.MessageCategory.SUCCESS)
 		&"crystal_chest":
-			_add_candy(7)
+			_add_candy(7, true)
 			_hud.show_gameplay_message("MÉCANISME ACTIVÉ • +7 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		&"spray_refill":
 			_equip_tool(&"sugar_spray", 5)
-			_add_candy(3)
+			_add_candy(3, true)
 			_hud.show_gameplay_message("SPRAY RECHARGÉ • SECRET +3 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		&"spectral_secret":
-			_add_candy(10)
+			_add_candy(10, true)
 			_hud.show_gameplay_message("PASSAGE SECRET DÉCOUVERT • +10 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
 		_:
 			push_warning("FactionFight: récompense inconnue %s" % reward_id)
@@ -925,8 +924,6 @@ func _nearest_monster(max_distance: float) -> FactionFightMonster:
 
 func _consume_charge(message: String) -> void:
 	_item_charges -= 1
-	_collect_audio_player.pitch_scale = 0.82
-	_collect_audio_player.play()
 	_hud.show_gameplay_message(message, FactionFightHUD.MessageCategory.INFORMATION)
 	if _tool_slots.is_empty():
 		if _item_charges <= 0:
@@ -970,8 +967,6 @@ func _steal_candy(monster: FactionFightMonster) -> int:
 	_theft_immunity_time = THEFT_IMMUNITY_DURATION
 	_update_hud()
 	_hud.pulse_candy(Color(1.0, 0.25, 0.14))
-	_collect_audio_player.pitch_scale = 0.62
-	_collect_audio_player.play()
 	_hud.show_gameplay_message("-%d CANDY • VOLÉ PAR %s • IMMUNITÉ 3 S" % [stolen_amount, monster.display_name], FactionFightHUD.MessageCategory.DANGER)
 	_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.24, 0.08))
 	VFX.spawn_dome(self, _player.global_position, 1.0, Color(0.3, 0.85, 1.0, 0.14), THEFT_IMMUNITY_DURATION)
@@ -995,6 +990,25 @@ func _complete_world(exit_mode: String = "PORTAIL") -> void:
 	_spawn_burst(_portal.global_position + Vector3.UP * 3.0, Color(0.85, 0.25, 1.0))
 
 
+func _on_summary_closed() -> void:
+	if _return_transition_started or not bool(result_data.get("completed", false)):
+		return
+	var progression_service: Node = get_node_or_null("/root/ProgressionService")
+	var scene_transition: Node = get_node_or_null("/root/SceneTransition")
+	if progression_service == null or scene_transition == null:
+		push_error("CHASEWEEN: services de progression ou de transition indisponibles.")
+		return
+	progression_service.call(&"complete_world", WORLD_ID, int(result_data.get("candy_amount", 0)))
+	var transition_started := bool(scene_transition.call(&"change_scene", LOBBY_SCENE_PATH, _mark_lobby_return))
+	if not transition_started:
+		return
+	_return_transition_started = true
+
+
+func _mark_lobby_return() -> void:
+	get_tree().set_meta(LOBBY_RETURN_META, true)
+
+
 func _ensure_exit_minimum() -> int:
 	var guarantee_added := maxi(MINIMUM_EXIT_CANDY - _candy, 0)
 	if guarantee_added > 0:
@@ -1002,9 +1016,12 @@ func _ensure_exit_minimum() -> int:
 	return guarantee_added
 
 
-func _add_candy(amount: int) -> void:
+func _add_candy(amount: int, play_collect_sound: bool = false) -> void:
 	_candy += amount
 	result_data.candy_amount = _candy
+	if play_collect_sound:
+		_collect_audio_player.pitch_scale = 1.0
+		_collect_audio_player.play()
 	if _hud != null:
 		_hud.pulse_candy()
 

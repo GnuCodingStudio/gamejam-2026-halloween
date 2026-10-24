@@ -20,10 +20,18 @@ func _bind_node(node: Node) -> void:
 
 
 func _bind_button(button: Button) -> void:
-	button.mouse_entered.connect(UiAudio.play_ui.bind(UI_HOVER))
-	button.pressed.connect(UiAudio.play_ui.bind(UI_CLICK))
+	var ui_audio: Node = get_node_or_null("/root/UiAudio")
+	if ui_audio == null:
+		return
+	var play_ui: Callable = Callable(ui_audio, &"play_ui")
+	button.mouse_entered.connect(play_ui.bind(UI_HOVER))
+	button.pressed.connect(play_ui.bind(UI_CLICK))
 
 
 func _bind_checkbox(checkbox: CheckBox) -> void:
-	checkbox.mouse_entered.connect(UiAudio.play_ui.bind(UI_HOVER))
-	checkbox.pressed.connect(UiAudio.play_ui.bind(UI_CLICK))
+	var ui_audio: Node = get_node_or_null("/root/UiAudio")
+	if ui_audio == null:
+		return
+	var play_ui: Callable = Callable(ui_audio, &"play_ui")
+	checkbox.mouse_entered.connect(play_ui.bind(UI_HOVER))
+	checkbox.pressed.connect(play_ui.bind(UI_CLICK))

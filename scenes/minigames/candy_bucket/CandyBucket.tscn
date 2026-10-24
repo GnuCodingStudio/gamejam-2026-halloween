@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scenes/minigames/candy_bucket/CandyBucket.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/candy_bucket/CandyBucketPlayer.tscn" id="2_player"]
@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" path="res://assets/audio/winner_game.mp3" id="5_round_end"]
 [ext_resource type="AudioStream" path="res://assets/audio/fart.mp3" id="6_fart"]
 [ext_resource type="Script" path="res://scenes/minigames/candy_bucket/ToxicGasEffect.gd" id="7_gas"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/ResultOverlay.tscn" id="8_result"]
+[ext_resource type="AudioStream" uid="uid://ce11blu4iphxr" path="res://assets/audio/collect.wav" id="9_collect"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
 bg_color = Color(0.0705882, 0.0470588, 0.105882, 0.94)
@@ -31,22 +33,6 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_result"]
-bg_color = Color(0.101961, 0.0588235, 0.145098, 1)
-content_margin_left = 40.0
-content_margin_top = 32.0
-content_margin_right = 40.0
-content_margin_bottom = 32.0
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.847059, 0.482353, 1, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
 
 [node name="CandyBucket" type="Node2D"]
 script = ExtResource("1_game")
@@ -79,6 +65,11 @@ bus = &"Music"
 [node name="ResultAudioPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 volume_db = -8.0
+bus = &"SFX"
+
+[node name="CollectAudioPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_collect")
 bus = &"SFX"
 
 [node name="ToxicSfxPlayer" type="AudioStreamPlayer" parent="."]
@@ -217,59 +208,5 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResultOverlay" type="Control" parent="HUD"]
+[node name="ResultOverlay" parent="." instance=ExtResource("8_result")]
 unique_name_in_owner = true
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Dimmer" type="ColorRect" parent="HUD/ResultOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.027451, 0.0156863, 0.0392157, 0.82)
-
-[node name="Center" type="CenterContainer" parent="HUD/ResultOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ResultPanel" type="PanelContainer" parent="HUD/ResultOverlay/Center"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_result")
-
-[node name="ResultVBox" type="VBoxContainer" parent="HUD/ResultOverlay/Center/ResultPanel"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="ResultTitle" type="Label" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 52
-text = "TEMPS ÉCOULÉ !"
-horizontal_alignment = 1
-
-[node name="ResultDetails" type="Label" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 27
-text = "BONBONS RÉCOLTÉS : 0"
-horizontal_alignment = 1
-
-[node name="ReturnLobbyButton" type="Button" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(330, 58)
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "SORTIR DANS LA RUE"

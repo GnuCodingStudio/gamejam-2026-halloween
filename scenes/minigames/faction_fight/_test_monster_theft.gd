@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/FactionFight.tscn"
+const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
 
 var _failures: Array[String] = []
 
@@ -24,6 +24,10 @@ func _run() -> void:
 	if gameplay == null:
 		_finish()
 		return
+	_check(
+		DisplayServer.get_name() == "headless" or Input.mouse_mode == Input.MOUSE_MODE_CAPTURED,
+		"CHASEWEEN demande la capture de la souris dès le début du gameplay"
+	)
 
 	_test_population(gameplay)
 	_test_shared_candies(gameplay)
@@ -329,9 +333,11 @@ func _test_random_roll(gameplay: FactionFightGameplay) -> void:
 func _test_theft_rules(gameplay: FactionFightGameplay) -> void:
 	var monster: FactionFightMonster = gameplay._monsters[0]
 	gameplay._candy = 2
+	gameplay._collect_audio_player.stop()
 	var stolen := gameplay._steal_candy(monster)
 	_check(stolen >= 1 and stolen <= 2, "Le vol réel est limité au score disponible")
 	_check(gameplay._candy >= 0, "Le score ne devient pas négatif")
+	_check(not gameplay._collect_audio_player.playing, "Un vol ennemi ne joue pas le son officiel de collecte")
 	gameplay._candy = 20
 	gameplay._theft_immunity_time = 0.0
 	gameplay._on_player_bumped(gameplay._monsters[0], Vector3.RIGHT, 0.0)
@@ -369,8 +375,11 @@ func _test_exit_guarantee(gameplay: FactionFightGameplay) -> void:
 	_check(gameplay._completed, "E déclenche la sortie volontaire au portail")
 	_check(gameplay._candy == 20, "La sortie garantit vingt CANDY")
 	_check(int(gameplay.result_data.candy_amount) == 20, "Le résultat local contient le minimum garanti")
+	_check(gameplay._hud._summary_overlay.candy_score_label.text == "CANDY : 20", "La carte commune affiche le score local CHASEWEEN")
 	_check("BONUS DE SORTIE : +20 CANDY" in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
 	_check("SORTIE : PORTAIL" in gameplay._hud._summary_candy.text, "La sortie volontaire est indiquée")
+	_check(gameplay._hud._summary_button.text == ResultOverlay.EXIT_TEXT, "CHASEWEEN affiche Sortir dans la rue")
+	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Le résumé de sortie volontaire libère et affiche la souris")
 	gameplay._complete_world()
 	_check(gameplay._candy == 20, "La garantie de sortie ne peut pas être réappliquée")
 	_check(gameplay._completed, "Les interactions locales sont arrêtées après la sortie")
@@ -394,6 +403,7 @@ func _test_auto_finish() -> void:
 	_check(gameplay._completed, "Le Dernier Sort termine le mini-jeu sans défaite")
 	_check(gameplay._candy == 20, "La fin automatique applique aussi le minimum garanti")
 	_check("SORTIE : DERNIER SORT" in gameplay._hud._summary_candy.text, "Le résumé distingue la fin automatique")
+	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Le résumé de fin automatique libère et affiche la souris")
 	scene.queue_free()
 	await process_frame
 

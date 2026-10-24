@@ -11,7 +11,7 @@ QUIT_CONFIRM_BUTTON,Quit,Quitter
 QUIT_CONFIRM_CANCEL,Cancel,Annuler
 CONSOLE_INPUT_PLACEHOLDER,Enter command here…,Entre une commande ici…
 CONSOLE_INPUT_SUBMIT,Submit,Envoyer
-CREDITS_TAGLINE,"Made by Nwizar, Ethan, Merguez, Tylgo10, Eva, Léo, Simon, Mathieu, Ludo & Olivier","Une création Nwizar, Ethan, Merguez, Tylgo10, Eva, Léo, Simon, Mathieu, Ludo & Olivier"
+CREDITS_TAGLINE,"Made by N_wizard, Tatoune18, Merguez, Tylgo10, Eva, Léo, Jyjio, Machouz, Nodd & Gnu","Une création N_wizard, Tatoune18, Merguez, Tylgo10, Eva, Léo, Jyjio, Machouz, Nodd & Gnu"
 CREDITS_TITLE,Credits,Crédits
 CREDITS_TITLE_N_AUTHOR,[b]{title}[/b] by [b]{author}[/b],[b]{title}[/b] par [b]{author}[/b]
 CREDITS_BACK_BUTTON,BACK,RETOUR

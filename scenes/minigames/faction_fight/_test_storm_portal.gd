@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/FactionFight.tscn"
+const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
 
 var _failures: Array[String] = []
 

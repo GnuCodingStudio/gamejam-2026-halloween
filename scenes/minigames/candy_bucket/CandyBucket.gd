@@ -99,6 +99,7 @@ var _return_transition_started: bool = false
 @onready var player: CandyBucketPlayer = %Player
 @onready var candies: Node2D = %Candies
 @onready var music_player: AudioStreamPlayer = %MusicPlayer
+@onready var collect_audio_player: AudioStreamPlayer = %CollectAudioPlayer
 @onready var result_audio_player: AudioStreamPlayer = %ResultAudioPlayer
 @onready var toxic_sfx_player: AudioStreamPlayer = %ToxicSfxPlayer
 @onready var toxic_gas_effect: CandyBucketToxicGasEffect = %ToxicGasEffect
@@ -109,10 +110,7 @@ var _return_transition_started: bool = false
 @onready var magic_boost_label: Label = %MagicBoostLabel
 @onready var instruction_panel: Control = %InstructionPanel
 @onready var countdown_label: Label = %CountdownLabel
-@onready var result_overlay: Control = %ResultOverlay
-@onready var result_title: Label = %ResultTitle
-@onready var result_details: Label = %ResultDetails
-@onready var return_lobby_button: Button = %ReturnLobbyButton
+@onready var result_overlay: ResultOverlay = %ResultOverlay
 
 
 func _ready() -> void:
@@ -120,7 +118,7 @@ func _ready() -> void:
     player.candy_entered.connect(_on_player_candy_entered)
     music_player.finished.connect(_on_music_finished)
     spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-    return_lobby_button.pressed.connect(_on_return_lobby_button_pressed)
+    result_overlay.continue_pressed.connect(_on_return_lobby_button_pressed)
     _update_layout()
     _begin_preparation()
 
@@ -335,6 +333,7 @@ func _on_player_candy_entered(area: Area2D) -> void:
         _apply_magic_boost()
 
     _collected_candies += 1
+    collect_audio_player.play()
     _update_hud()
 
 
@@ -389,11 +388,7 @@ func _finish_round() -> void:
 
 
 func _prepare_round_result() -> void:
-    result_title.text = "TEMPS ÉCOULÉ !"
-    result_title.modulate = Color("ffd166")
-    result_details.text = "BONBONS RÉCOLTÉS : %d" % _collected_candies
-    return_lobby_button.show()
-    _show_result(return_lobby_button)
+    result_overlay.show_result("TEMPS ÉCOULÉ !", _collected_candies)
     round_completed.emit(MINIGAME_ID, _collected_candies)
 
 
@@ -419,11 +414,6 @@ func _stop_gameplay() -> void:
     _update_hud()
 
 
-func _show_result(focus_button: Button) -> void:
-    result_overlay.show()
-    focus_button.grab_focus()
-
-
 func _on_return_lobby_button_pressed() -> void:
     if _return_transition_started:
         return
@@ -434,7 +424,7 @@ func _on_return_lobby_button_pressed() -> void:
         return
 
     _return_transition_started = true
-    return_lobby_button.disabled = true
+    result_overlay.continue_button.disabled = true
 
 
 func _mark_lobby_return() -> void:

@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/FactionFight.tscn"
+const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
 const PresentationScript := preload("res://scenes/minigames/faction_fight/gameplay/ChaseweenItemPresentation.gd")
 
 var _failures: Array[String] = []
@@ -94,9 +94,10 @@ func _test_heart_collection(gameplay: FactionFightGameplay) -> void:
 	gameplay._player.global_position = heart.get_interaction_position()
 	gameplay._update_interaction_prompt()
 	_check(gameplay._nearest_interactive == heart and gameplay._hud._prompt_action_label.text == "CŒUR DE CHEWINGLAND", "Le prompt E cible le cœur")
+	gameplay._collect_audio_player.stop()
 	gameplay._interact()
 	_check(heart.collected and gameplay._inventory.get(&"chewingland_heart", false), "Le cœur est collecté avec le système existant")
-	_check(gameplay._collect_audio_player.playing, "La collecte du cœur conserve le bruitage")
+	_check(not gameplay._collect_audio_player.playing, "Le Cœur ne joue pas le son réservé aux gains de CANDY")
 	_check(not heart.collect_once(), "Le cœur ne peut être collecté qu’une fois")
 	_check(not gameplay._completed, "La collecte du cœur ne déclenche pas le portail")
 

@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/FactionFight.tscn"
+const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
 const MUSIC_PATH := "res://assets/audio/fantasy_V2.mp3"
 const OLD_MUSIC_PATH := "res://assets/audio/fantasy-ambient_chaseween.mp3"
 

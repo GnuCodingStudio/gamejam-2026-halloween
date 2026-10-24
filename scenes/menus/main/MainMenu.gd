@@ -6,9 +6,16 @@ extends Control
 
 
 func _ready() -> void:
+	get_window().focus_entered.connect(_restore_system_cursor)
+	_restore_system_cursor.call_deferred()
 	ProgressionService.init()
 	AudioSettingsService.init()
 	menu.animate_buttons_appearance(0.4, 0.2, -100)
+
+
+func _restore_system_cursor() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 
 func _on_start_button_pressed() -> void:
