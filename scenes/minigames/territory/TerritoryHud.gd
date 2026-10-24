@@ -4,8 +4,15 @@ extends CanvasLayer
 signal unit_requested(stats: UnitStats)
 
 const UNIT_BUTTON_SCENE := preload("res://scenes/minigames/territory/UnitButton.tscn")
+const GAIN_DURATION := 1.5
+const GAIN_FADE_DURATION := 0.5
+
+var _gain_tween: Tween
 
 @onready var _buttons: HBoxContainer = %Buttons
+@onready var _candy_label: Label = %CandyLabel
+@onready var _sites_label: Label = %SitesLabel
+@onready var _gain_label: Label = %GainLabel
 
 
 func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
@@ -14,3 +21,23 @@ func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
 		_buttons.add_child(button)
 		button.setup(stats, spawner)
 		button.unit_requested.connect(unit_requested.emit)
+
+
+func set_candies(total: int) -> void:
+	_candy_label.text = "Candies: %d" % total
+
+
+func set_sites(owned: int, total: int) -> void:
+	_sites_label.text = "Sites: %d / %d" % [owned, total]
+
+
+func show_gain(amount: int) -> void:
+	if _gain_tween:
+		_gain_tween.kill()
+	_gain_label.text = "+%d" % amount
+	_gain_label.modulate.a = 1.0
+	_gain_label.visible = true
+	_gain_tween = create_tween()
+	_gain_tween.tween_interval(GAIN_DURATION)
+	_gain_tween.tween_property(_gain_label, "modulate:a", 0.0, GAIN_FADE_DURATION)
+	_gain_tween.tween_callback(_gain_label.hide)
