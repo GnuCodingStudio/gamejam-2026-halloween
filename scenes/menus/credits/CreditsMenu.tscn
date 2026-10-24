@@ -1,13 +1,30 @@
 [gd_scene format=3 uid="uid://b7p8jls1peqwp"]
 
-[ext_resource type="Script" uid="uid://wv358b5tk05s" path="res://scenes/menus/credits/CreditsMenu.gd" id="1_35ggl"]
-[ext_resource type="PackedScene" uid="uid://wdqk4jv113lg" path="res://components/uicontrols/UIContols.tscn" id="1_f0kuf"]
-[ext_resource type="PackedScene" uid="uid://bb1d5ajohbgpi" path="res://scenes/menus/credits/CreditsItem.tscn" id="1_gd18q"]
-[ext_resource type="Material" uid="uid://dygopb8fee5xt" path="res://scenes/menus/MenuBackground.tres" id="1_lx2dq"]
-[ext_resource type="Texture2D" uid="uid://bvdoeeandyfhg" path="res://assets/image/MainBackground.jpg" id="4_72qhp"]
+[ext_resource type="Theme" uid="uid://cwahu64hfgl1x" path="res://resources/theme/MenuTheme.tres" id="1_theme"]
+[ext_resource type="Script" uid="uid://wv358b5tk05s" path="res://scenes/menus/credits/CreditsMenu.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://wdqk4jv113lg" path="res://components/uicontrols/UIContols.tscn" id="2_controls"]
+[ext_resource type="Material" uid="uid://dygopb8fee5xt" path="res://scenes/menus/MenuBackground.tres" id="3_background"]
+[ext_resource type="Texture2D" uid="uid://bvdoeeandyfhg" path="res://assets/image/MainBackground.jpg" id="4_texture"]
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_el4jv"]
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_separator"]
+color = Color(0.564706, 0.00392157, 0.968627, 0.72)
 thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_credits"]
+content_margin_left = 34.0
+content_margin_top = 28.0
+content_margin_right = 34.0
+content_margin_bottom = 28.0
+bg_color = Color(0.025, 0.012, 0.04, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.564706, 0.00392157, 0.968627, 0.58)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="CreditsMenu" type="Control" unique_id=1778347457]
 layout_mode = 3
@@ -16,12 +33,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_35ggl")
+theme = ExtResource("1_theme")
+script = ExtResource("1_script")
 
-[node name="UiContols" parent="." unique_id=1839997397 instance=ExtResource("1_f0kuf")]
+[node name="UiContols" parent="." unique_id=1839997397 instance=ExtResource("2_controls")]
 
 [node name="Background" type="ColorRect" parent="." unique_id=205248484]
-material = ExtResource("1_lx2dq")
+material = ExtResource("3_background")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_72qhp")
+texture = ExtResource("4_texture")
 
 [node name="GlobalMargin" type="MarginContainer" parent="." unique_id=2054036510]
 layout_mode = 1
@@ -45,55 +63,294 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 40
+theme_override_constants/margin_left = 52
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 52
+theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="GlobalMargin" unique_id=307704067]
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="GlobalMargin/VBox" unique_id=1446253159]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"BigTitle"
-text = "GAME_NAME"
-
-[node name="SubTitle" type="Label" parent="GlobalMargin/VBox" unique_id=668553637]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"SubTitle"
-text = "CREDITS_TAGLINE"
+text = "CRÉDITS"
 
 [node name="Separator" type="HSeparator" parent="GlobalMargin/VBox" unique_id=85834896]
 layout_mode = 2
-theme_override_constants/separation = 10
-theme_override_styles/separator = SubResource("StyleBoxLine_el4jv")
+theme_override_styles/separator = SubResource("StyleBoxLine_separator")
 
 [node name="Scroll" type="ScrollContainer" parent="GlobalMargin/VBox" unique_id=592684099]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="List" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll" unique_id=1961359703]
+[node name="CreditsPanel" type="PanelContainer" parent="GlobalMargin/VBox/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_styles/panel = SubResource("StyleBoxFlat_credits")
 
-[node name="CreditsItem01" parent="GlobalMargin/VBox/Scroll/List" unique_id=861113383 instance=ExtResource("1_gd18q")]
+[node name="CreditsGrid" type="GridContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 1
-title = "Game Project Template"
-author = "Gnu Coding Studio"
-link = "https://github.com/GnuCodingStudio/"
-link_text = "github.com / GnuCodingStudio"
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 44
+theme_override_constants/v_separation = 22
+columns = 2
 
-[node name="BackButton" type="Button" parent="GlobalMargin" unique_id=1420416788]
+[node name="NWizard" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/NWizard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "N_wizard"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/NWizard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Maître des images et de la magie vidéo"
+autowrap_mode = 2
+
+[node name="Tatoune18" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Tatoune18"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Tatoune18"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Tatoune18"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Ingénieur du son, des bruitages et des PROUTS surnaturels"
+autowrap_mode = 2
+
+[node name="Merguez" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Merguez"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Merguez"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Merguez"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Directrice des idées terrifiantes"
+autowrap_mode = 2
+
+[node name="Tylgo10" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Tylgo10"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Tylgo10"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Tylgo10"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Directeur de la conception et bêta-testeur"
+autowrap_mode = 2
+
+[node name="Eva" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Eva"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Eva"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Eva"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Architecte des labyrinthes et des chemins sans retour"
+autowrap_mode = 2
+
+[node name="Leo" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Leo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Léo"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Leo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Maître des modes de jeu et des musiques"
+autowrap_mode = 2
+
+[node name="Machouz" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Machouz"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Machouz"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Machouz"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Directeur artistique et créateur d'univers"
+autowrap_mode = 2
+
+[node name="Jyjio" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Jyjio"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Jyjio"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Jyjio"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Stagiaire en développement et réparateur de catastrophes"
+autowrap_mode = 2
+
+[node name="Nodd" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Nodd"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Nodd"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Nodd"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Stagiaire en développement et animateur de colos"
+autowrap_mode = 2
+
+[node name="Gnu" type="VBoxContainer" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid"]
+custom_minimum_size = Vector2(320, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Gnu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.73, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 29
+text = "Gnu"
+
+[node name="Role" type="Label" parent="GlobalMargin/VBox/Scroll/CreditsPanel/CreditsGrid/Gnu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.91, 1)
+theme_override_font_sizes/font_size = 20
+text = "Stagiaire officiel des affaires mystérieuses"
+autowrap_mode = 2
+
+[node name="TemplateAttribution" type="VBoxContainer" parent="GlobalMargin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="Text" type="Label" parent="GlobalMargin/VBox/TemplateAttribution"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.72, 0.69, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "Game Project Template par Gnu Coding Studio"
+
+[node name="Link" type="LinkButton" parent="GlobalMargin/VBox/TemplateAttribution"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.69, 0.54, 0.84, 1)
+theme_override_colors/font_hover_color = Color(0.86, 0.73, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "github.com/GnuCodingStudio"
+uri = "https://github.com/GnuCodingStudio/"
+
+[node name="FooterRow" type="HBoxContainer" parent="GlobalMargin/VBox"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="GlobalMargin/VBox/FooterRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="GlobalMargin/VBox/FooterRow" unique_id=1420416788]
+layout_mode = 2
 text = "CREDITS_BACK_BUTTON"
 
-[connection signal="pressed" from="GlobalMargin/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="GlobalMargin/VBox/FooterRow/BackButton" to="." method="_on_back_button_pressed"]
