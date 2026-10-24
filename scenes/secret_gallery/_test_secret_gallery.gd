@@ -160,7 +160,7 @@ func _test_gallery_scene() -> void:
 			else:
 				portrait_count += 1
 	_check(loaded_archive_paths.size() == 7 and not loaded_archive_paths.has(""), "Les sept archives sont différentes et aucun cadre ne reste vide")
-	_check(portrait_count == 5 and landscape_count == 2, "Les cadres suivent les cinq formats portrait et deux formats paysage réels")
+	_check(portrait_count == 4 and landscape_count == 3, "Les cadres suivent les quatre formats portrait et trois formats paysage réels")
 	_check(archives_keep_their_ratio, "Chaque archive conserve son rapport largeur/hauteur et sa résolution complète")
 	_check(archive_surfaces_show_full_texture, "Chaque archive utilise une surface plane aux UV complets")
 	_check(archive_materials_are_readable, "Les matériaux affichent les PNG sans assombrissement ni reflet excessif")
