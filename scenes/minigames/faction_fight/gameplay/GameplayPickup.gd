@@ -1,10 +1,17 @@
 class_name FactionFightPickup
 extends Node3D
 
+signal candy_collected(pickup: FactionFightPickup)
+
+const CRYSTALBERRY_SCENE: PackedScene = preload("res://objects/candy_crystalberry.tscn")
+const PUMPKIN_SCENE: PackedScene = preload("res://objects/candy_pumpkin.tscn")
+
 enum Kind {
 	CANDY,
 	ITEM,
 	CHEST,
+	KEY_ITEM,
+	DEVICE,
 }
 
 var kind: int = Kind.CANDY
@@ -14,9 +21,15 @@ var item_id: StringName = &""
 var item_charges: int = 0
 var auto_collect: bool = false
 var collected: bool = false
+var shared_candy_scene_path: String = ""
+var required_item_id: StringName = &""
+var reward_id: StringName = &""
+var mission_id: StringName = &""
 
 var _base_y: float
 var _time: float = 0.0
+var _shared_candy: Candy
+var _chest_lid_pivot: Node3D
 
 
 func configure(
@@ -25,7 +38,11 @@ func configure(
 	position_3d: Vector3,
 	value: int = 0,
 	new_item_id: StringName = &"",
-	charges: int = 0
+	charges: int = 0,
+	candy_variant: int = 0,
+	new_required_item_id: StringName = &"",
+	new_reward_id: StringName = &"",
+	new_mission_id: StringName = &""
 ) -> void:
 	kind = pickup_kind
 	display_name = pickup_name
@@ -34,15 +51,22 @@ func configure(
 	candy_value = value
 	item_id = new_item_id
 	item_charges = charges
+	required_item_id = new_required_item_id
+	reward_id = new_reward_id
+	mission_id = new_mission_id
 	auto_collect = kind == Kind.CANDY
-	_build_visual()
+	_build_visual(candy_variant)
+	set_process(kind != Kind.CANDY)
 
 
 func collect_once() -> bool:
-	if collected:
+	if collected or kind == Kind.CANDY:
 		return false
 	collected = true
 	set_process(false)
+	if kind == Kind.CHEST:
+		_open_chest()
+		return true
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "scale", Vector3.ONE * 1.35, 0.12)
@@ -58,28 +82,46 @@ func _process(delta: float) -> void:
 	rotation.y += delta * 0.75
 
 
-func _build_visual() -> void:
+func stop_gameplay() -> void:
+	set_process(false)
+	if is_instance_valid(_shared_candy):
+		_shared_candy.set_deferred(&"monitoring", false)
+
+
+func _build_visual(candy_variant: int) -> void:
 	match kind:
 		Kind.CANDY:
-			_build_candy()
+			_build_candy(candy_variant)
 		Kind.ITEM:
 			_build_item()
 		Kind.CHEST:
 			_build_chest()
-	_create_label()
+		Kind.KEY_ITEM:
+			_build_key_item()
+		Kind.DEVICE:
+			_build_device()
+	if kind != Kind.CANDY:
+		_create_label()
 
 
-func _build_candy() -> void:
-	var colors: Array[Color] = [Color(1.0, 0.22, 0.54), Color(0.32, 1.0, 0.77), Color(1.0, 0.78, 0.16)]
-	for index: int in 3:
-		var candy := MeshInstance3D.new()
-		var mesh := SphereMesh.new()
-		mesh.radius = 0.22
-		mesh.height = 0.44
-		mesh.material = _make_material(colors[index], 2.1)
-		candy.mesh = mesh
-		candy.position = Vector3((index - 1) * 0.3, absf(index - 1) * 0.05, 0.0)
-		add_child(candy)
+func _build_candy(candy_variant: int) -> void:
+	var candy_scene := CRYSTALBERRY_SCENE if candy_variant % 2 == 0 else PUMPKIN_SCENE
+	_shared_candy = candy_scene.instantiate() as Candy
+	if _shared_candy == null:
+		push_error("FactionFight: impossible d’instancier le CANDY partagé.")
+		return
+	shared_candy_scene_path = candy_scene.resource_path
+	add_child(_shared_candy)
+	_shared_candy.collected.connect(_on_shared_candy_collected)
+
+
+func _on_shared_candy_collected() -> void:
+	if collected:
+		return
+	collected = true
+	set_process(false)
+	candy_collected.emit(self)
+	get_tree().create_timer(0.8).timeout.connect(queue_free)
 
 
 func _build_item() -> void:
@@ -111,13 +153,81 @@ func _build_chest() -> void:
 	base.mesh = base_mesh
 	base.position.y = 0.36
 	add_child(base)
+	_chest_lid_pivot = Node3D.new()
+	_chest_lid_pivot.position = Vector3(0.0, 0.69, 0.35)
+	add_child(_chest_lid_pivot)
 	var lid := MeshInstance3D.new()
 	var lid_mesh := BoxMesh.new()
 	lid_mesh.size = Vector3(1.22, 0.22, 0.84)
 	lid_mesh.material = _make_material(Color(0.95, 0.58, 0.08), 1.0)
 	lid.mesh = lid_mesh
-	lid.position.y = 0.79
-	add_child(lid)
+	lid.position = Vector3(0.0, 0.1, -0.35)
+	_chest_lid_pivot.add_child(lid)
+
+
+func _open_chest() -> void:
+	var tween := create_tween()
+	if _chest_lid_pivot != null:
+		tween.tween_property(_chest_lid_pivot, "rotation:x", -1.25, 0.34).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_interval(0.85)
+	tween.set_parallel(true)
+	tween.tween_property(self, "scale", Vector3.ONE * 1.18, 0.2)
+	tween.tween_property(self, "position:y", position.y + 0.35, 0.2)
+	tween.chain().tween_property(self, "scale", Vector3.ZERO, 0.18)
+	tween.finished.connect(queue_free)
+
+
+func _build_key_item() -> void:
+	var core := MeshInstance3D.new()
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = 0.22
+	mesh.bottom_radius = 0.42
+	mesh.height = 0.95
+	mesh.radial_segments = 8
+	mesh.material = _make_material(_key_item_color(), 2.0)
+	core.mesh = mesh
+	core.position.y = 0.55
+	core.rotation.z = PI * 0.5 if item_id == &"caramel_key" else 0.0
+	add_child(core)
+	var halo := OmniLight3D.new()
+	halo.light_color = _key_item_color()
+	halo.light_energy = 0.65
+	halo.omni_range = 2.2
+	halo.position.y = 0.7
+	add_child(halo)
+
+
+func _build_device() -> void:
+	var base := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(1.35, 1.5, 0.75)
+	mesh.material = _make_material(Color(0.18, 0.08, 0.28), 0.35)
+	base.mesh = mesh
+	base.position.y = 0.75
+	add_child(base)
+	var rune := MeshInstance3D.new()
+	var rune_mesh := TorusMesh.new()
+	rune_mesh.inner_radius = 0.2
+	rune_mesh.outer_radius = 0.38
+	rune_mesh.material = _make_material(Color(0.72, 0.25, 1.0), 2.4)
+	rune.mesh = rune_mesh
+	rune.position = Vector3(0.0, 0.85, -0.42)
+	rune.rotation.x = PI * 0.5
+	add_child(rune)
+
+
+func _key_item_color() -> Color:
+	match item_id:
+		&"caramel_key":
+			return Color(1.0, 0.48, 0.08)
+		&"sugar_crystal":
+			return Color(0.65, 0.28, 1.0)
+		&"syrup_capsule":
+			return Color(1.0, 0.18, 0.55)
+		&"spectral_badge":
+			return Color(0.2, 0.85, 1.0)
+		_:
+			return Color.WHITE
 
 
 func _create_label() -> void:

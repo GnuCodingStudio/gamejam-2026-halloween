@@ -26,11 +26,20 @@ func _run() -> void:
 		return
 
 	_test_population(gameplay)
+	_test_shared_candies(gameplay)
+	_test_affinity_matrix(gameplay)
+	_test_action_vfx(gameplay)
+	_test_mission_start(gameplay)
+	_test_unlock_chains(gameplay)
+	_test_mission_finish(gameplay)
+	_test_tool_slots(gameplay)
+	_test_corruption_phases(gameplay)
 	_test_obstacle_detection(gameplay)
 	_test_random_roll(gameplay)
 	_test_theft_rules(gameplay)
 	_test_protections(gameplay)
 	_test_exit_guarantee(gameplay)
+	await _test_auto_finish()
 
 	scene.queue_free()
 	await process_frame
@@ -53,10 +62,185 @@ func _test_population(gameplay: FactionFightGameplay) -> void:
 				monster._animation_player != null and monster._animation_player.has_animation(animation_name),
 				"%s peut jouer l’animation %s" % [monster.display_name, animation_name]
 			)
+		_check(monster._patrol_points.size() >= 3, "%s suit une ronde à plusieurs points" % monster.display_name)
+		_check(monster._model_pivot != null and is_equal_approx(monster._model_pivot.rotation.y, PI * 0.5), "%s corrige l’axe du modèle importé" % monster.display_name)
+	var facing_monster: FactionFightMonster = gameplay._monsters[0]
+	facing_monster._face_position(facing_monster.global_position + Vector3.RIGHT * 5.0, 1.0)
+	_check((-facing_monster.global_basis.z).dot(Vector3.RIGHT) > 0.99, "Le monstre oriente bien son avant -Z vers son déplacement")
 	_check(model_counts.get(FactionFightGameplay.GOBLIN_MODEL, 0) == 4, "Quatre Peppermint Goblin")
 	_check(model_counts.get(FactionFightGameplay.PALADIN_MODEL, 0) == 4, "Quatre Pumpkin Paladin")
 	_check(model_counts.get(FactionFightGameplay.CONQUEROR_MODEL, 0) == 4, "Quatre Candy Corn Conqueror")
 	_check(zone_counts == [2, 3, 3, 4], "Répartition 2 / 3 / 3 / 4 dans les zones")
+
+
+func _test_shared_candies(gameplay: FactionFightGameplay) -> void:
+	var candies: Array[FactionFightPickup] = []
+	var scene_counts: Dictionary[String, int] = {}
+	for pickup: FactionFightPickup in gameplay._pickups:
+		if pickup.kind != FactionFightPickup.Kind.CANDY:
+			continue
+		candies.append(pickup)
+		scene_counts[pickup.shared_candy_scene_path] = scene_counts.get(pickup.shared_candy_scene_path, 0) + 1
+		_check(is_instance_valid(pickup._shared_candy), "%s instancie un Candy partagé" % pickup.display_name)
+		var mesh := pickup._shared_candy.get_node_or_null("MeshInstance3D") as MeshInstance3D
+		var light := pickup._shared_candy.get_node_or_null("OmniLight3D") as OmniLight3D
+		_check(mesh != null and mesh.scale.is_equal_approx(Vector3.ONE * 0.5), "Le mesh partagé conserve son échelle")
+		_check(light != null and is_equal_approx(light.light_energy, 1.0), "La lumière locale du Candy est conservée")
+		_check(pickup._shared_candy.bob_height == 0.1 and pickup._shared_candy.bob_speed == 2.0, "Le flottement Labyrinth est conservé")
+	_check(candies.size() == 9, "Les neuf récompenses CANDY existantes sont préservées")
+	_check(scene_counts.get("res://objects/candy_crystalberry.tscn", 0) == 5, "Cinq Crystalberry sont répartis dans CHASEWEEN")
+	_check(scene_counts.get("res://objects/candy_pumpkin.tscn", 0) == 4, "Quatre Pumpkin Wrapper sont répartis dans CHASEWEEN")
+
+	var first_candy := candies[0]
+	var expected_score := gameplay._candy + first_candy.candy_value
+	first_candy._shared_candy._on_body_entered(gameplay._player)
+	_check(gameplay._candy == expected_score, "Le signal partagé ajoute la valeur prévue au score local")
+	_check(gameplay._hud._candy_label.text == "CANDY  %d" % expected_score, "Le HUD est actualisé après collecte")
+	_check(gameplay._collect_audio_player.playing, "Le bruitage collect.wav est déclenché")
+	_check(_has_sparkles(first_candy), "Les particules Labyrinth sont déclenchées")
+	first_candy._shared_candy._on_body_entered(gameplay._player)
+	_check(gameplay._candy == expected_score, "Un même Candy ne peut créditer le score deux fois")
+
+
+func _has_sparkles(pickup: FactionFightPickup) -> bool:
+	for child: Node in pickup.get_children():
+		if child is CPUParticles3D:
+			return true
+	return false
+
+
+func _test_affinity_matrix(gameplay: FactionFightGameplay) -> void:
+	var effective := FactionFightAffinityRules.Reaction.EFFECTIVE
+	var weak := FactionFightAffinityRules.Reaction.WEAK
+	var inverse := FactionFightAffinityRules.Reaction.INVERSE
+	var expected: Dictionary = {
+		&"sugar_spray": {&"goblin": effective, &"paladin": weak, &"conqueror": inverse},
+		&"candy_cane": {&"goblin": effective, &"paladin": weak, &"conqueror": effective},
+		&"caramel_shield": {&"goblin": effective, &"paladin": effective, &"conqueror": inverse},
+		&"ghost_lamp": {&"goblin": effective, &"paladin": effective, &"conqueror": weak},
+	}
+	for item_id: StringName in expected:
+		for monster_type: StringName in expected[item_id]:
+			_check(FactionFightAffinityRules.reaction(item_id, monster_type) == expected[item_id][monster_type], "Affinité %s / %s correcte" % [item_id, monster_type])
+	var conqueror: FactionFightMonster = gameplay._monsters[1]
+	conqueror.apply_enrage(5.0)
+	conqueror.apply_enrage(5.0)
+	_check(is_equal_approx(conqueror._enrage_time, 5.0), "Le renforcement inverse ne se cumule pas")
+	conqueror._physics_process(5.1)
+	_check(conqueror._enrage_time == 0.0, "Le renforcement inverse expire automatiquement")
+	gameplay._apply_affinity(&"sugar_spray", conqueror)
+	_check(gameplay._discoveries.size() == 1, "Une affinité testée est ajoutée au carnet")
+
+
+func _test_action_vfx(gameplay: FactionFightGameplay) -> void:
+	var cone := FactionFightVFX.spawn_cone(gameplay, gameplay._player.global_transform, 7.0, deg_to_rad(30.0), Color.MAGENTA)
+	var cone_visual := cone.get_child(0) as MeshInstance3D
+	var cone_mesh := cone_visual.mesh as CylinderMesh
+	_check(is_equal_approx(cone_mesh.height, 7.0), "Le VFX du spray correspond à sa portée de 7 m")
+	var arc := FactionFightVFX.spawn_arc(gameplay, gameplay._player.global_transform, 2.6, Color.ORANGE_RED)
+	_check(arc.get_child_count() == 7, "L’arc lumineux du bâton est généré")
+	var dome := FactionFightVFX.spawn_dome(gameplay, gameplay._player.global_position, 1.65, Color.GOLD, 0.2)
+	_check(dome is MeshInstance3D, "Le dôme du bouclier est généré")
+	var spray_preview := FactionFightVFX.create_preview(&"sugar_spray", gameplay)
+	var preview_mesh := (spray_preview.get_child(0) as MeshInstance3D).mesh as CylinderMesh
+	_check(is_equal_approx(preview_mesh.height, 7.0), "La prévisualisation du spray reprend exactement sa portée")
+	var cane_preview := FactionFightVFX.create_preview(&"candy_cane", gameplay)
+	_check(cane_preview.get_child_count() == 8, "La prévisualisation du bâton dessine tout son secteur et sa limite")
+	spray_preview.queue_free()
+	cane_preview.queue_free()
+
+
+func _test_mission_start(gameplay: FactionFightGameplay) -> void:
+	_check(FactionFightGameplay.MISSIONS.size() == 4, "Quatre missions explicites sont configurées")
+	_check(gameplay._mission_index == 0, "La mission du Jardin est active immédiatement")
+	_check(gameplay._objective_marker != null and gameplay._objective_marker.name == "UniqueMissionMarker", "Un unique marqueur de mission existe")
+	var mission_pickups := 0
+	for pickup: FactionFightPickup in gameplay._pickups:
+		if pickup.mission_id != &"":
+			mission_pickups += 1
+	_check(mission_pickups == 4, "Chaque mission possède exactement un objectif interactif")
+	gameplay._complete_mission(&"syrup_cache")
+	_check(gameplay._mission_index == 0, "Une mission future ne peut pas être validée hors séquence")
+	var garden_chest := _mission_pickup(gameplay, &"garden_reserve")
+	var score_before := gameplay._candy
+	gameplay._collect_pickup(garden_chest)
+	_check(gameplay._mission_index == 0 and gameplay._candy == score_before, "La réserve reste fermée avant l’action tutorielle")
+	gameplay._tool_slots.clear()
+	gameplay._sync_active_tool()
+	gameplay._mission_elapsed = 40.0
+	gameplay._update_mission(0.0)
+	_check(gameplay._mission_hint_shown, "L’indice de secours apparaît après 40 secondes")
+	_check(gameplay._tool_has_charges(&"candy_cane"), "Le secours restaure l’outil indispensable s’il a été perdu")
+	gameplay._apply_affinity(&"candy_cane", gameplay._monsters[0])
+	gameplay._collect_pickup(garden_chest)
+	_check(gameplay._mission_index == 1, "La mission du Jardin ouvre celle de la Forêt")
+	var score_after := gameplay._candy
+	gameplay._collect_pickup(garden_chest)
+	_check(gameplay._candy == score_after, "Un coffre de mission ne peut jamais créditer deux fois")
+
+
+func _test_unlock_chains(gameplay: FactionFightGameplay) -> void:
+	var key_items: Dictionary[StringName, FactionFightPickup] = {}
+	var devices: Dictionary[StringName, FactionFightPickup] = {}
+	for pickup: FactionFightPickup in gameplay._pickups:
+		if pickup.kind == FactionFightPickup.Kind.KEY_ITEM:
+			key_items[pickup.item_id] = pickup
+		elif pickup.kind == FactionFightPickup.Kind.DEVICE:
+			devices[pickup.required_item_id] = pickup
+	_check(key_items.size() == 4 and devices.size() == 4, "Quatre objets de déblocage et quatre dispositifs existent")
+	var unlock_order: Array[StringName] = [&"caramel_key", &"sugar_crystal", &"syrup_capsule", &"spectral_badge"]
+	for item_id: StringName in unlock_order:
+		gameplay._collect_pickup(key_items[item_id])
+		_check(gameplay._inventory.get(item_id, false), "%s entre dans les trouvailles" % item_id)
+		gameplay._collect_pickup(devices[item_id])
+		_check(not gameplay._inventory.get(item_id, false), "%s est consommé par son dispositif" % item_id)
+	_check(gameplay._active_item == &"ghost_lamp" or gameplay._active_item == &"sugar_spray", "Les chaînes débloquent un équipement tactique")
+	_check(gameplay._mission_index == 2, "Le casier hanté valide la mission de la Forêt")
+
+
+func _test_mission_finish(gameplay: FactionFightGameplay) -> void:
+	var syrup_chest := _mission_pickup(gameplay, &"syrup_cache")
+	gameplay._collect_pickup(syrup_chest)
+	_check(gameplay._mission_index == 2, "La cache de sirop exige d’abord un essai d’affinité")
+	gameplay._apply_affinity(&"candy_cane", gameplay._monsters[7])
+	gameplay._collect_pickup(syrup_chest)
+	_check(gameplay._mission_index == 3, "La cache de sirop ouvre la mission du Sanctuaire")
+	gameplay._collect_pickup(_mission_pickup(gameplay, &"sanctuary_treasure"))
+	_check(gameplay._mission_index == 4, "Les quatre missions se terminent dans l’ordre")
+	_check(gameplay._objective_marker.global_position.is_equal_approx(gameplay._portal.global_position), "Le marqueur final conduit au portail")
+
+
+func _mission_pickup(gameplay: FactionFightGameplay, mission_id: StringName) -> FactionFightPickup:
+	for pickup: FactionFightPickup in gameplay._pickups:
+		if pickup.mission_id == mission_id:
+			return pickup
+	return null
+
+
+func _test_tool_slots(gameplay: FactionFightGameplay) -> void:
+	gameplay._tool_slots.clear()
+	gameplay._equip_tool(&"candy_cane", 3)
+	gameplay._equip_tool(&"sugar_spray", 3)
+	gameplay._equip_tool(&"caramel_shield", 1)
+	_check(gameplay._tool_slots.size() == 2, "Le joueur ne transporte jamais plus de deux outils d’action")
+	var first_tool := gameplay._active_item
+	gameplay._switch_tool()
+	_check(gameplay._active_item != first_tool, "Q alterne entre les deux outils")
+	gameplay._set_aiming(true)
+	_check(gameplay._aim_preview != null, "R prépare une zone d’action visible")
+	gameplay._set_aiming(false)
+	_check(gameplay._aim_preview == null, "Relâcher R retire la prévisualisation")
+
+
+func _test_corruption_phases(gameplay: FactionFightGameplay) -> void:
+	_check(gameplay._corruption_phase_name(0.0) == "LES DERNIÈRES DOUCEURS", "Phase climatique 1")
+	_check(gameplay._corruption_phase_name(180.0) == "L’ÉVEIL DE LA CORRUPTION", "Phase climatique 2")
+	_check(gameplay._corruption_phase_name(360.0) == "LA TEMPÊTE DES CONFISERIES", "Phase climatique 3")
+	_check(gameplay._corruption_phase_name(540.0) == "LE DERNIER SORT", "Phase climatique 4")
+	gameplay._session_time = 300.0
+	gameplay._update_corruption(0.0)
+	_check(is_equal_approx(gameplay._hud._corruption_bar.value, 50.0), "La jauge affiche la corruption sans secondes")
+	gameplay._session_time = 0.0
 
 
 func _test_obstacle_detection(gameplay: FactionFightGameplay) -> void:
@@ -116,12 +300,33 @@ func _test_exit_guarantee(gameplay: FactionFightGameplay) -> void:
 	gameplay._complete_world()
 	_check(gameplay._candy == 20, "La sortie garantit vingt CANDY")
 	_check(int(gameplay.result_data.candy_amount) == 20, "Le résultat local contient le minimum garanti")
-	_check("GARANTIE DE SORTIE : +20 CANDY" in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
+	_check("BONUS DE SORTIE : +20 CANDY" in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
+	_check("SORTIE : PORTAIL" in gameplay._hud._summary_candy.text, "La sortie volontaire est indiquée")
 	gameplay._complete_world()
 	_check(gameplay._candy == 20, "La garantie de sortie ne peut pas être réappliquée")
 	_check(gameplay._completed, "Les interactions locales sont arrêtées après la sortie")
 	for monster: FactionFightMonster in gameplay._monsters:
 		_check(not monster.is_physics_processing(), "%s s’arrête à la fin" % monster.display_name)
+
+
+func _test_auto_finish() -> void:
+	var packed_scene := load(SCENE_PATH) as PackedScene
+	var scene := packed_scene.instantiate()
+	root.add_child(scene)
+	await process_frame
+	await process_frame
+	var gameplay := scene.get_node("FactionFightGameplay") as FactionFightGameplay
+	gameplay._candy = 12
+	gameplay._session_time = 599.9
+	gameplay._update_corruption(0.1)
+	_check(gameplay._finishing, "La fin automatique démarre à 600 secondes")
+	_check(gameplay._hud._cinematic_overlay.visible, "Le message du Dernier Sort est affiché")
+	gameplay._finish_final_spell()
+	_check(gameplay._completed, "Le Dernier Sort termine le mini-jeu sans défaite")
+	_check(gameplay._candy == 20, "La fin automatique applique aussi le minimum garanti")
+	_check("SORTIE : DERNIER SORT" in gameplay._hud._summary_candy.text, "Le résumé distingue la fin automatique")
+	scene.queue_free()
+	await process_frame
 
 
 func _zone_for_z(z_position: float) -> int:
