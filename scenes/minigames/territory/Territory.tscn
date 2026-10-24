@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
 [ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/territory/Territory.gd" id="2_territory"]
+[ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/territory/UnitSpawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/territory/TerritoryHud.tscn" id="4_hud"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_territory"]
 sky_top_color = Color(0.12, 0.1, 0.25, 1)
@@ -54,6 +56,22 @@ mesh = SubResource("BoxMesh_road")
 surface_material_override/0 = SubResource("StandardMaterial3D_road")
 
 [node name="Units" type="Node3D" parent="." unique_id=198964728]
+unique_name_in_owner = true
+
+[node name="PlayerSpawner" type="Node" parent="." unique_id=725056479 node_paths=PackedStringArray("units_root")]
+unique_name_in_owner = true
+script = ExtResource("3_spawner")
+units_root = NodePath("../Units")
+home_x = -24.0
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=611191818 node_paths=PackedStringArray("units_root")]
+unique_name_in_owner = true
+script = ExtResource("3_spawner")
+faction = 1
+units_root = NodePath("../Units")
+home_x = 24.0
+
+[node name="Hud" parent="." unique_id=564776389 instance=ExtResource("4_hud")]
 unique_name_in_owner = true
 
 [node name="Sites" type="Node3D" parent="." unique_id=1437432550]
