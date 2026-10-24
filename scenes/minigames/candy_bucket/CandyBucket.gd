@@ -34,6 +34,7 @@ const MAGIC_FIRST_SPAWN_WINDOW: Vector2 = Vector2(8.0, 28.0)
 const MAGIC_SECOND_SPAWN_WINDOW: Vector2 = Vector2(32.0, 52.0)
 const MAGIC_OSCILLATION_AMPLITUDE: float = 28.0
 const MAGIC_OSCILLATION_FREQUENCY: float = 0.55
+const COLLECT_PITCH_RANGE: Vector2 = Vector2(0.85, 1.25)
 
 
 @export_category("Round")
@@ -99,8 +100,8 @@ var _return_transition_started: bool = false
 @onready var player: CandyBucketPlayer = %Player
 @onready var candies: Node2D = %Candies
 @onready var music_player: AudioStreamPlayer = %MusicPlayer
-@onready var collect_audio_player: AudioStreamPlayer = %CollectAudioPlayer
 @onready var result_audio_player: AudioStreamPlayer = %ResultAudioPlayer
+@onready var collect_sfx_player: AudioStreamPlayer = %CollectSfxPlayer
 @onready var toxic_sfx_player: AudioStreamPlayer = %ToxicSfxPlayer
 @onready var toxic_gas_effect: CandyBucketToxicGasEffect = %ToxicGasEffect
 @onready var spawn_timer: Timer = %SpawnTimer
@@ -333,8 +334,13 @@ func _on_player_candy_entered(area: Area2D) -> void:
         _apply_magic_boost()
 
     _collected_candies += 1
-    collect_audio_player.play()
+    _play_collect_sound()
     _update_hud()
+
+
+func _play_collect_sound() -> void:
+    collect_sfx_player.pitch_scale = randf_range(COLLECT_PITCH_RANGE.x, COLLECT_PITCH_RANGE.y)
+    collect_sfx_player.play()
 
 
 func _apply_poison() -> void:
