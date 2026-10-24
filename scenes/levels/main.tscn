@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://qqtantb1dxk0" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
 [ext_resource type="Material" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG.tres" id="6_qy6q0"]
 [ext_resource type="AudioStream" uid="uid://dsj08ef05kaqt" path="res://assets/audio/bilan_final.mp3" id="7_finale_audio"]
+[ext_resource type="AudioStream" uid="uid://blbggws2djx03" path="res://assets/audio/music_lobby.mp3" id="7_lobby_music"]
 [ext_resource type="Material" path="res://assets/textures/Metal048C_1K-PNG/Metal048C_1K-PNG.tres" id="7_ykry0"]
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
@@ -173,6 +174,12 @@ corner_radius_bottom_left = 12
 
 [node name="Main" type="Node3D" unique_id=90916086]
 script = ExtResource("1_ysjpo")
+
+[node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_lobby_music")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=333908414]
 environment = SubResource("Environment_n14tl")

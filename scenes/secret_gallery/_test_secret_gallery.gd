@@ -37,7 +37,9 @@ func _test_lobby_entrance() -> void:
 	var entrance: SecretGalleryEntrance = lobby.get_node_or_null("SecretGalleryEntrance") as SecretGalleryEntrance
 	var player: CharacterBody3D = lobby.get_node_or_null("Player") as CharacterBody3D
 	var lamp: Node3D = lobby.get_node_or_null(SECRET_LAMP_PATH) as Node3D
+	var lobby_music: AudioStreamPlayer = lobby.get_node_or_null("LobbyMusic") as AudioStreamPlayer
 	_check(entrance != null and player != null and lamp != null, "Le lampadaire light18, le joueur et l'interaction sont résolus")
+	_check(_is_lobby_music_playing(lobby_music), "music_lobby.mp3 joue en boucle dans le lobby sur le bus Music")
 	if entrance == null or player == null or lamp == null:
 		lobby.queue_free()
 		await get_tree().process_frame
@@ -107,7 +109,9 @@ func _test_gallery_scene() -> void:
 	var player: Player = gallery.get_node_or_null("Player") as Player
 	var exit: GalleryExit = gallery.get_node_or_null("GalleryExit") as GalleryExit
 	var frames: Node3D = gallery.get_node_or_null("Frames") as Node3D
+	var gallery_music: AudioStreamPlayer = gallery.get_node_or_null("LobbyMusic") as AudioStreamPlayer
 	_check(player != null and player.get_node_or_null("CameraPivot/SpringArm/Camera") is Camera3D, "Le contrôleur et la caméra partagés sont réutilisés")
+	_check(_is_lobby_music_playing(gallery_music), "music_lobby.mp3 joue en boucle dans la galerie sur le bus Music")
 	_check(exit != null and exit.prompt_label.text == GalleryExit.PROMPT_TEXT, "La sortie propose un retour au lobby en une pression")
 	_check(frames != null and frames.get_child_count() == 7, "Les sept emplacements d'archives sont présents")
 
@@ -212,6 +216,13 @@ func _check(condition: bool, message: String) -> void:
 		return
 	_failures.append(message)
 	push_error("FAIL: %s" % message)
+
+
+func _is_lobby_music_playing(player: AudioStreamPlayer) -> bool:
+	if player == null or not player.playing or player.bus != &"Music":
+		return false
+	var stream: AudioStreamMP3 = player.stream as AudioStreamMP3
+	return stream != null and stream.loop and stream.resource_path == "res://assets/audio/music_lobby.mp3"
 
 
 func _finish() -> void:
