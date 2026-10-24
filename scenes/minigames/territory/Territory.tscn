@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://1hprd6rnjk7e" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
 [ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/territory/Territory.gd" id="2_territory"]
 [ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/territory/UnitSpawner.gd" id="3_spawner"]
-[ext_resource type="PackedScene" path="res://scenes/minigames/territory/TerritoryHud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" uid="uid://byb5iyvykkl68" path="res://scenes/minigames/territory/TerritoryHud.tscn" id="4_hud"]
 [ext_resource type="Script" uid="uid://m0oqam17mc24" path="res://scenes/minigames/territory/EnemyAI.gd" id="5_enemy_ai"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/territory/TerritoryResultOverlay.tscn" id="6_overlay"]
 
@@ -109,6 +109,7 @@ faction = 0
 
 [node name="Site2" parent="Sites" unique_id=142842525 instance=ExtResource("1_site")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+faction = 0
 
 [node name="Site3" parent="Sites" unique_id=1512016276 instance=ExtResource("1_site")]
 capture_wait_time = 5.0

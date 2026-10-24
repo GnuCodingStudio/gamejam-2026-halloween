@@ -5,6 +5,7 @@ extends Node
 @export_range(1.0, 20.0, 0.5) var spawn_interval := 4.0
 
 var _all_stats: Array[UnitStats] = []
+var _has_spawned := false
 
 @onready var _timer: Timer = %SpawnTimer
 
@@ -15,10 +16,15 @@ func _ready() -> void:
 
 func start(all_stats: Array[UnitStats]) -> void:
 	_all_stats = all_stats
+	_has_spawned = false
 	_timer.start(spawn_interval)
 
 
 func _on_spawn_timer_timeout() -> void:
+	if not _has_spawned:
+		_has_spawned = true
+		spawner.spawn(_all_stats[0])
+		return
 	var candidates := _ready_stats()
 	if candidates.is_empty():
 		return

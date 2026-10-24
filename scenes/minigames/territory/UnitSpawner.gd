@@ -36,6 +36,10 @@ func spawn(stats: UnitStats) -> Unit:
 	if remaining_cooldown(stats) > 0.0:
 		return null
 	_cooldowns[stats] = stats.cooldown
+	return spawn_free(stats)
+
+
+func spawn_free(stats: UnitStats) -> Unit:
 	var unit: Unit = UNIT_SCENE.instantiate()
 	unit.setup(stats, faction)
 	units_root.add_child(unit)
