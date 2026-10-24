@@ -2,12 +2,13 @@ class_name Territory
 extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
+const ROGUE_STATS: UnitStats = preload("res://scenes/minigames/territory/units/rogue.tres")
 const ALL_STATS: Array[UnitStats] = [
-	preload("res://scenes/minigames/territory/units/rogue.tres"),
+	ROGUE_STATS,
 	preload("res://scenes/minigames/territory/units/ranger.tres"),
 	preload("res://scenes/minigames/territory/units/mage.tres"),
 ]
-const CANDIES_PER_SITE := 2
+const CANDIES_PER_SITE := 1
 
 var _candies := 0
 
@@ -30,6 +31,8 @@ func _ready() -> void:
 		site.owner_changed.connect(_on_site_owner_changed)
 	_refresh_hud()
 	_enemy_ai.start(ALL_STATS)
+	_player_spawner.spawn(ROGUE_STATS)
+	_player_spawner.start_cooldowns(ALL_STATS)
 
 
 func _process(_delta: float) -> void:

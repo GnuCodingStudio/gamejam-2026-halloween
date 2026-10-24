@@ -85,7 +85,7 @@ unique_name_in_owner = true
 
 [node name="PayoutTimer" type="Timer" parent="." unique_id=321020040]
 unique_name_in_owner = true
-wait_time = 20.0
+wait_time = 10.0
 autostart = true
 
 [node name="RoundTimer" type="Timer" parent="." unique_id=1698337324]

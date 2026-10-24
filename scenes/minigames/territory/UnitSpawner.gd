@@ -26,6 +26,12 @@ func remaining_cooldown(stats: UnitStats) -> float:
 	return _cooldowns.get(stats, 0.0)
 
 
+func start_cooldowns(all_stats: Array[UnitStats]) -> void:
+	for stats in all_stats:
+		if not _cooldowns.has(stats):
+			_cooldowns[stats] = stats.cooldown
+
+
 func spawn(stats: UnitStats) -> Unit:
 	if remaining_cooldown(stats) > 0.0:
 		return null
