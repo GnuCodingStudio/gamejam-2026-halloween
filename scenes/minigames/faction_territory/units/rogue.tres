@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitStats" format=3 uid="uid://bq557hlydvs4e"]
+
+[ext_resource type="Script" uid="uid://cqlmlfartaiu2" path="res://scenes/minigames/faction_territory/UnitStats.gd" id="1_stats"]
+[ext_resource type="PackedScene" uid="uid://chyo3cpn4ugmb" path="res://assets/characters/Rogue_Hooded.glb" id="2_model"]
+
+[resource]
+script = ExtResource("1_stats")
+display_name = "Rogue"
+model_scene = ExtResource("2_model")
+max_health = 40.0
+damage = 4.0
+attack_interval = 0.8
+cooldown = 3.0

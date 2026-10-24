@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnitStats" format=3 uid="uid://58ldge2iyhq8"]
+
+[ext_resource type="Script" uid="uid://cqlmlfartaiu2" path="res://scenes/minigames/faction_territory/UnitStats.gd" id="1_stats"]
+[ext_resource type="PackedScene" uid="uid://bg0d0l46dmgfj" path="res://assets/characters/Mage.glb" id="2_model"]
+
+[resource]
+script = ExtResource("1_stats")
+display_name = "Mage"
+model_scene = ExtResource("2_model")
+max_health = 120.0
+damage = 20.0
+attack_range = 5.0
+attack_interval = 1.8
+move_speed = 1.5
+cooldown = 16.0
+unlock_after_spawns = 10

@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://cw0j4g7in1atd"]
+
+[ext_resource type="PackedScene" uid="uid://1hprd6rnjk7e" path="res://scenes/minigames/faction_territory/Site.tscn" id="1_site"]
+[ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/faction_territory/FactionTerritory.gd" id="2_territory"]
+[ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/faction_territory/UnitSpawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://byb5iyvykkl68" path="res://scenes/minigames/faction_territory/FactionTerritoryHud.tscn" id="4_hud"]
+[ext_resource type="Script" uid="uid://m0oqam17mc24" path="res://scenes/minigames/faction_territory/EnemyAI.gd" id="5_enemy_ai"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_territory/FactionTerritoryResultOverlay.tscn" id="6_overlay"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_territory"]
+sky_top_color = Color(0.12, 0.1, 0.25, 1)
+sky_horizon_color = Color(0.35, 0.25, 0.4, 1)
+ground_horizon_color = Color(0.35, 0.25, 0.4, 1)
+
+[sub_resource type="Sky" id="Sky_territory"]
+sky_material = SubResource("ProceduralSkyMaterial_territory")
+
+[sub_resource type="Environment" id="Environment_territory"]
+background_mode = 2
+sky = SubResource("Sky_territory")
+ambient_light_source = 3
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+size = Vector3(100, 0.2, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.16, 0.12, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_road"]
+size = Vector3(100, 0.05, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_road"]
+albedo_color = Color(0.3, 0.24, 0.38, 1)
+
+[node name="FactionTerritory" type="Node3D" unique_id=141314897]
+script = ExtResource("2_territory")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=422297814]
+environment = SubResource("Environment_territory")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1240572154]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 7, 10)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=805658764]
+transform = Transform3D(1, 0, 0, 0, 0.5735765, 0.81915206, 0, -0.81915206, 0.5735765, 0, 24, 16)
+fov = 50.0
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1568620532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("BoxMesh_ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_ground")
+
+[node name="Road" type="MeshInstance3D" parent="." unique_id=1196065962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+mesh = SubResource("BoxMesh_road")
+surface_material_override/0 = SubResource("StandardMaterial3D_road")
+
+[node name="Units" type="Node3D" parent="." unique_id=198964728]
+unique_name_in_owner = true
+
+[node name="PlayerSpawner" type="Node" parent="." unique_id=725056479 node_paths=PackedStringArray("units_root")]
+unique_name_in_owner = true
+script = ExtResource("3_spawner")
+units_root = NodePath("../Units")
+home_x = -24.0
+spawn_at_rearmost_site = true
+max_alive = 6
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=611191818 node_paths=PackedStringArray("units_root")]
+unique_name_in_owner = true
+script = ExtResource("3_spawner")
+faction = 1
+units_root = NodePath("../Units")
+home_x = 24.0
+
+[node name="EnemyAI" type="Node" parent="." unique_id=269457904 node_paths=PackedStringArray("spawner")]
+unique_name_in_owner = true
+script = ExtResource("5_enemy_ai")
+spawner = NodePath("../EnemySpawner")
+spawn_interval = 2.5
+
+[node name="SpawnTimer" type="Timer" parent="EnemyAI" unique_id=1544961547]
+unique_name_in_owner = true
+
+[node name="PayoutTimer" type="Timer" parent="." unique_id=321020040]
+unique_name_in_owner = true
+wait_time = 10.0
+autostart = true
+
+[node name="RoundTimer" type="Timer" parent="." unique_id=1698337324]
+unique_name_in_owner = true
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="Hud" parent="." unique_id=564776389 instance=ExtResource("4_hud")]
+unique_name_in_owner = true
+
+[node name="ResultOverlay" parent="." unique_id=232906315 instance=ExtResource("6_overlay")]
+unique_name_in_owner = true
+
+[node name="Sites" type="Node3D" parent="." unique_id=1437432550]
+
+[node name="Site1" parent="Sites" unique_id=418990625 instance=ExtResource("1_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+capture_wait_time = 2.0
+faction = 0
+
+[node name="Site2" parent="Sites" unique_id=142842525 instance=ExtResource("1_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+faction = 0
+
+[node name="Site3" parent="Sites" unique_id=1512016276 instance=ExtResource("1_site")]
+capture_wait_time = 5.0
+faction = 0
+
+[node name="Site4" parent="Sites" unique_id=1186741524 instance=ExtResource("1_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+capture_wait_time = 8.0
+faction = 0
+
+[node name="Site5" parent="Sites" unique_id=876857651 instance=ExtResource("1_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+capture_wait_time = 15.0

@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://1hprd6rnjk7e"]
+
+[ext_resource type="Script" uid="uid://o6ts8qkfv47k" path="res://scenes/minigames/faction_territory/Site.gd" id="1_site"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 2.5
+bottom_radius = 2.5
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
+top_radius = 0.08
+bottom_radius = 0.08
+height = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_flag"]
+size = Vector3(1.2, 0.7, 0.05)
+
+[sub_resource type="SphereMesh" id="SphereMesh_particle"]
+radius = 0.12
+height = 0.24
+radial_segments = 8
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_particle"]
+vertex_color_use_as_albedo = true
+shading_mode = 0
+
+[node name="Site" type="Node3D" unique_id=683777982]
+script = ExtResource("1_site")
+
+[node name="Base" type="MeshInstance3D" parent="." unique_id=1336474596]
+unique_name_in_owner = true
+mesh = SubResource("CylinderMesh_base")
+
+[node name="CaptureBurst" type="CPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+emitting = false
+amount = 48
+lifetime = 1.0
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("StandardMaterial3D_particle")
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 60.0
+initial_velocity_min = 4.0
+initial_velocity_max = 8.0
+gravity = Vector3(0, -9.8, 0)
+scale_amount_min = 0.5
+scale_amount_max = 1.2
+
+[node name="Pole" type="MeshInstance3D" parent="." unique_id=1897823577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_pole")
+
+[node name="Flag" type="MeshInstance3D" parent="." unique_id=1279545294]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 2.6, 0)
+mesh = SubResource("BoxMesh_flag")

@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://byb5iyvykkl68"]
+
+[ext_resource type="Script" uid="uid://u7ilpy5qvr7w" path="res://scenes/minigames/faction_territory/FactionTerritoryHud.gd" id="1_hud"]
+
+[node name="FactionTerritoryHud" type="CanvasLayer" unique_id=1098428281]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="." unique_id=1216224674]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CandyLabel" type="Label" parent="Root" unique_id=1282003433]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 440.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 48
+text = "Candies: 0"
+
+[node name="GainLabel" type="Label" parent="Root" unique_id=2012653671]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+offset_left = -200.0
+offset_top = 340.0
+offset_right = 200.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.5, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 40
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Root" unique_id=21326915]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 30.0
+offset_right = 100.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "3:00"
+horizontal_alignment = 1
+
+[node name="SitesLabel" type="Label" parent="Root" unique_id=1140378026]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = 90.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Sites: 0 / 0"
+horizontal_alignment = 2
+
+[node name="UnitsLabel" type="Label" parent="Root" unique_id=1840273551]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -200.0
+offset_right = 330.0
+offset_bottom = -145.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "0/0 units are fighting"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Root" unique_id=1142134014]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -140.0
+offset_right = 330.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1

@@ -1,11 +1,11 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://uy271fjxm832"]
 
-[ext_resource type="PackedScene" path="res://assets/characters/Knight.glb" id="1_knight"]
-[ext_resource type="Script" path="res://objects/knight.gd" id="2_script"]
-[ext_resource type="Animation" path="res://assets/animations/clips/idle.res" id="3_idle"]
-[ext_resource type="Animation" path="res://assets/animations/clips/run.res" id="4_run"]
-[ext_resource type="Animation" path="res://assets/animations/clips/jump_static.res" id="5_jump_static"]
-[ext_resource type="Animation" path="res://assets/animations/clips/jump_forward.res" id="6_jump_forward"]
+[ext_resource type="PackedScene" uid="uid://dqpyyqauc0xte" path="res://assets/characters/Knight.glb" id="1_knight"]
+[ext_resource type="Script" uid="uid://cgw8nbyryh4he" path="res://objects/knight.gd" id="2_script"]
+[ext_resource type="Animation" uid="uid://dxqkttath650s" path="res://assets/animations/clips/idle.res" id="3_idle"]
+[ext_resource type="Animation" uid="uid://cre2ng3shpmf8" path="res://assets/animations/clips/run.res" id="4_run"]
+[ext_resource type="Animation" uid="uid://ddof0ymemw06o" path="res://assets/animations/clips/jump_static.res" id="5_jump_static"]
+[ext_resource type="Animation" uid="uid://chembraicimbl" path="res://assets/animations/clips/jump_forward.res" id="6_jump_forward"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knight"]
 _data = {
@@ -15,10 +15,29 @@ _data = {
 &"run": ExtResource("4_run")
 }
 
-[node name="Knight" instance=ExtResource("1_knight")]
+[node name="Knight" unique_id=446387847 instance=ExtResource("1_knight")]
 script = ExtResource("2_script")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
-libraries = {
-&"": SubResource("AnimationLibrary_knight")
-}
+[node name="GeneralSkeleton" parent="Rig_Medium" parent_id_path=PackedInt32Array(581136108) index="0" unique_id=1236909706]
+bones/1/position = Vector3(-4.1311083e-05, 0.39848703, -0.0010151274)
+bones/1/rotation = Quaternion(-0.013265607, -0.0010733269, -0.00919232, 0.9998693)
+bones/2/rotation = Quaternion(0.008446344, -0.001106899, 1.7186083e-05, 0.99996376)
+bones/3/rotation = Quaternion(0.008879396, -0.02163575, 0.0010827424, 0.99972594)
+bones/4/rotation = Quaternion(0.83199775, 0.10281685, -0.53078973, 0.12438151)
+bones/5/rotation = Quaternion(0.1788074, -0.6841256, 0.17880736, 0.6841257)
+bones/6/rotation = Quaternion(-0.014353659, 0.73733515, -0.16534875, 0.6548211)
+bones/9/rotation = Quaternion(0.8355229, -0.057506204, 0.5305469, 0.13082254)
+bones/10/rotation = Quaternion(0.16564682, 0.68743074, -0.165647, 0.68743086)
+bones/11/rotation = Quaternion(-0.08426428, -0.68807846, 0.0975722, 0.71409184)
+bones/14/rotation = Quaternion(0.048196923, -0.014846556, 0.031546507, 0.99822915)
+bones/15/rotation = Quaternion(-0.120882556, 0.070761524, 0.9891774, 0.043684293)
+bones/16/rotation = Quaternion(0.017603049, 0.9863352, -0.16026592, -0.033878937)
+bones/17/rotation = Quaternion(0.017057193, 0.6584357, -0.7494453, -0.06710548)
+bones/18/rotation = Quaternion(-4.9390897e-10, 1, 1.4901163e-07, -5.976292e-08)
+bones/19/rotation = Quaternion(0.037422232, 0.081620745, 0.99578893, -0.018495893)
+bones/20/rotation = Quaternion(-0.024721544, 0.97516805, -0.20578018, 0.078043744)
+bones/21/rotation = Quaternion(-0.009294849, 0.6251286, -0.7795285, 0.03825122)
+bones/22/rotation = Quaternion(-5.515311e-08, 0.9999919, 0.0040509705, 2.1402686e-09)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=1440321004]
+libraries/ = SubResource("AnimationLibrary_knight")
