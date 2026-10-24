@@ -31,5 +31,8 @@
 - Enemy candies — **assumed** none, the AI earns no score.
 - Role per model — **assumed** Rogue = cheap/weak, Ranger = medium, Mage = expensive/strong.
 - Enemy look — **assumed** the same three models, tinted to tell the factions apart.
-- Unit stats and cooldown values — to be tuned in play.
+- Unit stats and cooldown values — first guesses (see `units/*.tres`), to be tuned in play. Enemy spawn interval is 4s (`EnemyAI.spawn_interval`).
+- Units are `Node3D` with distance checks on the x axis, not physics bodies — units only move along one line.
+- Attack animation — none: the Knight clips only have idle and run, so a hit is a small scale punch.
+- No lobby portal, so "Continue" does not put the player back at a door.
 - Texts hardcoded in English, not yet in the localization files.
