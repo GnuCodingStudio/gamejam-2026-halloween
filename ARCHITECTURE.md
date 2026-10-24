@@ -131,8 +131,10 @@ Use:
 
 World identifiers available in the current run are listed in
 `ProgressionService.AVAILABLE_WORLD_IDS`. Add a future world's snake_case id to
-that list before calling `complete_world(...)`. The finale is shown once when
-all ids in that list have been completed.
+that list before calling `complete_world(...)`. When every id is completed, the
+finale becomes available through the church door in the lobby and remains
+consultable without changing the score. The optional player name is stored in
+the same progression save and survives a new run.
 
 To change the values to save you'll have to change:
 - `ProgressionService._serialize()` method which serializes the progression object

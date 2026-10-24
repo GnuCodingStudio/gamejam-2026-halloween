@@ -8,6 +8,7 @@ signal world_progress_changed(completed_worlds: int, available_worlds: int)
 
 const DIR_PATH: String = "user://saves/"
 const FILENAME: String = "progression.json"
+const MAX_PLAYER_NAME_LENGTH: int = 20
 ## Add future world ids here when their playable scenes are integrated.
 const AVAILABLE_WORLD_IDS: Array[StringName] = [&"candy_bucket", &"labyrinth", &"chaseween"]
 
@@ -37,7 +38,9 @@ func save(progression: Progression) -> void:
 
 ## Starts a fresh run while keeping the save schema and legacy fields intact.
 func start_new_game() -> void:
-	data = Progression.new()
+	_ensure_initialized()
+	var saved_player_name: String = data.player_name
+	data = Progression.new(0, 0, [], false, saved_player_name)
 	save(data)
 	total_candy_changed.emit(data.total_candy)
 	_emit_world_progress_changed()
@@ -65,6 +68,24 @@ func complete_world(world_id: StringName, candy_amount: int) -> bool:
 func get_total_candy() -> int:
 	_ensure_initialized()
 	return data.total_candy
+
+
+func get_player_name() -> String:
+	_ensure_initialized()
+	return data.player_name
+
+
+func set_player_name(player_name: String) -> bool:
+	_ensure_initialized()
+	var sanitized_name: String = _sanitize_player_name(player_name)
+	if sanitized_name.is_empty():
+		return false
+	if data.player_name == sanitized_name:
+		return true
+
+	data.player_name = sanitized_name
+	save(data)
+	return true
 
 
 func is_world_completed(world_id: StringName) -> bool:
@@ -134,6 +155,7 @@ func _serialize(progression: Progression) -> String:
 		"total_candy": progression.total_candy,
 		"completed_worlds": completed_worlds,
 		"finale_seen": progression.finale_seen,
+		"player_name": progression.player_name,
 	})
 
 
@@ -156,7 +178,8 @@ func _parse(json: String) -> Progression:
 		maxi(0, int(dict.get("coins", 0))),
 		maxi(0, int(dict.get("total_candy", 0))),
 		completed_worlds,
-		bool(dict.get("finale_seen", false))
+		bool(dict.get("finale_seen", false)),
+		_sanitize_player_name(str(dict.get("player_name", "")))
 	)
 
 
@@ -187,3 +210,17 @@ func _is_valid_world_id(world_id: StringName) -> bool:
 		and id_text.is_valid_identifier()
 		and id_text == id_text.to_snake_case()
 	)
+
+
+func _sanitize_player_name(raw_name: String) -> String:
+	var sanitized_name: String = ""
+	for index: int in raw_name.length():
+		var codepoint: int = raw_name.unicode_at(index)
+		if (
+			codepoint >= 32
+			and not (codepoint >= 127 and codepoint <= 159)
+			and codepoint != 0x2028
+			and codepoint != 0x2029
+		):
+			sanitized_name += String.chr(codepoint)
+	return sanitized_name.strip_edges().left(MAX_PLAYER_NAME_LENGTH).strip_edges()

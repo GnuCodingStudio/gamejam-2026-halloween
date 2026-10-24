@@ -2,6 +2,7 @@
 
 [ext_resource type="Material" uid="uid://di3brmwuy5v3w" path="res://assets/csg/gray-squares.tres" id="1_72ix8"]
 [ext_resource type="Material" uid="uid://ql2kbwp7u0y0" path="res://assets/textures/Bricks102_1K-PNG/Bricks102_1K-PNG.tres" id="1_qgoyv"]
+[ext_resource type="Script" uid="uid://dtpt0aorebark" path="res://scenes/levels/main.gd" id="1_ysjpo"]
 [ext_resource type="Material" path="res://assets/textures/Concrete031_1K-PNG/Concrete031_1K-PNG.tres" id="2_qgoyv"]
 [ext_resource type="Material" path="res://assets/textures/Road007_1K-PNG/Road007_1K-PNG.tres" id="3_px1c8"]
 [ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="3_y0acb"]
@@ -10,17 +11,20 @@
 [ext_resource type="Material" path="res://assets/textures/Gravel043_1K-PNG/Gravel043_1K-PNG.tres" id="5_5wre2"]
 [ext_resource type="Script" uid="uid://qqtantb1dxk0" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
 [ext_resource type="Material" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG.tres" id="6_qy6q0"]
-[ext_resource type="AudioStream" uid="uid://03q8gaxqnj18" path="res://assets/audio/final_resume.mp3" id="7_finale_audio"]
+[ext_resource type="AudioStream" uid="uid://dsj08ef05kaqt" path="res://assets/audio/bilan_final.mp3" id="7_finale_audio"]
 [ext_resource type="Material" path="res://assets/textures/Metal048C_1K-PNG/Metal048C_1K-PNG.tres" id="7_ykry0"]
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
 [ext_resource type="Material" path="res://assets/textures/Planks023B_1K-PNG/Planks023B_1K-PNG.tres" id="10_gexqn"]
-[ext_resource type="Material" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
+[ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles014A_1K-PNG/RoofingTiles014A_1K-PNG.tres" id="12_e5eww"]
 [ext_resource type="Material" path="res://assets/textures/Bricks028_1K-PNG/Bricks028_1K-PNG.tres" id="13_ygu70"]
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
 [ext_resource type="Material" path="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG.tres" id="16_8qayg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_portal/LevelPortal.tscn" id="18_px1c8"]
+[ext_resource type="PackedScene" path="res://scenes/levels/church_finale/ChurchFinaleInteractor.tscn" id="19_church_finale"]
+[ext_resource type="PackedScene" uid="uid://b1jimh7w0a3n7" path="res://scenes/console/GameConsole.tscn" id="24_gexqn"]
+[ext_resource type="PackedScene" uid="uid://ckdgdo4aq6h5l" path="res://scenes/console/command/Command.tscn" id="25_kc8j3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
 sky_top_color = Color(0.1321393, 0.25306827, 0.35236278, 1)
@@ -64,21 +68,21 @@ shadow_color = Color(0, 0, 0, 0.72)
 shadow_size = 24
 shadow_offset = Vector2(0, 12)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_stat"]
-content_margin_left = 24.0
-content_margin_top = 18.0
-content_margin_right = 24.0
-content_margin_bottom = 18.0
-bg_color = Color(0.27451, 0.105882, 0.384314, 0.68)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.854902, 0.482353, 1, 0.78)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_input"]
+content_margin_left = 18.0
+content_margin_top = 13.0
+content_margin_right = 18.0
+content_margin_bottom = 13.0
+bg_color = Color(0.0862745, 0.0431373, 0.117647, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.854902, 0.482353, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button"]
 content_margin_left = 28.0
@@ -118,7 +122,56 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_stat"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.27451, 0.105882, 0.384314, 0.68)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.854902, 0.482353, 1, 0.78)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_secondary"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.27451, 0.105882, 0.384314, 0.78)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.854902, 0.482353, 1, 0.78)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_secondary_hover"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.388235, 0.160784, 0.529412, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.929412, 0.745098, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="Main" type="Node3D" unique_id=90916086]
+script = ExtResource("1_ysjpo")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=333908414]
 environment = SubResource("Environment_n14tl")
@@ -1150,6 +1203,11 @@ material = ExtResource("16_8qayg")
 [node name="Player" parent="." unique_id=52852777 instance=ExtResource("3_y0acb")]
 transform = Transform3D(0.89, 0, 0, 0, 0.89, 0, 0, 0, 0.89, 5.162, 1.1, 4.485496)
 
+[node name="ChurchFinaleInteractor" parent="." unique_id=1976407865 instance=ExtResource("19_church_finale")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.262502, 1.1, -8.8)
+player_path = NodePath("../Player")
+hud_path = NodePath("../CandyHUD")
+
 [node name="CandyBucketPortal" parent="." unique_id=1888599199 instance=ExtResource("18_px1c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.673725, 0.3572799, -9.696306)
 target_scene_path = "res://scenes/minigames/candy_bucket/CandyBucket.tscn"
@@ -1166,7 +1224,7 @@ world_id = &"labyrinth"
 return_meta = &"labyrinth_return_to_door"
 player_path = NodePath("../Player")
 
-[node name="ChaseweenPortal" parent="." instance=ExtResource("18_px1c8")]
+[node name="ChaseweenPortal" parent="." unique_id=1144210649 instance=ExtResource("18_px1c8")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6.483225, 0.3572799, 20.4333)
 target_scene_path = "res://scenes/minigames/faction_fight/Chaseween.tscn"
 prompt_text = "E - CHASEWEEN"
@@ -1265,7 +1323,7 @@ mouse_filter = 2
 
 [node name="FinaleCard" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center" unique_id=917020472]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(760, 520)
+custom_minimum_size = Vector2(840, 610)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_finale_card")
@@ -1278,7 +1336,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
 theme_override_font_sizes/font_size = 18
-text = "✦  RAPPORT FINAL DE L'AVENTURE  ✦"
+text = "✦  GAME JAM HALLOWEEN 2026  ✦"
 horizontal_alignment = 1
 
 [node name="Title" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1188558847]
@@ -1287,15 +1345,15 @@ theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 4
-theme_override_font_sizes/font_size = 50
-text = "AVENTURE ACCOMPLIE"
+theme_override_font_sizes/font_size = 46
+text = "LA NUIT EST TERMINÉE"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1039753315]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 22
-text = "Tous les mondes ont été conquis. Voici votre légende."
+text = "Votre aventure mérite de rester dans les mémoires."
 horizontal_alignment = 1
 
 [node name="Separator" type="ColorRect" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=453483081]
@@ -1304,69 +1362,41 @@ layout_mode = 2
 mouse_filter = 2
 color = Color(1, 0.690196, 0.239216, 0.75)
 
-[node name="FinaleStats" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=47619605]
+[node name="NameStep" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1668385911]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 10
 
-[node name="CandyStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats" unique_id=1158262409]
-custom_minimum_size = Vector2(0, 142)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
-
-[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat" unique_id=323220335]
-layout_mode = 2
-alignment = 1
-
-[node name="FinalScoreLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox" unique_id=1571869515]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
-theme_override_font_sizes/font_size = 54
-text = "0"
-horizontal_alignment = 1
-
-[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox" unique_id=1901548321]
+[node name="Question" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/NameStep" unique_id=660086543]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
-theme_override_font_sizes/font_size = 17
-text = "CANDY RÉCOLTÉS"
+theme_override_font_sizes/font_size = 24
+text = "Quel aventurier se cache derrière ce score ?"
 horizontal_alignment = 1
 
-[node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats" unique_id=114426191]
-custom_minimum_size = Vector2(0, 142)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
-
-[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat" unique_id=1771612950]
-layout_mode = 2
-alignment = 1
-
-[node name="FinalWorldsLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox" unique_id=326728716]
+[node name="NameInput" type="LineEdit" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/NameStep" unique_id=1934744663]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 60)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
-theme_override_font_sizes/font_size = 54
-text = "0 / 1"
-horizontal_alignment = 1
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.941176, 0.8, 1)
+theme_override_colors/caret_color = Color(1, 0.690196, 0.239216, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_finale_input")
+placeholder_text = "Ton pseudo"
+alignment = 1
+max_length = 20
+clear_button_enabled = true
 
-[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox" unique_id=1787511640]
+[node name="NameError" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/NameStep" unique_id=1705756151]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_colors/font_color = Color(1, 0.466667, 0.396078, 1)
 theme_override_font_sizes/font_size = 17
-text = "MONDES TERMINÉS"
 horizontal_alignment = 1
 
-[node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1039807375]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
-theme_override_font_sizes/font_size = 20
-text = "✓  Progression complète — le royaume est sauf."
-horizontal_alignment = 1
-
-[node name="ContinueButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=884537251]
+[node name="ValidateButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/NameStep" unique_id=106644278]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(410, 64)
 layout_mode = 2
@@ -1374,16 +1404,144 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.0941176, 0.0470588, 0.117647, 1)
 theme_override_colors/font_pressed_color = Color(0.0941176, 0.0470588, 0.117647, 1)
 theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
-text = "CONTINUER DANS LE LOBBY"
+text = "VALIDER MON SCORE"
+
+[node name="ResultStep" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=47619605]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PlayerNameLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=302497226]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.854902, 0.733333, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 38
+text = "AVENTURIER"
+horizontal_alignment = 1
+
+[node name="CandyStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=1158262409]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
+
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/CandyStat" unique_id=323220335]
+layout_mode = 2
+alignment = 1
+
+[node name="FinalScoreLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/CandyStat/VBox" unique_id=1571869515]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 72
+text = "0 CANDY"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/CandyStat/VBox" unique_id=1901548321]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_font_sizes/font_size = 17
+text = "TOTAL DE VOTRE AVENTURE"
+horizontal_alignment = 1
+
+[node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=114426191]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
+
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/WorldStat" unique_id=1771612950]
+layout_mode = 2
+alignment = 1
+
+[node name="FinalWorldsLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/WorldStat/VBox" unique_id=326728716]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "0 / 3 MONDES ACCOMPLIS"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep/WorldStat/VBox" unique_id=1787511640]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
+theme_override_font_sizes/font_size = 15
+text = "PARCOURS COMPLET"
+horizontal_alignment = 1
+
+[node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=1039807375]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
+theme_override_font_sizes/font_size = 20
+text = "« Légende de la nuit d'Halloween »"
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1126415730]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions" unique_id=815572470]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_colors/font_pressed_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
+text = "ENREGISTRER MON BILAN"
+
+[node name="ReturnButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions" unique_id=884537251]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.878431, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.941176, 0.878431, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.941176, 0.8, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_finale_secondary")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_secondary")
+theme_override_styles/hover = SubResource("StyleBoxFlat_finale_secondary_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_finale_secondary_hover")
+text = "RETOUR AU LOBBY"
+
+[node name="SaveStatus" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1521934037]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Hint" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1099507836]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.580392, 0.521569, 0.65098, 1)
 theme_override_font_sizes/font_size = 15
 text = "ÉCHAP permet également de fermer ce résumé"
 horizontal_alignment = 1
+
+[node name="GameConsole" parent="." unique_id=618939243 instance=ExtResource("24_gexqn")]
+visible = false
+
+[node name="finish" parent="GameConsole" unique_id=1852908088 node_paths=PackedStringArray("target") instance=ExtResource("25_kc8j3")]
+target = NodePath("../..")
+function = "debug_finish"
