@@ -1,9 +1,9 @@
-class_name TerritoryHud
+class_name FactionTerritoryHud
 extends CanvasLayer
 
 signal unit_requested(stats: UnitStats)
 
-const UNIT_BUTTON_SCENE := preload("res://scenes/minigames/territory/UnitButton.tscn")
+const UNIT_BUTTON_SCENE := preload("res://scenes/minigames/faction_territory/UnitButton.tscn")
 const GAIN_DURATION := 1.5
 const GAIN_FADE_DURATION := 0.5
 const GAIN_SCROLL_DISTANCE := 35.0

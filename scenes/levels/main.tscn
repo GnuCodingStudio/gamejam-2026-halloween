@@ -1166,12 +1166,20 @@ world_id = &"labyrinth"
 return_meta = &"labyrinth_return_to_door"
 player_path = NodePath("../Player")
 
-[node name="ChaseweenPortal" parent="." instance=ExtResource("18_px1c8")]
+[node name="ChaseweenPortal" parent="." unique_id=266558229 instance=ExtResource("18_px1c8")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6.483225, 0.3572799, 20.4333)
 target_scene_path = "res://scenes/minigames/faction_fight/Chaseween.tscn"
 prompt_text = "E - CHASEWEEN"
 world_id = &"chaseween"
 return_meta = &"chaseween_return_to_door"
+player_path = NodePath("../Player")
+
+[node name="FactionTerritoryPortal" parent="." unique_id=1591606476 instance=ExtResource("18_px1c8")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 22.574, 0.357, 20.43)
+target_scene_path = "res://scenes/minigames/faction_territory/FactionTerritory.tscn"
+prompt_text = "E - Faction Territory"
+world_id = &"faction_territory"
+return_meta = &"faction_territory_return_to_door"
 player_path = NodePath("../Player")
 
 [node name="CaptureOnClick" parent="." unique_id=523612670 instance=ExtResource("4_j4d2a")]

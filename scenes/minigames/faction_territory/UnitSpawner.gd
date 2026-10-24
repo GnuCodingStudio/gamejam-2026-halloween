@@ -3,7 +3,7 @@ extends Node
 
 signal unit_spawned(unit: Unit)
 
-const UNIT_SCENE := preload("res://scenes/minigames/territory/Unit.tscn")
+const UNIT_SCENE := preload("res://scenes/minigames/faction_territory/Unit.tscn")
 
 @export var faction: Faction.Side
 @export var units_root: Node3D

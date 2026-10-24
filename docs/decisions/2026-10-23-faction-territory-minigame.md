@@ -1,11 +1,11 @@
-# Territory minigame — decisions
+# Faction Territory minigame — decisions
 
 | Decision | Choice | Why | Revisit when |
 |---|---|---|---|
 | Scope | Throwaway slice: one map, one fixed enemy AI, no saving | Jam, rules not yet proven | a second map or difficulty is wanted |
 | Dimension / language / authority | 3D, GDScript, single-player | Existing project | — |
 | Camera | Fixed, almost top-down | User choice | — |
-| Integration | None yet (no lobby, no `ProgressionService`) | User choice | the minigame is kept |
+| Integration | Lobby portal and `ProgressionService` (world `faction_territory`) | User choice | the minigame is kept |
 | Map | 5 sites on a line, no neutral site | User choice | the map becomes a graph |
 | Start | Player owns 1 site, enemy owns 4 | Comeback arc | balance tuning |
 | Player input | UI buttons, one per unit type (2–3 types) | User choice | — |
@@ -28,12 +28,12 @@
 - End of the timer — **assumed** a result overlay with the candy total and "Continue" to `scenes/levels/main.tscn` through `SceneTransition`.
 - Spawn when a side owns no site — **assumed** a permanent home spawn behind its end of the line, not capturable.
 - "Defenders" — **assumed** the enemy units standing in or fighting at the site. A marching unit that reaches a site with no enemy unit present flips it.
-- Site wait — **assumed** player-only, since the request says "the player's mob". The property is still named `capture_wait_time` to keep the values already set per site in `Territory.tscn`.
+- Site wait — **assumed** player-only, since the request says "the player's mob". The property is still named `capture_wait_time` to keep the values already set per site in `FactionTerritory.tscn`.
 - Enemy candies — **assumed** none, the AI earns no score.
 - Role per model — **assumed** Rogue = cheap/weak, Ranger = medium, Mage = expensive/strong.
 - Enemy look — **assumed** the same three models, tinted to tell the factions apart.
 - Unit stats and cooldown values — first guesses (see `units/*.tres`), to be tuned in play. Enemy spawn interval is 4s (`EnemyAI.spawn_interval`).
 - Units are `Node3D` with distance checks on the x axis, not physics bodies — units only move along one line.
 - Attack animation — none: the Knight clips only have idle and run, so a hit is a small scale punch.
-- No lobby portal, so "Continue" does not put the player back at a door.
+- Lobby: a `FactionTerritoryPortal` (`LevelPortal`) sits at the church door in `main.tscn`. "Continue" sets the `faction_territory_return_to_door` meta so the player reappears at the portal. When the round timer ends, `ProgressionService.complete_world(&"faction_territory", candies)` flags the world as finished and adds the candies to the total (once, like the other minigames). The portal has `world_id = &"faction_territory"`, so it then shows "MONDE TERMINÉ".
 - Texts hardcoded in English, not yet in the localization files.

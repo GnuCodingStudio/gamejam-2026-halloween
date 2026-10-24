@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://byb5iyvykkl68"]
 
-[ext_resource type="Script" uid="uid://u7ilpy5qvr7w" path="res://scenes/minigames/territory/TerritoryHud.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://u7ilpy5qvr7w" path="res://scenes/minigames/faction_territory/FactionTerritoryHud.gd" id="1_hud"]
 
-[node name="TerritoryHud" type="CanvasLayer" unique_id=1098428281]
+[node name="FactionTerritoryHud" type="CanvasLayer" unique_id=1098428281]
 script = ExtResource("1_hud")
 
 [node name="Root" type="Control" parent="." unique_id=1216224674]

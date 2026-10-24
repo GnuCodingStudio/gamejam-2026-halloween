@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitStats" format=3 uid="uid://58ldge2iyhq8"]
 
-[ext_resource type="Script" uid="uid://cqlmlfartaiu2" path="res://scenes/minigames/territory/UnitStats.gd" id="1_stats"]
+[ext_resource type="Script" uid="uid://cqlmlfartaiu2" path="res://scenes/minigames/faction_territory/UnitStats.gd" id="1_stats"]
 [ext_resource type="PackedScene" uid="uid://bg0d0l46dmgfj" path="res://assets/characters/Mage.glb" id="2_model"]
 
 [resource]

@@ -1,4 +1,4 @@
-class_name TerritoryResultOverlay
+class_name FactionTerritoryResultOverlay
 extends CanvasLayer
 
 signal continue_pressed

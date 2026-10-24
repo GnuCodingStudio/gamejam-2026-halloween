@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://1hprd6rnjk7e"]
 
-[ext_resource type="Script" uid="uid://o6ts8qkfv47k" path="res://scenes/minigames/territory/Site.gd" id="1_site"]
+[ext_resource type="Script" uid="uid://o6ts8qkfv47k" path="res://scenes/minigames/faction_territory/Site.gd" id="1_site"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_base"]
 top_radius = 2.5

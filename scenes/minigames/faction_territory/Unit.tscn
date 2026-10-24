@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scenes/minigames/territory/Unit.gd" id="1_unit"]
+[ext_resource type="Script" path="res://scenes/minigames/faction_territory/Unit.gd" id="1_unit"]
 [ext_resource type="Animation" path="res://assets/animations/clips/idle.res" id="2_idle"]
 [ext_resource type="Animation" path="res://assets/animations/clips/run.res" id="3_run"]
 

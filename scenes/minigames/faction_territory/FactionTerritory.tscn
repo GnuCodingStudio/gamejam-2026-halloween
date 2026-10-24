@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cw0j4g7in1atd"]
 
-[ext_resource type="PackedScene" uid="uid://1hprd6rnjk7e" path="res://scenes/minigames/territory/Site.tscn" id="1_site"]
-[ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/territory/Territory.gd" id="2_territory"]
-[ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/territory/UnitSpawner.gd" id="3_spawner"]
-[ext_resource type="PackedScene" uid="uid://byb5iyvykkl68" path="res://scenes/minigames/territory/TerritoryHud.tscn" id="4_hud"]
-[ext_resource type="Script" uid="uid://m0oqam17mc24" path="res://scenes/minigames/territory/EnemyAI.gd" id="5_enemy_ai"]
-[ext_resource type="PackedScene" path="res://scenes/minigames/territory/TerritoryResultOverlay.tscn" id="6_overlay"]
+[ext_resource type="PackedScene" uid="uid://1hprd6rnjk7e" path="res://scenes/minigames/faction_territory/Site.tscn" id="1_site"]
+[ext_resource type="Script" uid="uid://l458mwlx6kgv" path="res://scenes/minigames/faction_territory/FactionTerritory.gd" id="2_territory"]
+[ext_resource type="Script" uid="uid://byklv37p2ba6u" path="res://scenes/minigames/faction_territory/UnitSpawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://byb5iyvykkl68" path="res://scenes/minigames/faction_territory/FactionTerritoryHud.tscn" id="4_hud"]
+[ext_resource type="Script" uid="uid://m0oqam17mc24" path="res://scenes/minigames/faction_territory/EnemyAI.gd" id="5_enemy_ai"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_territory/FactionTerritoryResultOverlay.tscn" id="6_overlay"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_territory"]
 sky_top_color = Color(0.12, 0.1, 0.25, 1)
@@ -33,7 +33,7 @@ size = Vector3(100, 0.05, 3)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_road"]
 albedo_color = Color(0.3, 0.24, 0.38, 1)
 
-[node name="Territory" type="Node3D" unique_id=141314897]
+[node name="FactionTerritory" type="Node3D" unique_id=141314897]
 script = ExtResource("2_territory")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=422297814]
@@ -91,7 +91,7 @@ autostart = true
 
 [node name="RoundTimer" type="Timer" parent="." unique_id=1698337324]
 unique_name_in_owner = true
-wait_time = 240.0
+wait_time = 15.0
 one_shot = true
 autostart = true
 

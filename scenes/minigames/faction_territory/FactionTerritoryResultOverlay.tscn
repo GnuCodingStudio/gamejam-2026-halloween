@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scenes/minigames/territory/TerritoryResultOverlay.gd" id="1_overlay"]
+[ext_resource type="Script" path="res://scenes/minigames/faction_territory/FactionTerritoryResultOverlay.gd" id="1_overlay"]
 [ext_resource type="PackedScene" uid="uid://wdqk4jv113lg" path="res://components/uicontrols/UIContols.tscn" id="2_ui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dim"]
@@ -18,7 +18,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="TerritoryResultOverlay" type="CanvasLayer"]
+[node name="FactionTerritoryResultOverlay" type="CanvasLayer"]
 process_mode = 3
 visible = false
 script = ExtResource("1_overlay")

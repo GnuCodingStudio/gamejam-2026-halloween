@@ -1,13 +1,15 @@
-class_name Territory
+class_name FactionTerritory
 extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
-const ROGUE_STATS: UnitStats = preload("res://scenes/minigames/territory/units/rogue.tres")
-const RANGER_STATS: UnitStats = preload("res://scenes/minigames/territory/units/ranger.tres")
+const WORLD_ID: StringName = &"faction_territory"
+const LOBBY_RETURN_META: StringName = &"faction_territory_return_to_door"
+const ROGUE_STATS: UnitStats = preload("res://scenes/minigames/faction_territory/units/rogue.tres")
+const RANGER_STATS: UnitStats = preload("res://scenes/minigames/faction_territory/units/ranger.tres")
 const ALL_STATS: Array[UnitStats] = [
 	ROGUE_STATS,
 	RANGER_STATS,
-	preload("res://scenes/minigames/territory/units/mage.tres"),
+	preload("res://scenes/minigames/faction_territory/units/mage.tres"),
 ]
 const UNITS_AVAILABLE_AT_START := 1
 const CANDIES_PER_SITE := 1
@@ -23,8 +25,8 @@ var _candies := 0
 @onready var _enemy_ai: EnemyAI = %EnemyAI
 @onready var _payout_timer: Timer = %PayoutTimer
 @onready var _round_timer: Timer = %RoundTimer
-@onready var _hud: TerritoryHud = %Hud
-@onready var _result_overlay: TerritoryResultOverlay = %ResultOverlay
+@onready var _hud: FactionTerritoryHud = %Hud
+@onready var _result_overlay: FactionTerritoryResultOverlay = %ResultOverlay
 
 
 func _ready() -> void:
@@ -76,13 +78,18 @@ func _on_payout_timer_timeout() -> void:
 
 
 func _on_round_timer_timeout() -> void:
+	ProgressionService.complete_world(WORLD_ID, _candies)
 	get_tree().paused = true
 	_result_overlay.show_result(_candies)
 
 
 func _on_continue_pressed() -> void:
 	get_tree().paused = false
-	SceneTransition.change_scene(LOBBY_SCENE_PATH)
+	SceneTransition.change_scene(LOBBY_SCENE_PATH, _mark_lobby_return)
+
+
+func _mark_lobby_return() -> void:
+	get_tree().set_meta(LOBBY_RETURN_META, true)
 
 
 func _refresh_hud() -> void:
