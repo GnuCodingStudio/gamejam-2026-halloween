@@ -1,14 +1,17 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scenes/secret_gallery/GalleryFrame.gd" id="1_script"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_unit"]
 size = Vector3(1, 1, 1)
 
+[sub_resource type="QuadMesh" id="QuadMesh_archive"]
+size = Vector2(1, 1)
+
 [sub_resource type="StandardMaterial3D" id="Material_gold"]
-albedo_color = Color(0.55, 0.32, 0.1, 1)
-metallic = 0.65
-roughness = 0.42
+albedo_color = Color(0.26, 0.15, 0.06, 1)
+metallic = 0.45
+roughness = 0.62
 
 [sub_resource type="StandardMaterial3D" id="Material_placeholder"]
 albedo_color = Color(0.17, 0.14, 0.19, 1)
@@ -25,7 +28,7 @@ material_override = SubResource("Material_placeholder")
 [node name="ArchiveSurface" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 position = Vector3(0, 0, 0.08)
-mesh = SubResource("BoxMesh_unit")
+mesh = SubResource("QuadMesh_archive")
 material_override = SubResource("Material_placeholder")
 
 [node name="TopBorder" type="MeshInstance3D" parent="."]

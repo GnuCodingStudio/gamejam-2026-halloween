@@ -4,6 +4,15 @@ extends Node
 const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
 const GALLERY_SCENE_PATH: String = "res://scenes/secret_gallery/SecretGallery.tscn"
 const SECRET_LAMP_PATH: NodePath = NodePath("CSGCombiner3D/light18")
+const ARCHIVE_PATHS: Array[String] = [
+	"res://assets/painting/painting1.png",
+	"res://assets/painting/painting2.png",
+	"res://assets/painting/painting3.png",
+	"res://assets/painting/painting4.png",
+	"res://assets/painting/painting5.png",
+	"res://assets/painting/painting6.png",
+	"res://assets/painting/painting7.png",
+]
 
 var _failures: Array[String] = []
 
@@ -117,20 +126,44 @@ func _test_gallery_scene() -> void:
 
 	var portrait_count: int = 0
 	var landscape_count: int = 0
-	var frames_are_empty: bool = true
+	var loaded_archive_paths: Dictionary = {}
+	var archives_keep_their_ratio: bool = true
+	var archive_materials_are_readable: bool = true
+	var archive_surfaces_show_full_texture: bool = true
 	if frames != null:
 		for index: int in range(frames.get_child_count()):
 			var frame: GalleryFrame = frames.get_child(index) as GalleryFrame
 			_check(frame != null and frame.name == "ArchiveFrame_%02d" % (index + 1), "Le cadre %02d possède un nom explicite" % (index + 1))
 			if frame == null:
 				continue
-			frames_are_empty = frames_are_empty and frame.archive_texture == null
+			var expected_path: String = ARCHIVE_PATHS[index]
+			var archive_path: String = frame.archive_texture.resource_path if frame.archive_texture != null else ""
+			_check(archive_path == expected_path, "Le cadre %02d affiche painting%d.png" % [index + 1, index + 1])
+			loaded_archive_paths[archive_path] = true
+			var archive_surface: MeshInstance3D = frame.get_node_or_null("ArchiveSurface") as MeshInstance3D
+			var archive_material: StandardMaterial3D = archive_surface.material_override as StandardMaterial3D if archive_surface != null else null
+			if frame.archive_texture != null and archive_surface != null:
+				var texture_size: Vector2 = frame.archive_texture.get_size()
+				var displayed_ratio: float = archive_surface.scale.x / archive_surface.scale.y
+				archives_keep_their_ratio = archives_keep_their_ratio and is_equal_approx(displayed_ratio, texture_size.x / texture_size.y)
+				archives_keep_their_ratio = archives_keep_their_ratio and texture_size.x >= 1000.0 and texture_size.y >= 1000.0
+			archive_materials_are_readable = (
+				archive_materials_are_readable
+				and archive_material != null
+				and archive_material.albedo_texture == frame.archive_texture
+				and archive_material.albedo_color == Color.WHITE
+				and is_equal_approx(archive_material.roughness, 1.0)
+			)
+			archive_surfaces_show_full_texture = archive_surfaces_show_full_texture and archive_surface != null and archive_surface.mesh is QuadMesh
 			if frame.frame_size.x > frame.frame_size.y:
 				landscape_count += 1
 			else:
 				portrait_count += 1
-	_check(frames_are_empty, "Les cadres restent neutres et sans archive inventée")
-	_check(portrait_count == 4 and landscape_count == 3, "La galerie prévoit quatre portraits et trois paysages")
+	_check(loaded_archive_paths.size() == 7 and not loaded_archive_paths.has(""), "Les sept archives sont différentes et aucun cadre ne reste vide")
+	_check(portrait_count == 5 and landscape_count == 2, "Les cadres suivent les cinq formats portrait et deux formats paysage réels")
+	_check(archives_keep_their_ratio, "Chaque archive conserve son rapport largeur/hauteur et sa résolution complète")
+	_check(archive_surfaces_show_full_texture, "Chaque archive utilise une surface plane aux UV complets")
+	_check(archive_materials_are_readable, "Les matériaux affichent les PNG sans assombrissement ni reflet excessif")
 
 	await get_tree().physics_frame
 	var space_state: PhysicsDirectSpaceState3D = gallery.get_world_3d().direct_space_state
@@ -165,10 +198,13 @@ func _test_gallery_scene() -> void:
 		_check(not exit.prompt.visible, "Le message disparaît hors de portée")
 
 	if OS.get_environment("KEEP_SECRET_GALLERY_SCREEN") == "1" and DisplayServer.get_name() != "headless":
-		await RenderingServer.frame_post_draw
-		var screenshot_path: String = ProjectSettings.globalize_path("user://secret_gallery_test.png")
-		gallery.get_viewport().get_texture().get_image().save_png(screenshot_path)
-		print("SECRET_GALLERY_SCREEN: %s" % screenshot_path)
+		player.model.hide()
+		await _capture_gallery_view(gallery, Vector3(0, 3, -5), Vector3(0, 3, -11.9), "north")
+		await _capture_gallery_view(gallery, Vector3(-5.5, 3, -4.2), Vector3(-9.9, 3, -4.2), "west_04")
+		await _capture_gallery_view(gallery, Vector3(-5.5, 3, 4), Vector3(-9.9, 3, 4), "west_05")
+		await _capture_gallery_view(gallery, Vector3(5.5, 3, -4.2), Vector3(9.9, 3, -4.2), "east_06")
+		await _capture_gallery_view(gallery, Vector3(5.5, 3, 4), Vector3(9.9, 3, 4), "east_07")
+		player.model.show()
 
 	gallery.queue_free()
 	await get_tree().process_frame
@@ -208,6 +244,27 @@ func _instantiate_scene(scene_path: String) -> Node:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	return instance
+
+
+func _capture_gallery_view(
+	gallery: Node3D,
+	position: Vector3,
+	target: Vector3,
+	view_name: String
+) -> void:
+	var inspection_camera := Camera3D.new()
+	gallery.add_child(inspection_camera)
+	inspection_camera.global_position = position
+	inspection_camera.look_at(target, Vector3.UP)
+	inspection_camera.fov = 55.0
+	inspection_camera.make_current()
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var screenshot_path: String = ProjectSettings.globalize_path("user://secret_gallery_%s.png" % view_name)
+	gallery.get_viewport().get_texture().get_image().save_png(screenshot_path)
+	print("SECRET_GALLERY_SCREEN_%s: %s" % [view_name.to_upper(), screenshot_path])
+	inspection_camera.queue_free()
+	await get_tree().process_frame
 
 
 func _check(condition: bool, message: String) -> void:

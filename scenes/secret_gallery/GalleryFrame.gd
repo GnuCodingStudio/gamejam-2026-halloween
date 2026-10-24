@@ -3,7 +3,7 @@ class_name GalleryFrame
 extends Node3D
 
 
-const BORDER_THICKNESS: float = 0.16
+const BORDER_THICKNESS: float = 0.08
 const SURFACE_MARGIN: float = 0.28
 
 @export var frame_size: Vector2 = Vector2(3.2, 2.2):
@@ -63,7 +63,10 @@ func _apply_archive_texture(inner_size: Vector2) -> void:
 	if _placeholder_material == null:
 		return
 	var local_material: StandardMaterial3D = _placeholder_material.duplicate() as StandardMaterial3D
+	local_material.albedo_color = Color.WHITE
 	local_material.albedo_texture = archive_texture
+	local_material.metallic = 0.0
+	local_material.roughness = 1.0
 	archive_surface.material_override = local_material
 
 	var texture_size: Vector2 = archive_texture.get_size()
