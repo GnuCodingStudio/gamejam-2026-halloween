@@ -11,6 +11,9 @@ const FIELD_HALF_LENGTH := 24.0
 const TINT_ALPHA := 0.3
 const PUNCH_SCALE := 1.15
 const PUNCH_TIME := 0.08
+const STACK_DISTANCE := 0.4
+const STACK_SPACING := 0.6
+const STACK_SMOOTHING := 8.0
 
 @onready var _model_holder: Node3D = %Model
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
@@ -50,11 +53,31 @@ func take_damage(amount: float) -> void:
 func _physics_process(delta: float) -> void:
 	_attack_cooldown = maxf(0.0, _attack_cooldown - delta)
 	_capture_wait_remaining = maxf(0.0, _capture_wait_remaining - delta)
+	_spread_visually(delta)
 	var target := _find_target_in_range()
 	if target != null:
 		_fight(target)
 	else:
 		_march(delta)
+
+
+func _spread_visually(delta: float) -> void:
+	var mates := _stacked_allies()
+	var rank := 0
+	for mate in mates:
+		if mate.get_instance_id() < get_instance_id():
+			rank += 1
+	var target_z := (rank - (mates.size() - 1) / 2.0) * STACK_SPACING
+	_model_holder.position.z = lerpf(_model_holder.position.z, target_z, STACK_SMOOTHING * delta)
+
+
+func _stacked_allies() -> Array[Unit]:
+	var allies: Array[Unit] = []
+	for node in get_tree().get_nodes_in_group(GROUP):
+		var other := node as Unit
+		if other.faction == faction and absf(other.global_position.x - global_position.x) <= STACK_DISTANCE:
+			allies.append(other)
+	return allies
 
 
 func _heading() -> float:
