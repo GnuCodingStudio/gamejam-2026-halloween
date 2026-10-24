@@ -10,12 +10,14 @@ const GAIN_SCROLL_DISTANCE := 35.0
 
 var _gain_tween: Tween
 var _gain_rest_y: float
+var _spawner: UnitSpawner
 
 @onready var _buttons: HBoxContainer = %Buttons
 @onready var _candy_label: Label = %CandyLabel
 @onready var _sites_label: Label = %SitesLabel
 @onready var _time_label: Label = %TimeLabel
 @onready var _gain_label: Label = %GainLabel
+@onready var _units_label: Label = %UnitsLabel
 
 
 func _ready() -> void:
@@ -23,7 +25,13 @@ func _ready() -> void:
 	_gain_rest_y = _gain_label.position.y
 
 
+func _process(_delta: float) -> void:
+	if _spawner:
+		_units_label.text = "%d/%d units are fighting" % [_spawner.alive_count, _spawner.max_alive]
+
+
 func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
+	_spawner = spawner
 	for stats in all_stats:
 		var button: UnitButton = UNIT_BUTTON_SCENE.instantiate()
 		_buttons.add_child(button)

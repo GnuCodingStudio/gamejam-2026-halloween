@@ -22,15 +22,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	visible = _spawner.is_unlocked(_stats)
 	var remaining := _spawner.remaining_cooldown(_stats)
-	var at_max := _spawner.is_at_max_alive(_stats)
-	disabled = remaining > 0.0 or at_max
+	disabled = remaining > 0.0 or _spawner.is_at_max_alive()
 	_cooldown_bar.value = remaining / _stats.cooldown * 100.0
-	text = _label(remaining, at_max)
+	text = _label(remaining)
 
 
-func _label(remaining: float, at_max: bool) -> String:
-	if at_max:
-		return "%s\nMax %d reached" % [_stats.display_name, _stats.max_alive]
+func _label(remaining: float) -> String:
 	if remaining > 0.0:
 		return "%s\n%.1fs" % [_stats.display_name, remaining]
 	return _stats.display_name

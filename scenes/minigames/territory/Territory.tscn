@@ -66,6 +66,7 @@ script = ExtResource("3_spawner")
 units_root = NodePath("../Units")
 home_x = -24.0
 spawn_at_rearmost_site = true
+max_alive = 6
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=611191818 node_paths=PackedStringArray("units_root")]
 unique_name_in_owner = true
