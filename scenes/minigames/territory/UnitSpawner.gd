@@ -8,6 +8,7 @@ const UNIT_SCENE := preload("res://scenes/minigames/territory/Unit.tscn")
 @export var faction: Faction.Side
 @export var units_root: Node3D
 @export var home_x := 0.0
+@export var spawn_at_rearmost_site := false
 
 var _cooldowns: Dictionary[UnitStats, float] = {}
 
@@ -38,15 +39,18 @@ func spawn(stats: UnitStats) -> Unit:
 
 
 func _spawn_x() -> float:
-	var x := home_x
-	for node in get_tree().get_nodes_in_group(Site.GROUP):
-		var site := node as Site
-		if site.faction == faction and _is_more_forward(site.global_position.x, x):
-			x = site.global_position.x
+	var owned_xs := _owned_site_xs()
+	if owned_xs.is_empty():
+		return home_x
+	var wants_highest_x := (faction == Faction.Side.PLAYER) != spawn_at_rearmost_site
+	var x: float = owned_xs.max() if wants_highest_x else owned_xs.min()
 	return x
 
 
-func _is_more_forward(candidate_x: float, current_x: float) -> bool:
-	if faction == Faction.Side.PLAYER:
-		return candidate_x > current_x
-	return candidate_x < current_x
+func _owned_site_xs() -> Array[float]:
+	var xs: Array[float] = []
+	for node in get_tree().get_nodes_in_group(Site.GROUP):
+		var site := node as Site
+		if site.faction == faction:
+			xs.append(site.global_position.x)
+	return xs

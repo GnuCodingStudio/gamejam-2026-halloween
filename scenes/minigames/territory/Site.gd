@@ -5,6 +5,7 @@ signal owner_changed(site: Site, side: Faction.Side)
 
 const GROUP := &"sites"
 
+@export_range(0.0, 20.0, 0.5, "suffix:s") var capture_wait_time := 3.0
 @export var faction: Faction.Side = Faction.Side.ENEMY:
 	set(value):
 		faction = value

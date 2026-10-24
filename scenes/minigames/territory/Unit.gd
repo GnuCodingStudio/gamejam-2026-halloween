@@ -20,6 +20,7 @@ var stats: UnitStats
 var health: float
 
 var _attack_cooldown := 0.0
+var _capture_wait_remaining := 0.0
 var _current_animation := &""
 
 
@@ -45,6 +46,7 @@ func take_damage(amount: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	_attack_cooldown = maxf(0.0, _attack_cooldown - delta)
+	_capture_wait_remaining = maxf(0.0, _capture_wait_remaining - delta)
 	var target := _find_target_in_range()
 	if target != null:
 		_fight(target)
@@ -117,6 +119,9 @@ func _punch() -> void:
 
 
 func _march(delta: float) -> void:
+	if _capture_wait_remaining > 0.0:
+		_play(&"idle")
+		return
 	_play(&"run")
 	global_position.x += _heading() * stats.move_speed * delta
 	_try_capture_sites()
@@ -133,6 +138,7 @@ func _try_capture_sites() -> void:
 			continue
 		if not _is_defended(site):
 			site.flip_to(faction)
+			_capture_wait_remaining = site.capture_wait_time
 
 
 func _is_defended(site: Site) -> bool:

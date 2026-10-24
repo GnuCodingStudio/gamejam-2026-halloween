@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="UnitStats" format=3]
+[gd_resource type="Resource" script_class="UnitStats" format=3 uid="uid://58ldge2iyhq8"]
 
-[ext_resource type="Script" path="res://scenes/minigames/territory/UnitStats.gd" id="1_stats"]
-[ext_resource type="PackedScene" path="res://assets/characters/Mage.glb" id="2_model"]
+[ext_resource type="Script" uid="uid://cqlmlfartaiu2" path="res://scenes/minigames/territory/UnitStats.gd" id="1_stats"]
+[ext_resource type="PackedScene" uid="uid://bg0d0l46dmgfj" path="res://assets/characters/Mage.glb" id="2_model"]
 
 [resource]
 script = ExtResource("1_stats")
@@ -12,4 +12,4 @@ damage = 25.0
 attack_range = 5.0
 attack_interval = 1.8
 move_speed = 2.5
-cooldown = 12.0
+cooldown = 20.0

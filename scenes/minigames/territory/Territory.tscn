@@ -65,6 +65,7 @@ unique_name_in_owner = true
 script = ExtResource("3_spawner")
 units_root = NodePath("../Units")
 home_x = -24.0
+spawn_at_rearmost_site = true
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=611191818 node_paths=PackedStringArray("units_root")]
 unique_name_in_owner = true
@@ -102,15 +103,19 @@ unique_name_in_owner = true
 
 [node name="Site1" parent="Sites" unique_id=418990625 instance=ExtResource("1_site")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+capture_wait_time = 2.0
 faction = 0
 
 [node name="Site2" parent="Sites" unique_id=142842525 instance=ExtResource("1_site")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
 
 [node name="Site3" parent="Sites" unique_id=1512016276 instance=ExtResource("1_site")]
+capture_wait_time = 5.0
 
 [node name="Site4" parent="Sites" unique_id=1186741524 instance=ExtResource("1_site")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+capture_wait_time = 8.0
 
 [node name="Site5" parent="Sites" unique_id=876857651 instance=ExtResource("1_site")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+capture_wait_time = 15.0

@@ -9,12 +9,12 @@
 | Map | 5 sites on a line, no neutral site | User choice | the map becomes a graph |
 | Start | Player owns 1 site, enemy owns 4 | Comeback arc | balance tuning |
 | Player input | UI buttons, one per unit type (2–3 types) | User choice | — |
-| Spawn point | The most-forward site owned by the spawning side | User choice | — |
+| Spawn point | Player: the rearmost (first) site he owns. Enemy: the most-forward site it owns (`UnitSpawner.spawn_at_rearmost_site` is set on the player spawner only) | User choice | — |
 | Targeting | None: units march along the line toward the enemy | Spawn rule above, no target picking | a branching map |
 | Roster | 3 unit types, using `assets/characters/Rogue_Hooded.glb`, `Ranger.glb` and `Mage.glb` | Models provided by the user | more models are added |
 | Unit cost | Cooldown only, no currency. Cheap = short cooldown but weak, expensive = long cooldown but strong | User choice | — |
 | Cooldown model | One cooldown per button | Real choice between types | — |
-| After a flip | Units keep marching, they do not stay as defenders | User choice | — |
+| After a flip | Units keep marching, they do not stay as defenders. Exception: the unit which captured a site waits there for the site's `capture_wait_time` (set per site, default 3s) to slow the game down. It still fights while waiting | User choice | the game feels too slow |
 | Capture | Killing the defenders flips the site at once | User choice | — |
 | Defenses | Only units fight, no turrets | Smallest version | towers are wanted |
 | Losing all sites | The player can still spawn units | Never stuck at 0 | — |
@@ -28,6 +28,7 @@
 - End of the timer — **assumed** a result overlay with the candy total and "Continue" to `scenes/levels/main.tscn` through `SceneTransition`.
 - Spawn when a side owns no site — **assumed** a permanent home spawn behind its end of the line, not capturable.
 - "Defenders" — **assumed** the enemy units standing in or fighting at the site. A marching unit that reaches a site with no enemy unit present flips it.
+- Capture wait — **assumed** it applies to both factions' units, not only the player's, to keep the rules the same for both.
 - Enemy candies — **assumed** none, the AI earns no score.
 - Role per model — **assumed** Rogue = cheap/weak, Ranger = medium, Mage = expensive/strong.
 - Enemy look — **assumed** the same three models, tinted to tell the factions apart.

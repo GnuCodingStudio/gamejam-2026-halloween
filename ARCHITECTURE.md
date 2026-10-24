@@ -111,10 +111,10 @@ It is the last labyrinth: `Level02` points to it with `next_level`, and `Level03
 `territory/Territory.tscn` is a solo fight against the computer: 5 sites on a line (x = -20 to 20), the player owns the first one, the enemy owns the others.
 The goal is to collect candies (a score only, there is no win or loss). Decisions are in `docs/decisions/2026-10-23-territory-minigame.md`.
 
-- `Site`: a flag which belongs to a `Faction.Side`. `flip_to(side)` changes its owner and emits `owner_changed`. Sites are in the `sites` group.
+- `Site`: a flag which belongs to a `Faction.Side`. `flip_to(side)` changes its owner and emits `owner_changed`. Sites are in the `sites` group. `capture_wait_time` (seconds, set per site in the Inspector) is how long the unit which captured it waits there before marching on.
 - `Unit`: marches along the line, stops to attack the nearest enemy in range, and flips an enemy site it reaches when no enemy unit is standing near it. It uses distance checks on the x axis, not physics. Units are in the `units` group.
 - `UnitStats` (Resource): health, damage, range, speed and `cooldown`. One `.tres` per type in `units/` (`rogue`, `ranger`, `mage`). The cooldown is the only cost of a unit.
-- `UnitSpawner`: one per faction, with one cooldown per unit type. It spawns at the most-forward site owned by its faction, or at `home_x` if it owns none.
+- `UnitSpawner`: one per faction, with one cooldown per unit type. It spawns at the most-forward site owned by its faction, or at the rearmost one when `spawn_at_rearmost_site` is on (the player's spawner), or at `home_x` if it owns none.
 - `EnemyAI`: every `spawn_interval` seconds, asks the enemy spawner for a random unit type which is not on cooldown.
 - `Territory`: gives 5 candies per owned site every 20s (`PayoutTimer`), ends the round after 180s (`RoundTimer`), pauses the game and shows `TerritoryResultOverlay`. "Continue" goes to `scenes/levels/main.tscn`.
 - `TerritoryHud`: candies, "+N" payout popup, owned sites, remaining time and one `UnitButton` per unit type (the button reads the remaining cooldown from the spawner).
