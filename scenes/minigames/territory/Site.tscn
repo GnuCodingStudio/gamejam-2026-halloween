@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/minigames/territory/Site.gd" id="1_site"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 2.5
+bottom_radius = 2.5
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
+top_radius = 0.08
+bottom_radius = 0.08
+height = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_flag"]
+size = Vector3(1.2, 0.7, 0.05)
+
+[node name="Site" type="Node3D"]
+script = ExtResource("1_site")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_base")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_pole")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 2.6, 0)
+mesh = SubResource("BoxMesh_flag")
