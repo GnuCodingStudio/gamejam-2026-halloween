@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://rhxkma1s7hif"
 path.s3tc="res://.godot/imported/Meshy_AI_Ghost_Lantern_1.jpg-9ecdd8b5e55e5d3275cf6087250a9e2d.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Ghost_Lantern_1.jpg-9ecdd8b5e55e5d3275cf6087250a9e2d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Ghost_Lantern_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Ghost_Lantern_1.jpg-9ecdd8b5e55e5d3275cf6087250a9e2d.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Ghost_Lantern_1.jpg-9ecdd8b5e55e5d3275cf6087250a9e2d.s3tc.ctex", "res://.godot/imported/Meshy_AI_Ghost_Lantern_1.jpg-9ecdd8b5e55e5d3275cf6087250a9e2d.etc2.ctex"]
 
 [params]
 

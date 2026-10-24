@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cm3w2qw4p7p8j"
 path.s3tc="res://.godot/imported/Meshy_AI_Phantom_spectral_badge_0.jpg-0a36a45f048a0fc6cf722821f4944ac0.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Phantom_spectral_badge_0.jpg-0a36a45f048a0fc6cf722821f4944ac0.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Phantom_spectral_badge_0.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Phantom_spectral_badge_0.jpg-0a36a45f048a0fc6cf722821f4944ac0.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Phantom_spectral_badge_0.jpg-0a36a45f048a0fc6cf722821f4944ac0.s3tc.ctex", "res://.godot/imported/Meshy_AI_Phantom_spectral_badge_0.jpg-0a36a45f048a0fc6cf722821f4944ac0.etc2.ctex"]
 
 [params]
 

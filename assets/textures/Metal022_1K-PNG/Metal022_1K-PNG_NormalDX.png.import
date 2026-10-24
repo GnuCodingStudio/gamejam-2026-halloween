@@ -3,25 +3,27 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mtc0pnn77hgt"
-path="res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.ctex"
+path.s3tc="res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.s3tc.ctex"
+path.etc2="res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG_NormalDX.png"
-dest_files=["res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.ctex"]
+dest_files=["res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.s3tc.ctex", "res://.godot/imported/Metal022_1K-PNG_NormalDX.png-8e3883055c2298a6ae01544898ae8222.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=false
 mipmaps/limit=-1

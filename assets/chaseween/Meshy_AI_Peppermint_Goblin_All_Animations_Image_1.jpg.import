@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bi8hu28dw5qhg"
-path="res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.ctex"
+path.s3tc="res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "11f4a8a185438b09826be3b796679c53"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.s3tc.ctex", "res://.godot/imported/Meshy_AI_Peppermint_Goblin_All_Animations_Image_1.jpg-129effd29c92fbad6f11556340eb38db.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

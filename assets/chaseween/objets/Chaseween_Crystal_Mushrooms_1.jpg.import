@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dfjyqcs0f61uu"
 path.s3tc="res://.godot/imported/Chaseween_Crystal_Mushrooms_1.jpg-2d38d866cc9f21608be4a588a207f08d.s3tc.ctex"
+path.etc2="res://.godot/imported/Chaseween_Crystal_Mushrooms_1.jpg-2d38d866cc9f21608be4a588a207f08d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Chaseween_Crystal_Mushrooms_1.jpg"
-dest_files=["res://.godot/imported/Chaseween_Crystal_Mushrooms_1.jpg-2d38d866cc9f21608be4a588a207f08d.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chaseween_Crystal_Mushrooms_1.jpg-2d38d866cc9f21608be4a588a207f08d.s3tc.ctex", "res://.godot/imported/Chaseween_Crystal_Mushrooms_1.jpg-2d38d866cc9f21608be4a588a207f08d.etc2.ctex"]
 
 [params]
 

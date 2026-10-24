@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ceoy7fse4kibw"
 path.s3tc="res://.godot/imported/Meshy_AI_Candy_Cane_Staff_0.jpg-5d3e2b9b445f5acca92e1b8da1376dee.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Candy_Cane_Staff_0.jpg-5d3e2b9b445f5acca92e1b8da1376dee.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Candy_Cane_Staff_0.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Candy_Cane_Staff_0.jpg-5d3e2b9b445f5acca92e1b8da1376dee.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Candy_Cane_Staff_0.jpg-5d3e2b9b445f5acca92e1b8da1376dee.s3tc.ctex", "res://.godot/imported/Meshy_AI_Candy_Cane_Staff_0.jpg-5d3e2b9b445f5acca92e1b8da1376dee.etc2.ctex"]
 
 [params]
 

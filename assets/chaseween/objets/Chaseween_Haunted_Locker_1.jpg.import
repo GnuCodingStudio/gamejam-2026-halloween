@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dth7cbws8c4gh"
 path.s3tc="res://.godot/imported/Chaseween_Haunted_Locker_1.jpg-f395bb758f9f59cab577eb6f44fb6ebe.s3tc.ctex"
+path.etc2="res://.godot/imported/Chaseween_Haunted_Locker_1.jpg-f395bb758f9f59cab577eb6f44fb6ebe.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Chaseween_Haunted_Locker_1.jpg"
-dest_files=["res://.godot/imported/Chaseween_Haunted_Locker_1.jpg-f395bb758f9f59cab577eb6f44fb6ebe.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chaseween_Haunted_Locker_1.jpg-f395bb758f9f59cab577eb6f44fb6ebe.s3tc.ctex", "res://.godot/imported/Chaseween_Haunted_Locker_1.jpg-f395bb758f9f59cab577eb6f44fb6ebe.etc2.ctex"]
 
 [params]
 

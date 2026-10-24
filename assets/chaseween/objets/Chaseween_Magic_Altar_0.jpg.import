@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cv720d5m2vn1k"
 path.s3tc="res://.godot/imported/Chaseween_Magic_Altar_0.jpg-8f100e36183875c419310354209983c7.s3tc.ctex"
+path.etc2="res://.godot/imported/Chaseween_Magic_Altar_0.jpg-8f100e36183875c419310354209983c7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Chaseween_Magic_Altar_0.jpg"
-dest_files=["res://.godot/imported/Chaseween_Magic_Altar_0.jpg-8f100e36183875c419310354209983c7.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chaseween_Magic_Altar_0.jpg-8f100e36183875c419310354209983c7.s3tc.ctex", "res://.godot/imported/Chaseween_Magic_Altar_0.jpg-8f100e36183875c419310354209983c7.etc2.ctex"]
 
 [params]
 

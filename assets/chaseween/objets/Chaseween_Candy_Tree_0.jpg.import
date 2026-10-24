@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://doyp8d0iroybt"
 path.s3tc="res://.godot/imported/Chaseween_Candy_Tree_0.jpg-9e45be4ed7ed147e12ad69e77f3f7386.s3tc.ctex"
+path.etc2="res://.godot/imported/Chaseween_Candy_Tree_0.jpg-9e45be4ed7ed147e12ad69e77f3f7386.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Chaseween_Candy_Tree_0.jpg"
-dest_files=["res://.godot/imported/Chaseween_Candy_Tree_0.jpg-9e45be4ed7ed147e12ad69e77f3f7386.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chaseween_Candy_Tree_0.jpg-9e45be4ed7ed147e12ad69e77f3f7386.s3tc.ctex", "res://.godot/imported/Chaseween_Candy_Tree_0.jpg-9e45be4ed7ed147e12ad69e77f3f7386.etc2.ctex"]
 
 [params]
 

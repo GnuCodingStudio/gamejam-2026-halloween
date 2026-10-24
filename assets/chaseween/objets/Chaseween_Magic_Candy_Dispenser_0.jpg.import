@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dwoel5k5bugj0"
 path.s3tc="res://.godot/imported/Chaseween_Magic_Candy_Dispenser_0.jpg-5b408863d2902ad54f6bc6cb3ea79c2b.s3tc.ctex"
+path.etc2="res://.godot/imported/Chaseween_Magic_Candy_Dispenser_0.jpg-5b408863d2902ad54f6bc6cb3ea79c2b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Chaseween_Magic_Candy_Dispenser_0.jpg"
-dest_files=["res://.godot/imported/Chaseween_Magic_Candy_Dispenser_0.jpg-5b408863d2902ad54f6bc6cb3ea79c2b.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chaseween_Magic_Candy_Dispenser_0.jpg-5b408863d2902ad54f6bc6cb3ea79c2b.s3tc.ctex", "res://.godot/imported/Chaseween_Magic_Candy_Dispenser_0.jpg-5b408863d2902ad54f6bc6cb3ea79c2b.etc2.ctex"]
 
 [params]
 
