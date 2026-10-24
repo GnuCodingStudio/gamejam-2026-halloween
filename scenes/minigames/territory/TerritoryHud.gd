@@ -6,14 +6,21 @@ signal unit_requested(stats: UnitStats)
 const UNIT_BUTTON_SCENE := preload("res://scenes/minigames/territory/UnitButton.tscn")
 const GAIN_DURATION := 1.5
 const GAIN_FADE_DURATION := 0.5
+const GAIN_SCROLL_DISTANCE := 35.0
 
 var _gain_tween: Tween
+var _gain_rest_y: float
 
 @onready var _buttons: HBoxContainer = %Buttons
 @onready var _candy_label: Label = %CandyLabel
 @onready var _sites_label: Label = %SitesLabel
 @onready var _time_label: Label = %TimeLabel
 @onready var _gain_label: Label = %GainLabel
+
+
+func _ready() -> void:
+	await get_tree().process_frame
+	_gain_rest_y = _gain_label.position.y
 
 
 func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
@@ -41,10 +48,17 @@ func set_sites(owned: int, total: int) -> void:
 func show_gain(amount: int) -> void:
 	if _gain_tween:
 		_gain_tween.kill()
-	_gain_label.text = "+%d" % amount
-	_gain_label.modulate.a = 1.0
+	_gain_label.text = "+%d candies" % amount
+	_gain_label.modulate.a = 0.0
+	_gain_label.position.y = _gain_rest_y + GAIN_SCROLL_DISTANCE
 	_gain_label.visible = true
 	_gain_tween = create_tween()
-	_gain_tween.tween_interval(GAIN_DURATION)
-	_gain_tween.tween_property(_gain_label, "modulate:a", 0.0, GAIN_FADE_DURATION)
-	_gain_tween.tween_callback(_gain_label.hide)
+	_gain_tween.set_parallel()
+	_gain_tween.tween_property(_gain_label, "modulate:a", 1.0, GAIN_FADE_DURATION)
+	_gain_tween.tween_property(_gain_label, "position:y", _gain_rest_y, GAIN_FADE_DURATION) \
+		.set_ease(Tween.EASE_OUT)
+	_gain_tween.chain().tween_interval(GAIN_DURATION)
+	_gain_tween.chain().tween_property(_gain_label, "modulate:a", 0.0, GAIN_FADE_DURATION)
+	_gain_tween.tween_property(_gain_label, "position:y", _gain_rest_y - GAIN_SCROLL_DISTANCE, GAIN_FADE_DURATION) \
+		.set_ease(Tween.EASE_IN)
+	_gain_tween.chain().tween_callback(_gain_label.hide)
