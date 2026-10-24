@@ -9,7 +9,7 @@ signal world_progress_changed(completed_worlds: int, available_worlds: int)
 const DIR_PATH: String = "user://saves/"
 const FILENAME: String = "progression.json"
 ## Add future world ids here when their playable scenes are integrated.
-const AVAILABLE_WORLD_IDS: Array[StringName] = [&"candy_bucket", &"labyrinth", &"chaseween"]
+const AVAILABLE_WORLD_IDS: Array[StringName] = [&"candy_bucket", &"labyrinth", &"chaseween", &"faction_territory"]
 
 var data: Progression
 
