@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bpk0axlikarbm" path="res://scenes/menus/ConfirmDialog.tscn" id="3_pus6v"]
 [ext_resource type="Script" uid="uid://cruqxcxvexbvk" path="res://scenes/menus/main/Menu.gd" id="5_5nfro"]
 [ext_resource type="PackedScene" uid="uid://b1jimh7w0a3n7" path="res://scenes/console/GameConsole.tscn" id="5_ljn2o"]
+[ext_resource type="Texture2D" uid="uid://bvdoeeandyfhg" path="res://assets/image/MainBackground.jpg" id="5_namn6"]
 [ext_resource type="Script" uid="uid://b1k6wh0gsgwgr" path="res://scenes/console/command/Command.gd" id="7_2time"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1ilb"]
@@ -46,6 +47,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.583954, 0, 0.695312, 1)
 
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1532631696]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_namn6")
+
 [node name="GlobalMargin" type="MarginContainer" parent="." unique_id=1657241791]
 layout_mode = 1
 anchors_preset = 10
@@ -59,10 +69,9 @@ theme_override_constants/margin_bottom = 40
 
 [node name="Headlines" type="VBoxContainer" parent="GlobalMargin" unique_id=690324896]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 10
-alignment = 1
 
 [node name="Title" type="Label" parent="GlobalMargin/Headlines" unique_id=185803153]
 layout_mode = 2
@@ -72,8 +81,13 @@ text = "GAME_NAME"
 
 [node name="SubTitle" type="Label" parent="GlobalMargin/Headlines" unique_id=1341165420]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(30, 0)
 theme_type_variation = &"SubTitle"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 text = "GAME_TAGLINE"
 
 [node name="HSeparator" type="HSeparator" parent="GlobalMargin/Headlines" unique_id=1552039359]
@@ -93,8 +107,10 @@ script = SubResource("GDScript_b4ev4")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 320.0
-offset_bottom = 696.0
+offset_left = 64.0
+offset_top = 503.0
+offset_right = -1105.0
+offset_bottom = 905.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
