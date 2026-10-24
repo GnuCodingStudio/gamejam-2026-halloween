@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://pkbf7tgpxk80"
 path.s3tc="res://.godot/imported/green-squares.png-f3287f4777c366a541a46d95682785c1.s3tc.ctex"
+path.etc2="res://.godot/imported/green-squares.png-f3287f4777c366a541a46d95682785c1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/csg/green-squares.png"
-dest_files=["res://.godot/imported/green-squares.png-f3287f4777c366a541a46d95682785c1.s3tc.ctex"]
+dest_files=["res://.godot/imported/green-squares.png-f3287f4777c366a541a46d95682785c1.s3tc.ctex", "res://.godot/imported/green-squares.png-f3287f4777c366a541a46d95682785c1.etc2.ctex"]
 
 [params]
 

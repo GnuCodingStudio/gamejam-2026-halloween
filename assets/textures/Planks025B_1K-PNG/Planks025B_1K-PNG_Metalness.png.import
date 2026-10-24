@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ca15qw7fnugy4"
 path.s3tc="res://.godot/imported/Planks025B_1K-PNG_Metalness.png-2eb5ee84158a2687c46a43004d4b85b1.s3tc.ctex"
+path.etc2="res://.godot/imported/Planks025B_1K-PNG_Metalness.png-2eb5ee84158a2687c46a43004d4b85b1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_Metalness.png"
-dest_files=["res://.godot/imported/Planks025B_1K-PNG_Metalness.png-2eb5ee84158a2687c46a43004d4b85b1.s3tc.ctex"]
+dest_files=["res://.godot/imported/Planks025B_1K-PNG_Metalness.png-2eb5ee84158a2687c46a43004d4b85b1.s3tc.ctex", "res://.godot/imported/Planks025B_1K-PNG_Metalness.png-2eb5ee84158a2687c46a43004d4b85b1.etc2.ctex"]
 
 [params]
 

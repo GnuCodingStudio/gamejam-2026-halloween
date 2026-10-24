@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://tktetmgy4vxj"
 path.s3tc="res://.godot/imported/RoofingTiles014A_1K-PNG_AmbientOcclusion.png-485514a1b78456e07874f3ddb8151749.s3tc.ctex"
+path.etc2="res://.godot/imported/RoofingTiles014A_1K-PNG_AmbientOcclusion.png-485514a1b78456e07874f3ddb8151749.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/RoofingTiles014A_1K-PNG/RoofingTiles014A_1K-PNG_AmbientOcclusion.png"
-dest_files=["res://.godot/imported/RoofingTiles014A_1K-PNG_AmbientOcclusion.png-485514a1b78456e07874f3ddb8151749.s3tc.ctex"]
+dest_files=["res://.godot/imported/RoofingTiles014A_1K-PNG_AmbientOcclusion.png-485514a1b78456e07874f3ddb8151749.s3tc.ctex", "res://.godot/imported/RoofingTiles014A_1K-PNG_AmbientOcclusion.png-485514a1b78456e07874f3ddb8151749.etc2.ctex"]
 
 [params]
 

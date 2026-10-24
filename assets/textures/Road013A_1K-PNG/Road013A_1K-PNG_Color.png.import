@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ohan5kp4c3vt"
 path.s3tc="res://.godot/imported/Road013A_1K-PNG_Color.png-3f443fad2d7514d3a0c3e1d8298dce6f.s3tc.ctex"
+path.etc2="res://.godot/imported/Road013A_1K-PNG_Color.png-3f443fad2d7514d3a0c3e1d8298dce6f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/Road013A_1K-PNG/Road013A_1K-PNG_Color.png"
-dest_files=["res://.godot/imported/Road013A_1K-PNG_Color.png-3f443fad2d7514d3a0c3e1d8298dce6f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Road013A_1K-PNG_Color.png-3f443fad2d7514d3a0c3e1d8298dce6f.s3tc.ctex", "res://.godot/imported/Road013A_1K-PNG_Color.png-3f443fad2d7514d3a0c3e1d8298dce6f.etc2.ctex"]
 
 [params]
 
