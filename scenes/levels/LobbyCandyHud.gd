@@ -7,6 +7,12 @@ signal finale_closed
 const CAPTURE_DIRECTORY: String = "user://bilans/"
 const FINALE_VOLUME_DB: float = -6.0
 const SILENT_VOLUME_DB: float = -40.0
+const PLAYER_NAME_MAX_FONT_SIZE: int = 38
+const PLAYER_NAME_MIN_FONT_SIZE: int = 26
+const PLAYER_NAME_MAX_WIDTH: float = 700.0
+const STATUS_SUCCESS_COLOR: Color = Color(0.713726, 0.921569, 0.776471)
+const STATUS_ERROR_COLOR: Color = Color(1.0, 0.466667, 0.396078)
+const STATUS_NEUTRAL_COLOR: Color = Color(0.886275, 0.85098, 0.933333)
 
 @onready var candy_label: Label = %CandyLabel
 @onready var worlds_label: Label = %WorldsLabel
@@ -21,6 +27,8 @@ const SILENT_VOLUME_DB: float = -40.0
 @onready var final_score_label: Label = %FinalScoreLabel
 @onready var final_worlds_label: Label = %FinalWorldsLabel
 @onready var save_button: Button = %SaveButton
+@onready var share_button: Button = %ShareButton
+@onready var open_folder_button: Button = %OpenFolderButton
 @onready var return_button: Button = %ReturnButton
 @onready var save_status: Label = %SaveStatus
 @onready var actions: Control = %Actions
@@ -33,6 +41,9 @@ var _finale_opening: bool = false
 var _paused_for_finale: bool = false
 var _previous_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_CAPTURED
 var _tree_was_paused: bool = false
+var _last_capture_png: PackedByteArray = PackedByteArray()
+var _last_capture_file_name: String = ""
+var _last_capture_path: String = ""
 
 
 func _ready() -> void:
@@ -42,6 +53,8 @@ func _ready() -> void:
 	name_input.text_submitted.connect(_on_name_submitted)
 	name_input.text_changed.connect(_on_name_changed)
 	save_button.pressed.connect(_save_finale_capture)
+	share_button.pressed.connect(_share_finale)
+	open_folder_button.pressed.connect(_open_capture_directory)
 	return_button.pressed.connect(_dismiss_finale)
 	_update_candy_label(ProgressionService.get_total_candy())
 	_update_worlds_label(
@@ -49,6 +62,7 @@ func _ready() -> void:
 		ProgressionService.get_available_world_count()
 	)
 	_configure_finale_music()
+	_configure_platform_actions()
 	finale_overlay.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -132,6 +146,8 @@ func _show_name_entry() -> void:
 	name_step.show()
 	result_step.hide()
 	save_button.hide()
+	share_button.hide()
+	open_folder_button.hide()
 	validate_button.disabled = false
 	return_button.disabled = false
 
@@ -147,12 +163,22 @@ func _validate_player_name() -> void:
 
 
 func _show_final_result(player_name: String) -> void:
+	_reset_export_state()
 	player_name_label.text = player_name
+	_fit_player_name(player_name)
 	_update_finale_summary()
 	name_step.hide()
 	result_step.show()
+	actions.hide()
+	save_status.hide()
+	hint.hide()
 	save_button.show()
+	share_button.show()
+	open_folder_button.visible = FinaleSharePlatform.is_desktop()
+	_capture_in_progress = true
 	save_button.disabled = true
+	share_button.disabled = true
+	open_folder_button.disabled = true
 	save_status.text = ""
 	result_step.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	result_step.scale = Vector2.ONE * 0.96
@@ -163,8 +189,13 @@ func _show_final_result(player_name: String) -> void:
 	reveal.tween_property(result_step, "scale", Vector2.ONE, 0.48)
 	await reveal.finished
 	if _finale_closing or not result_step.visible:
+		_capture_in_progress = false
 		return
+	await _prepare_capture_buffer()
+	_restore_capture_controls()
+	_capture_in_progress = false
 	save_button.disabled = false
+	share_button.disabled = false
 	save_button.grab_focus()
 
 
@@ -184,6 +215,7 @@ func _prepare_finale_animation() -> void:
 	finale_audio.volume_db = SILENT_VOLUME_DB
 	_finale_closing = false
 	_capture_in_progress = false
+	_reset_export_state()
 
 
 func _configure_finale_music() -> void:
@@ -191,6 +223,26 @@ func _configure_finale_music() -> void:
 		var local_stream: AudioStreamMP3 = finale_audio.stream.duplicate() as AudioStreamMP3
 		local_stream.loop = true
 		finale_audio.stream = local_stream
+
+
+func _configure_platform_actions() -> void:
+	open_folder_button.visible = FinaleSharePlatform.is_desktop()
+	open_folder_button.disabled = true
+
+
+func _fit_player_name(player_name: String) -> void:
+	var font: Font = player_name_label.get_theme_font("font")
+	for font_size: int in range(PLAYER_NAME_MAX_FONT_SIZE, PLAYER_NAME_MIN_FONT_SIZE - 1, -1):
+		var text_width: float = font.get_string_size(
+			player_name,
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			font_size
+		).x
+		if text_width <= PLAYER_NAME_MAX_WIDTH:
+			player_name_label.add_theme_font_size_override("font_size", font_size)
+			return
+	player_name_label.add_theme_font_size_override("font_size", PLAYER_NAME_MIN_FONT_SIZE)
 
 
 func _on_name_submitted(_submitted_name: String) -> void:
@@ -204,20 +256,43 @@ func _on_name_changed(_new_text: String) -> void:
 func _save_finale_capture() -> void:
 	if _capture_in_progress or not result_step.visible:
 		return
-
-	_capture_in_progress = true
-	save_button.disabled = true
-	save_status.text = "Enregistrement en cours…"
-	actions.hide()
-	save_status.hide()
-	hint.hide()
-	await get_tree().process_frame
 	if DisplayServer.get_name() == "headless":
-		_restore_capture_controls()
 		_finish_capture_with_error("La capture PNG nécessite un affichage graphique.")
 		return
-	await RenderingServer.frame_post_draw
+	if _last_capture_png.is_empty() or _last_capture_file_name.is_empty():
+		_finish_capture_with_error("Le PNG n'est pas prêt. Fermez puis rouvrez le bilan.")
+		return
 
+	_capture_in_progress = true
+	_set_action_buttons_disabled(true)
+	_set_status("Enregistrement en cours…", STATUS_NEUTRAL_COLOR)
+	var save_error: Error = _deliver_capture(_last_capture_png, _last_capture_file_name)
+	if save_error != OK:
+		_finish_capture_with_error("Échec de l'enregistrement : %s" % error_string(save_error))
+		return
+
+	_capture_in_progress = false
+	_set_action_buttons_disabled(false)
+	if FinaleSharePlatform.is_web():
+		_set_status("Téléchargement lancé : %s" % _last_capture_file_name, STATUS_SUCCESS_COLOR)
+	else:
+		_set_status("Image enregistrée :\n%s" % _last_capture_path, STATUS_SUCCESS_COLOR)
+
+
+func _prepare_capture_buffer() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var capture_image: Image = _capture_finale_card()
+	if capture_image.is_empty():
+		return
+	_last_capture_png = capture_image.save_png_to_buffer()
+	if not _last_capture_png.is_empty():
+		_last_capture_file_name = _build_capture_file_name(ProgressionService.get_player_name())
+
+
+func _capture_finale_card() -> Image:
 	var viewport_image: Image = get_viewport().get_texture().get_image()
 	var capture_rect: Rect2 = finale_card.get_global_rect()
 	var region := Rect2i(
@@ -226,44 +301,186 @@ func _save_finale_capture() -> void:
 	)
 	region = region.intersection(Rect2i(Vector2i.ZERO, viewport_image.get_size()))
 	if region.size.x <= 0 or region.size.y <= 0:
-		_restore_capture_controls()
-		_finish_capture_with_error("Impossible de cadrer le bilan.")
-		return
+		return Image.new()
+	return viewport_image.get_region(region)
+
+
+func _deliver_capture(png_buffer: PackedByteArray, file_name: String) -> Error:
+	if FinaleSharePlatform.is_web():
+		FinaleSharePlatform.download_png(png_buffer, file_name)
+		_last_capture_path = ""
+		return OK
 
 	var directory_path: String = ProjectSettings.globalize_path(CAPTURE_DIRECTORY)
 	var directory_error: Error = DirAccess.make_dir_recursive_absolute(directory_path)
 	if directory_error != OK:
-		_restore_capture_controls()
-		_finish_capture_with_error("Impossible de créer le dossier de capture.")
+		return directory_error
+
+	_last_capture_path = _find_available_capture_path(directory_path, file_name)
+	var file: FileAccess = FileAccess.open(_last_capture_path, FileAccess.WRITE)
+	if file == null:
+		return FileAccess.get_open_error()
+	file.store_buffer(png_buffer)
+	return file.get_error()
+
+
+func _find_available_capture_path(directory_path: String, file_name: String) -> String:
+	var candidate: String = directory_path.path_join(file_name)
+	if not FileAccess.file_exists(candidate):
+		return candidate
+
+	var base_name: String = file_name.trim_suffix(".png")
+	var suffix: int = 2
+	while FileAccess.file_exists(directory_path.path_join("%s_%d.png" % [base_name, suffix])):
+		suffix += 1
+	return directory_path.path_join("%s_%d.png" % [base_name, suffix])
+
+
+func _build_capture_file_name(player_name: String) -> String:
+	var safe_name: String = ""
+	for index: int in range(player_name.length()):
+		var character: String = player_name.substr(index, 1)
+		var codepoint: int = character.unicode_at(0)
+		var is_ascii_letter: bool = (
+			(codepoint >= 65 and codepoint <= 90)
+			or (codepoint >= 97 and codepoint <= 122)
+		)
+		var is_digit: bool = codepoint >= 48 and codepoint <= 57
+		if is_ascii_letter or is_digit or codepoint >= 128:
+			safe_name += character.to_lower()
+		elif character == "-" or character == "_" or character == " ":
+			safe_name += "_" if character == " " else character
+		elif not safe_name.ends_with("_"):
+			safe_name += "_"
+
+	while safe_name.contains("__"):
+		safe_name = safe_name.replace("__", "_")
+	while safe_name.begins_with("_"):
+		safe_name = safe_name.trim_prefix("_")
+	while safe_name.ends_with("_"):
+		safe_name = safe_name.trim_suffix("_")
+	if safe_name.is_empty():
+		safe_name = "aventurier"
+	return "halloween2026_bilan_%s.png" % safe_name
+
+
+func _share_finale() -> void:
+	if _capture_in_progress or not result_step.visible:
 		return
 
-	var timestamp_ms: int = int(Time.get_unix_time_from_system() * 1000.0)
-	var file_name: String = "bilan_halloween_2026_%d.png" % timestamp_ms
-	var relative_path: String = CAPTURE_DIRECTORY + file_name
-	var absolute_path: String = ProjectSettings.globalize_path(relative_path)
-	var capture_image: Image = viewport_image.get_region(region)
-	var save_error: Error = capture_image.save_png(absolute_path)
-	if save_error != OK:
-		_restore_capture_controls()
-		_finish_capture_with_error("Échec de l'enregistrement : %s" % error_string(save_error))
+	var share_text: String = _build_share_text()
+	if FinaleSharePlatform.is_web():
+		await _share_finale_on_web(share_text)
 		return
 
-	_restore_capture_controls()
-	save_status.text = "Image enregistrée :\n%s" % absolute_path
-	_capture_in_progress = false
-	save_button.disabled = false
+	if FinaleSharePlatform.copy_text(share_text):
+		var message: String = "Texte du score copié."
+		if not _last_capture_path.is_empty():
+			message += " L'image est prête dans le dossier des bilans."
+		_set_status(message, STATUS_SUCCESS_COLOR)
+		return
+	_set_status("Le partage système et le presse-papiers ne sont pas disponibles.", STATUS_ERROR_COLOR)
+
+
+func _share_finale_on_web(share_text: String) -> void:
+	share_button.disabled = true
+	var share_mode: String = FinaleSharePlatform.start_web_share(
+		share_text,
+		_last_capture_png,
+		_last_capture_file_name
+	)
+	if share_mode == "unavailable":
+		share_button.disabled = false
+		if FinaleSharePlatform.copy_text(share_text):
+			_set_status("Partage système indisponible : texte du score copié.", STATUS_SUCCESS_COLOR)
+		else:
+			_set_status("Le partage n'est pas disponible dans ce navigateur.", STATUS_ERROR_COLOR)
+		return
+	if share_mode == "error":
+		share_button.disabled = false
+		_set_status("Impossible d'ouvrir le partage système.", STATUS_ERROR_COLOR)
+		return
+
+	if share_mode == "pending_image":
+		_set_status("Menu de partage ouvert avec l'image et le score…", STATUS_NEUTRAL_COLOR)
+	else:
+		_set_status(
+			"Menu de partage ouvert avec le texte. Enregistrez d'abord le PNG pour joindre l'image.",
+			STATUS_NEUTRAL_COLOR
+		)
+	await _poll_web_share_result()
+
+
+func _poll_web_share_result() -> void:
+	for _attempt: int in range(600):
+		await get_tree().create_timer(0.1, true).timeout
+		if _finale_closing or not finale_overlay.visible:
+			return
+		var status: String = FinaleSharePlatform.get_web_share_status()
+		if status == "pending" or status.is_empty():
+			continue
+		share_button.disabled = false
+		match status:
+			"success_image":
+				_set_status("Image et score partagés.", STATUS_SUCCESS_COLOR)
+			"success_text":
+				_set_status("Score partagé en texte.", STATUS_SUCCESS_COLOR)
+			"cancelled":
+				_set_status("Partage annulé.", STATUS_NEUTRAL_COLOR)
+			_:
+				_set_status("Le partage a échoué. Vous pouvez enregistrer le PNG.", STATUS_ERROR_COLOR)
+		return
+	share_button.disabled = false
+	_set_status("Le partage système n'a pas répondu.", STATUS_ERROR_COLOR)
+
+
+func _build_share_text() -> String:
+	return "%s a terminé Game Jam Halloween 2026 avec %d CANDY !" % [
+		ProgressionService.get_player_name(),
+		ProgressionService.get_total_candy(),
+	]
+
+
+func _open_capture_directory() -> void:
+	if _last_capture_path.is_empty() or not FinaleSharePlatform.is_desktop():
+		_set_status("Enregistrez d'abord votre bilan en PNG.", STATUS_NEUTRAL_COLOR)
+		return
+	var open_error: Error = FinaleSharePlatform.open_directory(_last_capture_path.get_base_dir())
+	if open_error == OK:
+		_set_status("Dossier des bilans ouvert.", STATUS_SUCCESS_COLOR)
+	else:
+		_set_status("Impossible d'ouvrir le dossier : %s" % error_string(open_error), STATUS_ERROR_COLOR)
 
 
 func _finish_capture_with_error(message: String) -> void:
-	save_status.text = message
+	_set_status(message, STATUS_ERROR_COLOR)
 	_capture_in_progress = false
-	save_button.disabled = false
+	_set_action_buttons_disabled(false)
 
 
 func _restore_capture_controls() -> void:
 	actions.show()
 	save_status.show()
 	hint.show()
+
+
+func _set_action_buttons_disabled(disabled: bool) -> void:
+	save_button.disabled = disabled
+	share_button.disabled = disabled
+	return_button.disabled = disabled
+	open_folder_button.disabled = disabled or _last_capture_path.is_empty()
+
+
+func _set_status(message: String, color: Color) -> void:
+	save_status.text = message
+	save_status.add_theme_color_override("font_color", color)
+
+
+func _reset_export_state() -> void:
+	_last_capture_png = PackedByteArray()
+	_last_capture_file_name = ""
+	_last_capture_path = ""
+	open_folder_button.disabled = true
 
 
 func _dismiss_finale() -> void:
@@ -273,6 +490,8 @@ func _dismiss_finale() -> void:
 	_finale_closing = true
 	validate_button.disabled = true
 	save_button.disabled = true
+	share_button.disabled = true
+	open_folder_button.disabled = true
 	return_button.disabled = true
 	name_input.release_focus()
 	var exit_tween: Tween = create_tween().set_parallel(true)

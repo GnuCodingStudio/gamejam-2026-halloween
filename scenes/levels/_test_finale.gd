@@ -66,6 +66,15 @@ func _run() -> void:
 	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Le curseur est libéré pour la saisie")
 	_check(hud.name_input.text == "Jyjio", "Le pseudo sauvegardé est reproposé")
 	_check(hud.name_input.max_length == ProgressionService.MAX_PLAYER_NAME_LENGTH, "Le pseudo est limité à 20 caractères")
+	_check(
+		_is_horizontally_aligned(hud.name_input, hud.validate_button)
+		and _is_horizontally_aligned(hud.validate_button, hud.return_button),
+		"Le champ pseudo, la validation et le retour partagent le même axe central"
+	)
+	_check(
+		hud.validate_button.size.x == 410.0 and hud.return_button.size.x == 350.0,
+		"Les largeurs de la validation et du retour restent cohérentes"
+	)
 	_check(ResourceLoader.exists(FINALE_MUSIC_PATH) and hud.finale_audio.stream is AudioStreamMP3, "bilan_final.mp3 accompagne le bilan")
 	_check(hud.finale_audio.playing, "La musique finale démarre une seule fois")
 	_check(ProgressionService.get_total_candy() == score_before, "L'ouverture ne modifie pas les CANDY")
@@ -78,13 +87,76 @@ func _run() -> void:
 	_check(String.chr(7) not in sanitized_name and String.chr(130) not in sanitized_name, "Les caractères de contrôle sont supprimés")
 	_check(sanitized_name.length() <= 20 and not sanitized_name.begins_with(" "), "Le pseudo est rogné et nettoyé")
 
-	hud._show_final_result("<b>Jyjio</b>")
-	await get_tree().create_timer(0.55, true).timeout
+	hud.player_name_label.text = "<b>Jyjio</b>"
 	_check(hud.player_name_label.get_class() == "Label", "Le pseudo reste du texte simple sans BBCode")
 	_check(hud.player_name_label.text == "<b>Jyjio</b>", "Les caractères usuels sont affichés littéralement")
+	hud._show_final_result("Jyjio")
+	await get_tree().create_timer(0.55, true).timeout
 	_check(hud.final_score_label.text == "247 CANDY", "Le bilan reprend exactement le total global")
 	_check(hud.result_step.visible and hud.save_button.visible, "Le résultat et l'export PNG apparaissent après validation")
+	_check(hud.share_button.visible, "L'action de partage apparaît avec le résultat")
+	_check(
+		hud.open_folder_button.visible == FinaleSharePlatform.is_desktop(),
+		"L'ouverture du dossier est réservée aux plateformes desktop"
+	)
+	_check(hud.open_folder_button.disabled, "Le dossier reste désactivé avant le premier PNG")
+	var primary_actions: HBoxContainer = hud.actions.get_node("PrimaryActionCenter/PrimaryActions") as HBoxContainer
+	var secondary_actions: HBoxContainer = hud.actions.get_node("SecondaryActionCenter/SecondaryActions") as HBoxContainer
+	_check(hud.actions is VBoxContainer, "Les actions utilisent deux rangées verticales centrées")
+	_check(
+		_is_horizontally_aligned(primary_actions, hud.finale_card)
+		and _is_horizontally_aligned(secondary_actions, hud.finale_card),
+		"Les rangées d'actions partagent l'axe central de la carte"
+	)
+	_check(
+		hud.save_button.size.x >= 350.0 and hud.share_button.size.x >= 350.0,
+		"Les actions principales conservent de grandes zones cliquables"
+	)
+	var folder_was_visible: bool = hud.open_folder_button.visible
+	hud.open_folder_button.hide()
+	await get_tree().process_frame
+	_check(
+		_is_horizontally_aligned(hud.return_button, hud.finale_card),
+		"Le retour reste centré quand l'ouverture du dossier est masquée"
+	)
+	hud.open_folder_button.visible = folder_was_visible
+	await get_tree().process_frame
+	var card_rect: Rect2 = hud.finale_card.get_global_rect()
+	var viewport_size: Vector2 = hud.get_viewport().get_visible_rect().size
+	_check(
+		card_rect.position.x >= 0.0
+		and card_rect.position.y >= 0.0
+		and card_rect.end.x <= viewport_size.x
+		and card_rect.end.y <= viewport_size.y,
+		"La grille complète reste dans la fenêtre"
+	)
+	_check(
+		hud._build_capture_file_name(" Ludo / Test:*? ") == "halloween2026_bilan_ludo_test.png",
+		"Le nom du PNG est explicite et nettoyé"
+	)
+	_check(
+		hud._build_share_text() == "Jyjio a terminé Game Jam Halloween 2026 avec 247 CANDY !",
+		"Le texte de partage reprend le pseudo et le score exacts"
+	)
+	var tested_names: Array[String] = ["Jyjio", "Chasseur2026", "WWWWWWWWWWWWWWWWWWWW"]
+	var all_names_fit: bool = true
+	for tested_name: String in tested_names:
+		hud._fit_player_name(tested_name)
+		var tested_font_size: int = hud.player_name_label.get_theme_font_size("font_size")
+		var tested_width: float = hud.player_name_label.get_theme_font("font").get_string_size(
+			tested_name,
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			tested_font_size
+		).x
+		all_names_fit = all_names_fit and tested_width <= LobbyCandyHud.PLAYER_NAME_MAX_WIDTH
+	_check(all_names_fit, "Les pseudos courts, moyens et proches de 20 caractères restent sur une ligne")
+	_check(
+		hud.player_name_label.get_theme_font_size("font_size") < LobbyCandyHud.PLAYER_NAME_MAX_FONT_SIZE,
+		"Un pseudo très large est réduit pour rester sur une ligne"
+	)
 	hud.player_name_label.text = "Jyjio"
+	hud._fit_player_name("Jyjio")
 
 	await hud._save_finale_capture()
 	if DisplayServer.get_name() == "headless":
@@ -93,10 +165,18 @@ func _run() -> void:
 		var capture_path: String = hud.save_status.text.trim_prefix("Image enregistrée :\n")
 		var capture_exists: bool = FileAccess.file_exists(capture_path)
 		_check(capture_exists, "L'export PNG crée une image lisible")
+		_check(
+			capture_path.get_file().begins_with("halloween2026_bilan_jyjio"),
+			"Le fichier exporté porte un nom partageable"
+		)
+		_check(not hud.open_folder_button.disabled, "L'ouverture du dossier s'active après l'export")
 		if capture_exists:
 			var captured_image: Image = Image.load_from_file(capture_path)
 			_check(not captured_image.is_empty(), "La capture PNG possède des dimensions valides")
-			DirAccess.remove_absolute(capture_path)
+			if OS.get_environment("KEEP_FINALE_TEST_CAPTURE") == "1":
+				print("FINALE_CAPTURE_PATH: %s" % capture_path)
+			else:
+				DirAccess.remove_absolute(capture_path)
 
 	await hud._dismiss_finale()
 	_check(not hud.finale_overlay.visible, "Le bilan se ferme")
@@ -130,6 +210,12 @@ func _check(condition: bool, message: String) -> void:
 		return
 	_failures.append(message)
 	push_error("FAIL: %s" % message)
+
+
+func _is_horizontally_aligned(first: Control, second: Control) -> bool:
+	var first_center: float = first.get_global_rect().get_center().x
+	var second_center: float = second.get_global_rect().get_center().x
+	return is_equal_approx(first_center, second_center)
 
 
 func _finish() -> void:
