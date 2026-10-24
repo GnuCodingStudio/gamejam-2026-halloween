@@ -1,6 +1,7 @@
 key,en,fr
 GAME_NAME,The Whole Adventure,La Grande Aventure
-GAME_TAGLINE,across the universe,à travers l’univers
+GAME_TAGLINE,on Halloween night,du soir d’Halloween
+MAIN_STORY_TEXT,"On Halloween night, a gang of monsters sneaked into town and stole every last candy. Without them, Halloween is doomed! The sneaky thieves hid their loot inside the houses. Grab your bucket, knock on every door and bring the candies back to save Halloween.","Le soir d’Halloween, une bande de monstres s’est faufilée en ville et a volé tous les bonbons. Sans eux, Halloween est perdu ! Les voleurs ont caché leur butin dans les maisons. Prends ton seau, frappe à chaque porte et rapporte les bonbons pour sauver Halloween."
 MAIN_START_BUTTON,START,DÉMARRER
 MAIN_SETTINGS_BUTTON,SETTINGS,RÉGLAGES
 MAIN_CREDITS_BUTTON,CREDITS,CRÉDITS
@@ -10,7 +11,8 @@ QUIT_CONFIRM_BUTTON,Quit,Quitter
 QUIT_CONFIRM_CANCEL,Cancel,Annuler
 CONSOLE_INPUT_PLACEHOLDER,Enter command here…,Entre une commande ici…
 CONSOLE_INPUT_SUBMIT,Submit,Envoyer
-CREDITS_TAGLINE,Credits,Crédits
+CREDITS_TAGLINE,"Made by Nwizar, Ethan, Merguez, Tylgo10, Eva, Léo, Simon, Mathieu, Ludo & Olivier","Une création Nwizar, Ethan, Merguez, Tylgo10, Eva, Léo, Simon, Mathieu, Ludo & Olivier"
+CREDITS_TITLE,Credits,Crédits
 CREDITS_TITLE_N_AUTHOR,[b]{title}[/b] by [b]{author}[/b],[b]{title}[/b] par [b]{author}[/b]
 CREDITS_BACK_BUTTON,BACK,RETOUR
 SETTINGS_AUDIO,Audio settings,Réglages Audio

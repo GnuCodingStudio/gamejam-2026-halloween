@@ -267,16 +267,9 @@ theme_override_font_sizes/font_size = 27
 text = "BONBONS RÉCOLTÉS : 0"
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(330, 58)
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "RECOMMENCER"
-
 [node name="ReturnLobbyButton" type="Button" parent="HUD/ResultOverlay/Center/ResultPanel/ResultVBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(330, 58)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "RETOUR AU LOBBY"
+text = "SORTIR DANS LA RUE"

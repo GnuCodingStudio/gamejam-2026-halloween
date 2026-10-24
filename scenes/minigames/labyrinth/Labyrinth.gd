@@ -3,6 +3,7 @@ extends Node3D
 
 const LOBBY_SCENE_PATH := "res://scenes/levels/main.tscn"
 const LABYRINTH_WORLD_ID: StringName = &"labyrinth"
+const LOBBY_RETURN_META: StringName = &"labyrinth_return_to_door"
 
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
@@ -19,6 +20,7 @@ var _is_time_up := false
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_connect_candies()
 	_connect_signals()
 	hud.set_candies(_collected_candies, _total_candies)
@@ -74,11 +76,13 @@ func _win() -> void:
 		var total_candies := LabyrinthService.collected_candies + LabyrinthService.bonus_candies
 		ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
 	_pause_game()
-	result_overlay.show_win(extra_candies)
+	result_overlay.show_win(extra_candies, next_level == null)
 
 
 func _on_time_up() -> void:
 	_is_time_up = true
+	var total_candies := LabyrinthService.collected_candies + _collected_candies + LabyrinthService.bonus_candies
+	ProgressionService.complete_world(LABYRINTH_WORLD_ID, total_candies)
 	hud.set_time(0.0)
 	_pause_game()
 	result_overlay.show_time_up()
@@ -96,10 +100,18 @@ func _on_continue_pressed() -> void:
 	get_tree().paused = false
 	if _is_time_up:
 		LabyrinthService.reset()
-		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+		_return_to_lobby()
 	elif next_level == null:
-		SceneTransition.change_scene(LOBBY_SCENE_PATH)
+		_return_to_lobby()
 	else:
 		SceneTransition.change_scene(next_level.resource_path)
+
+
+func _return_to_lobby() -> void:
+	SceneTransition.change_scene(LOBBY_SCENE_PATH, _mark_lobby_return)
+
+
+func _mark_lobby_return() -> void:
+	get_tree().set_meta(LOBBY_RETURN_META, true)
 
 #endregion navigation

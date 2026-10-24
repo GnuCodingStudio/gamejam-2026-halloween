@@ -10,7 +10,7 @@
 [ext_resource type="Material" path="res://assets/textures/Gravel043_1K-PNG/Gravel043_1K-PNG.tres" id="5_5wre2"]
 [ext_resource type="Script" uid="uid://qqtantb1dxk0" path="res://scenes/levels/LobbyCandyHud.gd" id="6_candy_hud"]
 [ext_resource type="Material" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG.tres" id="6_qy6q0"]
-[ext_resource type="AudioStream" path="res://assets/audio/final_resume.mp3" id="7_finale_audio"]
+[ext_resource type="AudioStream" uid="uid://03q8gaxqnj18" path="res://assets/audio/final_resume.mp3" id="7_finale_audio"]
 [ext_resource type="Material" path="res://assets/textures/Metal048C_1K-PNG/Metal048C_1K-PNG.tres" id="7_ykry0"]
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
@@ -21,6 +21,29 @@
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
 [ext_resource type="Material" path="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG.tres" id="16_8qayg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_portal/LevelPortal.tscn" id="18_px1c8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
+sky_top_color = Color(0.1321393, 0.25306827, 0.35236278, 1)
+sky_horizon_color = Color(0.107990585, 0.11139705, 0.11820983, 1)
+sky_curve = 0.2999998
+sky_energy_multiplier = 3.37
+
+[sub_resource type="Sky" id="Sky_sejsl"]
+sky_material = SubResource("ProceduralSkyMaterial_85s04")
+
+[sub_resource type="Environment" id="Environment_n14tl"]
+background_mode = 2
+sky = SubResource("Sky_sejsl")
+ambient_light_source = 3
+ambient_light_color = Color(0.13024205, 0.20115235, 0.32179418, 1)
+ambient_light_sky_contribution = 0.35
+fog_enabled = true
+fog_light_color = Color(0.08563549, 0.114205115, 0.14702645, 1)
+fog_light_energy = 2.65
+fog_density = 0.1853
+volumetric_fog_albedo = Color(0.15389422, 0.1927773, 0.2550387, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h7n1j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_card"]
 content_margin_left = 56.0
@@ -68,6 +91,17 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_pressed"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+bg_color = Color(0.917647, 0.482353, 0.141176, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_hover"]
 content_margin_left = 28.0
 content_margin_top = 12.0
@@ -83,40 +117,6 @@ corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_finale_button_pressed"]
-content_margin_left = 28.0
-content_margin_top = 12.0
-content_margin_right = 28.0
-content_margin_bottom = 12.0
-bg_color = Color(0.917647, 0.482353, 0.141176, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
-sky_top_color = Color(0.1321393, 0.25306827, 0.35236278, 1)
-sky_horizon_color = Color(0.107990585, 0.11139705, 0.11820983, 1)
-sky_curve = 0.2999998
-sky_energy_multiplier = 3.37
-
-[sub_resource type="Sky" id="Sky_sejsl"]
-sky_material = SubResource("ProceduralSkyMaterial_85s04")
-
-[sub_resource type="Environment" id="Environment_n14tl"]
-background_mode = 2
-sky = SubResource("Sky_sejsl")
-ambient_light_source = 3
-ambient_light_color = Color(0.13024205, 0.20115235, 0.32179418, 1)
-ambient_light_sky_contribution = 0.35
-fog_enabled = true
-fog_light_color = Color(0.08563549, 0.114205115, 0.14702645, 1)
-fog_light_energy = 2.65
-fog_density = 0.1853
-volumetric_fog_albedo = Color(0.15389422, 0.1927773, 0.2550387, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h7n1j"]
 
 [node name="Main" type="Node3D" unique_id=90916086]
 
@@ -1155,7 +1155,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.673725, 0.3572799, -9.6963
 target_scene_path = "res://scenes/minigames/candy_bucket/CandyBucket.tscn"
 prompt_text = "E - Candy Bucket"
 world_id = &"candy_bucket"
-return_meta = &"candy_bucket_return_to_door5"
+return_meta = &"candy_bucket_return_to_door"
 player_path = NodePath("../Player")
 
 [node name="LabyrinthPortal" parent="." unique_id=1888599200 instance=ExtResource("18_px1c8")]
@@ -1163,6 +1163,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.786613, 0.3572799, -9.696
 target_scene_path = "res://scenes/minigames/labyrinth/Level01.tscn"
 prompt_text = "E - Labyrinth"
 world_id = &"labyrinth"
+return_meta = &"labyrinth_return_to_door"
 player_path = NodePath("../Player")
 
 [node name="CaptureOnClick" parent="." unique_id=523612670 instance=ExtResource("4_j4d2a")]
@@ -1182,7 +1183,7 @@ mouse_filter = 2
 theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 24
 
-[node name="Stats" type="VBoxContainer" parent="CandyHUD/CandyMargin"]
+[node name="Stats" type="VBoxContainer" parent="CandyHUD/CandyMargin" unique_id=2116273415]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -1191,7 +1192,6 @@ theme_override_constants/separation = 2
 [node name="CandyLabel" type="Label" parent="CandyHUD/CandyMargin/Stats" unique_id=213954456]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
@@ -1201,10 +1201,9 @@ theme_override_font_sizes/font_size = 30
 text = "CANDY : 0"
 horizontal_alignment = 2
 
-[node name="WorldsLabel" type="Label" parent="CandyHUD/CandyMargin/Stats"]
+[node name="WorldsLabel" type="Label" parent="CandyHUD/CandyMargin/Stats" unique_id=1420323661]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.854902, 0.733333, 1, 1)
 theme_override_colors/font_outline_color = Color(0.0705882, 0.0352941, 0.0941176, 1)
 theme_override_constants/outline_size = 5
@@ -1212,13 +1211,13 @@ theme_override_font_sizes/font_size = 22
 text = "MONDES : 0 / 1"
 horizontal_alignment = 2
 
-[node name="FinaleAudio" type="AudioStreamPlayer" parent="CandyHUD"]
+[node name="FinaleAudio" type="AudioStreamPlayer" parent="CandyHUD" unique_id=946234494]
 unique_name_in_owner = true
 stream = ExtResource("7_finale_audio")
 volume_db = -6.0
 bus = &"Music"
 
-[node name="FinaleOverlay" type="Control" parent="CandyHUD"]
+[node name="FinaleOverlay" type="Control" parent="CandyHUD" unique_id=1219026685]
 unique_name_in_owner = true
 visible = false
 layout_mode = 3
@@ -1227,9 +1226,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 
-[node name="Dimmer" type="ColorRect" parent="CandyHUD/FinaleOverlay"]
+[node name="Dimmer" type="ColorRect" parent="CandyHUD/FinaleOverlay" unique_id=1551512065]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1239,7 +1237,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.0156863, 0.00784314, 0.027451, 0.94)
 
-[node name="TopGlow" type="ColorRect" parent="CandyHUD/FinaleOverlay"]
+[node name="TopGlow" type="ColorRect" parent="CandyHUD/FinaleOverlay" unique_id=104150126]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -1248,7 +1246,7 @@ grow_horizontal = 2
 mouse_filter = 2
 color = Color(1, 0.607843, 0.2, 1)
 
-[node name="Center" type="CenterContainer" parent="CandyHUD/FinaleOverlay"]
+[node name="Center" type="CenterContainer" parent="CandyHUD/FinaleOverlay" unique_id=1504363644]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1257,25 +1255,25 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="FinaleCard" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center"]
+[node name="FinaleCard" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center" unique_id=917020472]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(760, 520)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_finale_card")
 
-[node name="Content" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard"]
+[node name="Content" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard" unique_id=656977940]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Eyebrow" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="Eyebrow" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=57151381]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
 theme_override_font_sizes/font_size = 18
 text = "✦  RAPPORT FINAL DE L'AVENTURE  ✦"
 horizontal_alignment = 1
 
-[node name="Title" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="Title" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1188558847]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
@@ -1285,35 +1283,35 @@ theme_override_font_sizes/font_size = 50
 text = "AVENTURE ACCOMPLIE"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="Subtitle" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1039753315]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 22
 text = "Tous les mondes ont été conquis. Voici votre légende."
 horizontal_alignment = 1
 
-[node name="Separator" type="ColorRect" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="Separator" type="ColorRect" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=453483081]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 color = Color(1, 0.690196, 0.239216, 0.75)
 
-[node name="FinaleStats" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="FinaleStats" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=47619605]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="CandyStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats"]
+[node name="CandyStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats" unique_id=1158262409]
 custom_minimum_size = Vector2(0, 142)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
 
-[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat"]
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat" unique_id=323220335]
 layout_mode = 2
 alignment = 1
 
-[node name="FinalScoreLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox"]
+[node name="FinalScoreLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox" unique_id=1571869515]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.827451, 0.4, 1)
@@ -1321,24 +1319,24 @@ theme_override_font_sizes/font_size = 54
 text = "0"
 horizontal_alignment = 1
 
-[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox"]
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/CandyStat/VBox" unique_id=1901548321]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 17
 text = "CANDY RÉCOLTÉS"
 horizontal_alignment = 1
 
-[node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats"]
+[node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats" unique_id=114426191]
 custom_minimum_size = Vector2(0, 142)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_finale_stat")
 
-[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat"]
+[node name="VBox" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat" unique_id=1771612950]
 layout_mode = 2
 alignment = 1
 
-[node name="FinalWorldsLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox"]
+[node name="FinalWorldsLabel" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox" unique_id=326728716]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
@@ -1346,36 +1344,36 @@ theme_override_font_sizes/font_size = 54
 text = "0 / 1"
 horizontal_alignment = 1
 
-[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox"]
+[node name="Caption" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/FinaleStats/WorldStat/VBox" unique_id=1787511640]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 17
 text = "MONDES TERMINÉS"
 horizontal_alignment = 1
 
-[node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1039807375]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
 theme_override_font_sizes/font_size = 20
 text = "✓  Progression complète — le royaume est sauf."
 horizontal_alignment = 1
 
-[node name="ContinueButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="ContinueButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=884537251]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(410, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.0941176, 0.0470588, 0.117647, 1)
-theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
 theme_override_colors/font_pressed_color = Color(0.0941176, 0.0470588, 0.117647, 1)
+theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
 text = "CONTINUER DANS LE LOBBY"
 
-[node name="Hint" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content"]
+[node name="Hint" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1099507836]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.580392, 0.521569, 0.65098, 1)
 theme_override_font_sizes/font_size = 15

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://wdqk4jv113lg" path="res://components/uicontrols/UIContols.tscn" id="1_f0kuf"]
 [ext_resource type="PackedScene" uid="uid://bb1d5ajohbgpi" path="res://scenes/menus/credits/CreditsItem.tscn" id="1_gd18q"]
 [ext_resource type="Material" uid="uid://dygopb8fee5xt" path="res://scenes/menus/MenuBackground.tres" id="1_lx2dq"]
+[ext_resource type="Texture2D" uid="uid://bvdoeeandyfhg" path="res://assets/image/MainBackground.jpg" id="4_72qhp"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_el4jv"]
 thickness = 2
@@ -27,6 +28,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=562192834]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_72qhp")
 
 [node name="GlobalMargin" type="MarginContainer" parent="." unique_id=2054036510]
 layout_mode = 1

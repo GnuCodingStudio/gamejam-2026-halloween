@@ -28,6 +28,8 @@ func _ready() -> void:
     finale_overlay.hide()
     if ProgressionService.should_show_finale():
         _queue_finale.call_deferred()
+    else:
+        Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -62,6 +64,7 @@ func _prepare_finale() -> void:
     finale_overlay.show()
     if not ProgressionService.mark_finale_seen():
         finale_overlay.hide()
+        Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
         return
 
     _update_finale_summary()
@@ -136,3 +139,4 @@ func _dismiss_finale() -> void:
     continue_button.disabled = false
     _paused_for_finale = false
     get_tree().paused = false
+    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

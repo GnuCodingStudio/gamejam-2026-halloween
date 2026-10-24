@@ -3,6 +3,9 @@ extends Node3D
 
 
 const COMPLETED_TEXT: String = "MONDE TERMINÉ"
+const PULSE_MIN_ENERGY: float = 1.0
+const PULSE_MAX_ENERGY: float = 3.0
+const PULSE_DURATION: float = 1.0
 
 
 @export_file("*.tscn") var target_scene_path: String
@@ -19,6 +22,7 @@ var _world_completed: bool = false
 var _player: CharacterBody3D
 
 @onready var interaction_area: Area3D = %InteractionArea
+@onready var light: OmniLight3D = %Light
 @onready var prompt: Control = %Prompt
 @onready var prompt_label: Label = %PromptLabel
 @onready var return_spawn: Marker3D = %ReturnSpawn
@@ -30,6 +34,7 @@ func _ready() -> void:
     _world_completed = ProgressionService.is_world_completed(world_id)
     prompt_label.text = COMPLETED_TEXT if _world_completed else prompt_text
     prompt.hide()
+    _update_light()
     _resolve_player()
     _restore_player_after_return()
 
@@ -42,6 +47,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
     get_viewport().set_input_as_handled()
     _enter_level()
+
+
+func _update_light() -> void:
+    light.visible = not _world_completed
+    if _world_completed:
+        return
+
+    var tween := create_tween().set_loops()
+    tween.tween_property(light, "light_energy", PULSE_MAX_ENERGY, PULSE_DURATION)
+    tween.tween_property(light, "light_energy", PULSE_MIN_ENERGY, PULSE_DURATION)
 
 
 func _resolve_player() -> void:
@@ -90,7 +105,3 @@ func _enter_level() -> void:
 
     _transition_started = true
     prompt.hide()
-    var error := get_tree().change_scene_to_file(target_scene_path)
-    if error != OK:
-        _transition_started = false
-        push_error("Unable to enter %s: %s" % [target_scene_path, error_string(error)])
