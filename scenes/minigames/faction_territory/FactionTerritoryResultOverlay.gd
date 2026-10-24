@@ -13,5 +13,6 @@ func _ready() -> void:
 
 func show_result(candies: int) -> void:
 	_candies_label.text = "Candies: %d" % candies
+	_continue_button.text = ResultOverlay.EXIT_TEXT
 	visible = true
 	_continue_button.grab_focus()
