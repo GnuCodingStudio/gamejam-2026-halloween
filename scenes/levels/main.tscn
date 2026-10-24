@@ -23,6 +23,7 @@
 [ext_resource type="Material" path="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG.tres" id="16_8qayg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_portal/LevelPortal.tscn" id="18_px1c8"]
 [ext_resource type="PackedScene" path="res://scenes/levels/church_finale/ChurchFinaleInteractor.tscn" id="19_church_finale"]
+[ext_resource type="PackedScene" path="res://scenes/levels/secret_gallery_entrance/SecretGalleryEntrance.tscn" id="20_secret_gallery"]
 [ext_resource type="PackedScene" uid="uid://b1jimh7w0a3n7" path="res://scenes/console/GameConsole.tscn" id="24_gexqn"]
 [ext_resource type="PackedScene" uid="uid://ckdgdo4aq6h5l" path="res://scenes/console/command/Command.tscn" id="25_kc8j3"]
 
@@ -1207,6 +1208,10 @@ transform = Transform3D(0.89, 0, 0, 0, 0.89, 0, 0, 0, 0.89, 5.162, 1.1, 4.485496
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.262502, 1.1, -8.8)
 player_path = NodePath("../Player")
 hud_path = NodePath("../CandyHUD")
+
+[node name="SecretGalleryEntrance" parent="." instance=ExtResource("20_secret_gallery")]
+position = Vector3(25, 0.5, 10.3972)
+player_path = NodePath("../Player")
 
 [node name="CandyBucketPortal" parent="." unique_id=1888599199 instance=ExtResource("18_px1c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.673725, 0.3572799, -9.696306)

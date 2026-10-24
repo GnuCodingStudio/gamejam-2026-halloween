@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/secret_gallery/GalleryExit.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interaction"]
+size = Vector3(4.2, 2.6, 2.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.0470588, 0.0235294, 0.0784314, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.690196, 0.239216, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="GalleryExit" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("BoxShape3D_interaction")
+
+[node name="PromptLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="Prompt" type="Control" parent="PromptLayer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="PromptLayer/Prompt"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -126.0
+offset_right = 190.0
+offset_bottom = -66.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
+
+[node name="PromptLabel" type="Label" parent="PromptLayer/Prompt/Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "E — RETOUR AU LOBBY"
+horizontal_alignment = 1
+vertical_alignment = 1

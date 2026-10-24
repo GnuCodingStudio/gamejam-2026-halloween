@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/secret_gallery/GalleryFrame.gd" id="1_script"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_gold"]
+albedo_color = Color(0.55, 0.32, 0.1, 1)
+metallic = 0.65
+roughness = 0.42
+
+[sub_resource type="StandardMaterial3D" id="Material_placeholder"]
+albedo_color = Color(0.17, 0.14, 0.19, 1)
+roughness = 0.88
+
+[node name="GalleryFrame" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Backing" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_placeholder")
+
+[node name="ArchiveSurface" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0, 0.08)
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_placeholder")
+
+[node name="TopBorder" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 1.1, 0.14)
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_gold")
+
+[node name="BottomBorder" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -1.1, 0.14)
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_gold")
+
+[node name="LeftBorder" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(-1.6, 0, 0.14)
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_gold")
+
+[node name="RightBorder" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(1.6, 0, 0.14)
+mesh = SubResource("BoxMesh_unit")
+material_override = SubResource("Material_gold")
+
+[node name="Highlight" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 1.25, 1.15)
+light_color = Color(1, 0.65098, 0.313726, 1)
+light_energy = 1.25
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+shadow_enabled = false
+omni_range = 4.4
