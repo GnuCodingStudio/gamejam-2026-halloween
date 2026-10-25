@@ -18,6 +18,12 @@ config/name="TheWholeAdventure"
 run/main_scene="res://scenes/menus/main/MainMenu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.0196078, 0.0117647, 0.027451, 1)
+boot_splash/image="res://scenes/ui/loading/loading_splash.png"
+boot_splash/minimum_display_time=0
+boot_splash/show_image=true
+boot_splash/stretch_mode=1
+boot_splash/use_filter=true
 
 [audio]
 

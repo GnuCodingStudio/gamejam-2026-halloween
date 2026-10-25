@@ -1,0 +1,143 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/loading/LoadingScreen.gd" id="1_loading"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_progress_background"]
+bg_color = Color(0.0901961, 0.0470588, 0.129412, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.282353, 0.211765, 0.337255, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_progress_fill"]
+bg_color = Color(0.94902, 0.54902, 0.156863, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dot_orange"]
+bg_color = Color(0.94902, 0.54902, 0.156863, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dot_violet"]
+bg_color = Color(0.545098, 0.305882, 0.694118, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dot_cream"]
+bg_color = Color(0.956863, 0.937255, 0.909804, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="LoadingScreen" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_loading")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0196078, 0.0117647, 0.027451, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Content" type="VBoxContainer" parent="Center/Margin"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Title" type="Label" parent="Center/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.937255, 0.909804, 1)
+theme_override_colors/font_shadow_color = Color(0.321569, 0.12549, 0.439216, 0.75)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 42
+text = "LA GRANDE AVENTURE\nDU SOIR D'HALLOWEEN"
+horizontal_alignment = 1
+
+[node name="DotsCenter" type="CenterContainer" parent="Center/Margin/Content"]
+layout_mode = 2
+
+[node name="Dots" type="HBoxContainer" parent="Center/Margin/Content/DotsCenter"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DotOrange" type="Panel" parent="Center/Margin/Content/DotsCenter/Dots"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_dot_orange")
+
+[node name="DotViolet" type="Panel" parent="Center/Margin/Content/DotsCenter/Dots"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_dot_violet")
+
+[node name="DotCream" type="Panel" parent="Center/Margin/Content/DotsCenter/Dots"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_dot_cream")
+
+[node name="ProgressBar" type="ProgressBar" parent="Center/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 7)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBox_progress_background")
+theme_override_styles/fill = SubResource("StyleBox_progress_fill")
+show_percentage = false
+indeterminate = true
+
+[node name="MessageLabel" type="Label" parent="Center/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.937255, 0.909804, 1)
+theme_override_font_sizes/font_size = 19
+text = "Préparation de l'aventure…"
+horizontal_alignment = 1
+autowrap_mode = 2

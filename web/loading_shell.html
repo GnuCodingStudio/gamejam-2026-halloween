@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+		<title>La Grande Aventure du soir d'Halloween</title>
+		<style>
+:root {
+	color-scheme: dark;
+	--night: #050307;
+	--violet: #160c20;
+	--violet-soft: #4a3658;
+	--orange: #f28c28;
+	--cream: #f4efe8;
+}
+
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: var(--cream);
+	background: var(--night);
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status {
+	position: fixed;
+	inset: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 2rem;
+	background:
+		radial-gradient(circle at center, rgba(47, 20, 66, 0.48) 0%, rgba(13, 7, 18, 0.96) 42%, var(--night) 76%);
+}
+
+#status-card {
+	display: flex;
+	width: min(42rem, 88vw);
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1.35rem;
+	text-align: center;
+}
+
+#status-title {
+	margin: 0;
+	color: var(--cream);
+	font: 600 clamp(1.65rem, 4vw, 3.1rem)/1.12 Georgia, 'Times New Roman', serif;
+	letter-spacing: 0.035em;
+	text-wrap: balance;
+	text-shadow: 0 3px 18px rgba(112, 49, 146, 0.52);
+}
+
+#status-title span {
+	color: var(--orange);
+}
+
+#status-dots {
+	display: flex;
+	justify-content: center;
+	gap: 0.65rem;
+	height: 0.65rem;
+}
+
+.status-dot {
+	width: 0.62rem;
+	height: 0.62rem;
+	border-radius: 999px;
+	background: var(--orange);
+	box-shadow: 0 0 12px rgba(242, 140, 40, 0.62);
+	animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
+.status-dot:nth-child(2) {
+	background: #8b4eb1;
+	box-shadow: 0 0 12px rgba(139, 78, 177, 0.62);
+	animation-delay: 0.18s;
+}
+
+.status-dot:nth-child(3) {
+	background: var(--cream);
+	box-shadow: 0 0 12px rgba(244, 239, 232, 0.42);
+	animation-delay: 0.36s;
+}
+
+#status-progress {
+	position: relative;
+	height: 0.42rem;
+	overflow: hidden;
+	border: 1px solid var(--violet-soft);
+	border-radius: 999px;
+	background: var(--violet);
+}
+
+#status-progress-fill {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 0;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #8b4eb1, var(--orange));
+	box-shadow: 0 0 12px rgba(242, 140, 40, 0.45);
+	transition: width 120ms linear;
+}
+
+#status-progress.indeterminate #status-progress-fill {
+	width: 34%;
+	animation: loading-slide 1.35s ease-in-out infinite;
+}
+
+#status-message,
+#status-notice {
+	min-height: 1.5em;
+	margin: 0;
+	color: var(--cream);
+	font: 400 clamp(0.95rem, 2vw, 1.15rem)/1.45 Arial, sans-serif;
+}
+
+#status-notice {
+	display: none;
+	padding: 1rem 1.2rem;
+	border: 1px solid #974d42;
+	border-radius: 0.5rem;
+	background: rgba(75, 31, 35, 0.9);
+	color: #ffd4c4;
+}
+
+#status.notice #status-dots,
+#status.notice #status-progress,
+#status.notice #status-message {
+	display: none;
+}
+
+#status.notice #status-notice {
+	display: block;
+}
+
+noscript {
+	position: fixed;
+	inset: 0;
+	z-index: 20;
+	display: grid;
+	place-items: center;
+	padding: 2rem;
+	background: var(--night);
+	color: var(--cream);
+	font: 1rem/1.5 Arial, sans-serif;
+	text-align: center;
+}
+
+@keyframes loading-pulse {
+	0%, 100% { opacity: 0.3; transform: scale(0.82); }
+	50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes loading-slide {
+	0% { left: -36%; }
+	55% { left: 102%; }
+	100% { left: 102%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.status-dot,
+	#status-progress.indeterminate #status-progress-fill {
+		animation-duration: 2.8s;
+	}
+}
+		</style>
+		$GODOT_HEAD_INCLUDE
+	</head>
+	<body>
+		<canvas id="canvas">
+			Votre navigateur ne prend pas en charge l'élément canvas.
+		</canvas>
+
+		<noscript>JavaScript est nécessaire pour lancer le jeu.</noscript>
+		<div id="status" aria-live="polite">
+			<div id="status-card">
+				<h1 id="status-title"><span>LA GRANDE AVENTURE</span><br>DU SOIR D'HALLOWEEN</h1>
+				<div id="status-dots" aria-hidden="true">
+					<span class="status-dot"></span>
+					<span class="status-dot"></span>
+					<span class="status-dot"></span>
+				</div>
+				<div id="status-progress" class="indeterminate" role="progressbar" aria-label="Chargement du jeu">
+					<div id="status-progress-fill"></div>
+				</div>
+				<p id="status-message">Préparation de l'aventure…</p>
+				<div id="status-notice" role="alert"></div>
+			</div>
+		</div>
+
+		<script src="$GODOT_URL"></script>
+		<script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	'use strict';
+
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusProgressFill = document.getElementById('status-progress-fill');
+	const statusNotice = document.getElementById('status-notice');
+	let initializing = true;
+
+	function setProgress(current, total) {
+		if (!(current > 0 && total > 0)) {
+			statusProgress.classList.add('indeterminate');
+			statusProgress.removeAttribute('aria-valuenow');
+			statusProgress.removeAttribute('aria-valuemax');
+			return;
+		}
+
+		const ratio = Math.min(current / total, 1);
+		statusProgress.classList.remove('indeterminate');
+		statusProgressFill.style.width = `${ratio * 100}%`;
+		statusProgress.setAttribute('aria-valuenow', String(current));
+		statusProgress.setAttribute('aria-valuemax', String(total));
+	}
+
+	function setStatusNotice(text) {
+		statusNotice.textContent = text;
+	}
+
+	function displayFailureNotice(error) {
+		console.error(error);
+		if (error instanceof Error) {
+			setStatusNotice(`Le chargement a rencontré un problème.\n${error.message}`);
+		} else if (typeof error === 'string') {
+			setStatusNotice(`Le chargement a rencontré un problème.\n${error}`);
+		} else {
+			setStatusNotice("Le chargement a rencontré un problème.");
+		}
+		statusOverlay.classList.add('notice');
+		initializing = false;
+	}
+
+	function hideStatus() {
+		if (!initializing) {
+			return;
+		}
+		statusOverlay.remove();
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+	if (missing.length !== 0) {
+		if (GODOT_CONFIG.serviceWorker && GODOT_CONFIG.ensureCrossOriginIsolationHeaders && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (error) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error("L'enregistrement du service worker a échoué."));
+			}
+			Promise.race([
+				serviceWorkerRegistrationPromise.then((registration) => {
+					if (registration != null) {
+						return Promise.reject(new Error('Un service worker existe déjà.'));
+					}
+					return registration;
+				}).then(() => engine.installServiceWorker()),
+				new Promise((resolve) => {
+					setTimeout(resolve, 2000);
+				}),
+			]).then(() => {
+				window.location.reload();
+			}).catch((error) => {
+				console.error("Erreur lors de l'enregistrement du service worker :", error);
+			});
+		} else {
+			displayFailureNotice(`Fonctionnalités navigateur manquantes :\n${missing.join('\n')}`);
+		}
+	} else {
+		engine.startGame({
+			onProgress: setProgress,
+		}).then(hideStatus, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>

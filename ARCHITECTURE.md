@@ -160,7 +160,13 @@ To change the values to save you'll have to change:
 
 Use `SceneTransition.change_scene(...)` instead of good old `get_tree().change_scene_to_file(...)` to:
 - add a fading transition between scenes;
+- display the shared loading screen while the destination is prepared;
+- load the destination asynchronously and expose real resource progress when available;
 - execute an optional callback on a fully black screen, for saving purpose for instance.
+
+When Godot cannot measure progress, `LoadingScreen` uses an indeterminate bar instead
+of inventing a percentage. A failed load keeps the current scene, displays an error,
+then reveals that last valid scene again.
 
 `SceneTransition.run_fade(at_black, on_reveal)` applies the same protected black
 fade to a UI state change within the current scene. Only one transition can run
