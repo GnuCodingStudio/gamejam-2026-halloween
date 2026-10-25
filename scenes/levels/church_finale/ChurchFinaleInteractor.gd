@@ -3,9 +3,9 @@ extends Node3D
 
 
 const PROMPT_TEXT: String = "E — CONSULTER MON BILAN"
-const LIGHT_MIN_ENERGY: float = 0.7
-const LIGHT_MAX_ENERGY: float = 1.5
-const LIGHT_PULSE_DURATION: float = 1.8
+const LIGHT_MIN_ENERGY: float = 5.0
+const LIGHT_MAX_ENERGY: float = 12.5
+const LIGHT_PULSE_DURATION: float = 2.0
 
 @export_node_path("CharacterBody3D") var player_path: NodePath
 @export_node_path("CanvasLayer") var hud_path: NodePath

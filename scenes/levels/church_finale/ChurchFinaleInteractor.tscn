@@ -36,10 +36,11 @@ shape = SubResource("BoxShape3D_interaction")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -1.1)
 visible = false
-light_color = Color(1, 0.584314, 0.223529, 1)
-light_energy = 0.7
-shadow_enabled = true
-omni_range = 3.6
+light_color = Color(1, 0.72, 0.28, 1)
+light_energy = 5.0
+light_volumetric_fog_energy = 0.55
+shadow_enabled = false
+omni_range = 8.0
 
 [node name="PromptLayer" type="CanvasLayer" parent="."]
 layer = 20

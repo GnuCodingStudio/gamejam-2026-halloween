@@ -20,6 +20,7 @@ var _player_is_near: bool = false
 var _transition_started: bool = false
 var _world_completed: bool = false
 var _player: CharacterBody3D
+var _light_tween: Tween
 
 @onready var interaction_area: Area3D = %InteractionArea
 @onready var light: OmniLight3D = %Light
@@ -31,10 +32,9 @@ var _player: CharacterBody3D
 func _ready() -> void:
     interaction_area.body_entered.connect(_on_body_entered)
     interaction_area.body_exited.connect(_on_body_exited)
-    _world_completed = ProgressionService.is_world_completed(world_id)
-    prompt_label.text = COMPLETED_TEXT if _world_completed else prompt_text
+    ProgressionService.world_progress_changed.connect(_on_world_progress_changed)
     prompt.hide()
-    _update_light()
+    _refresh_progress_state()
     _resolve_player()
     _restore_player_after_return()
 
@@ -50,13 +50,32 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _update_light() -> void:
+    _stop_light_pulse()
     light.visible = not _world_completed
     if _world_completed:
         return
 
-    var tween := create_tween().set_loops()
-    tween.tween_property(light, "light_energy", PULSE_MAX_ENERGY, PULSE_DURATION)
-    tween.tween_property(light, "light_energy", PULSE_MIN_ENERGY, PULSE_DURATION)
+    _light_tween = create_tween().set_loops()
+    _light_tween.tween_property(light, "light_energy", PULSE_MAX_ENERGY, PULSE_DURATION)
+    _light_tween.tween_property(light, "light_energy", PULSE_MIN_ENERGY, PULSE_DURATION)
+
+
+func _stop_light_pulse() -> void:
+    if _light_tween != null and _light_tween.is_valid():
+        _light_tween.kill()
+    _light_tween = null
+
+
+func _refresh_progress_state() -> void:
+    var was_completed: bool = _world_completed
+    _world_completed = ProgressionService.is_world_completed(world_id)
+    prompt_label.text = COMPLETED_TEXT if _world_completed else prompt_text
+    if _light_tween == null or _world_completed != was_completed:
+        _update_light()
+
+
+func _on_world_progress_changed(_completed_worlds: int, _available_worlds: int) -> void:
+    _refresh_progress_state()
 
 
 func _resolve_player() -> void:
@@ -96,8 +115,7 @@ func _on_body_exited(body: Node3D) -> void:
 
 func _enter_level() -> void:
     if ProgressionService.is_world_completed(world_id):
-        _world_completed = true
-        prompt_label.text = COMPLETED_TEXT
+        _refresh_progress_state()
         return
 
     if not SceneTransition.change_scene(target_scene_path):
