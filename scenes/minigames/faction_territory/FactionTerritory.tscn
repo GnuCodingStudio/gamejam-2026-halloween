@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://byb5iyvykkl68" path="res://scenes/minigames/faction_territory/FactionTerritoryHud.tscn" id="4_hud"]
 [ext_resource type="Script" uid="uid://m0oqam17mc24" path="res://scenes/minigames/faction_territory/EnemyAI.gd" id="5_enemy_ai"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/faction_territory/FactionTerritoryResultOverlay.tscn" id="6_overlay"]
+[ext_resource type="AudioStream" uid="uid://c6100hwglv7nk" path="res://assets/audio/faction.mp3" id="7_music"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_territory"]
 sky_top_color = Color(0.12, 0.1, 0.25, 1)
@@ -35,6 +36,12 @@ albedo_color = Color(0.3, 0.24, 0.38, 1)
 
 [node name="FactionTerritory" type="Node3D" unique_id=141314897]
 script = ExtResource("2_territory")
+
+[node name="FactionMusic" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_music")
+volume_db = -8.0
+bus = &"Music"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=422297814]
 environment = SubResource("Environment_territory")

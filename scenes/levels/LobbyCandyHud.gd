@@ -5,7 +5,7 @@ extends CanvasLayer
 signal finale_closed
 
 const CAPTURE_DIRECTORY: String = "user://bilans/"
-const FINALE_VOLUME_DB: float = -6.0
+const FINALE_VOLUME_DB: float = -10.0
 const SILENT_VOLUME_DB: float = -40.0
 const PLAYER_NAME_MAX_FONT_SIZE: int = 38
 const PLAYER_NAME_MIN_FONT_SIZE: int = 26
@@ -34,6 +34,7 @@ const STATUS_NEUTRAL_COLOR: Color = Color(0.886275, 0.85098, 0.933333)
 @onready var actions: Control = %Actions
 @onready var hint: Control = %Hint
 @onready var finale_audio: AudioStreamPlayer = %FinaleAudio
+@onready var lobby_music: AudioStreamPlayer = get_node_or_null("../LobbyMusic") as AudioStreamPlayer
 
 var _capture_in_progress: bool = false
 var _finale_closing: bool = false
@@ -44,6 +45,8 @@ var _tree_was_paused: bool = false
 var _last_capture_png: PackedByteArray = PackedByteArray()
 var _last_capture_file_name: String = ""
 var _last_capture_path: String = ""
+var _lobby_music_was_playing: bool = false
+var _lobby_music_volume_db: float = 0.0
 
 
 func _ready() -> void:
@@ -106,6 +109,7 @@ func _update_worlds_label(completed_worlds: int, available_worlds: int) -> void:
 
 
 func _prepare_finale() -> void:
+	_pause_lobby_music()
 	_update_finale_summary()
 	_show_name_entry()
 	_prepare_finale_animation()
@@ -510,3 +514,22 @@ func _dismiss_finale() -> void:
 	get_tree().paused = _tree_was_paused
 	Input.mouse_mode = _previous_mouse_mode
 	finale_closed.emit()
+	_resume_lobby_music()
+
+
+func _pause_lobby_music() -> void:
+	if not is_instance_valid(lobby_music):
+		return
+	_lobby_music_was_playing = lobby_music.playing
+	_lobby_music_volume_db = lobby_music.volume_db
+	lobby_music.volume_db = SILENT_VOLUME_DB
+	lobby_music.stream_paused = true
+
+
+func _resume_lobby_music() -> void:
+	if not is_instance_valid(lobby_music) or not _lobby_music_was_playing:
+		return
+	lobby_music.stream_paused = false
+	var resume_tween: Tween = create_tween()
+	resume_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	resume_tween.tween_property(lobby_music, "volume_db", _lobby_music_volume_db, 0.8)

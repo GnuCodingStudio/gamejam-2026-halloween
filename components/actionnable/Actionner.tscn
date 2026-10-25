@@ -8,3 +8,4 @@ script = ExtResource("1_5vi4i")
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 volume_db = -15.0
+bus = &"SFX"

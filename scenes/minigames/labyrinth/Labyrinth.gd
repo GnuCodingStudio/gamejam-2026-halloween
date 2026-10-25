@@ -7,6 +7,7 @@ const LOBBY_RETURN_META: StringName = &"labyrinth_return_to_door"
 
 @export var extra_candies: int = 0
 @export var next_level: PackedScene
+@export var starts_music_session: bool = false
 
 var _total_candies := 0
 var _collected_candies := 0
@@ -21,6 +22,8 @@ var _is_time_up := false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if starts_music_session:
+		LabyrinthService.start_music_session()
 	_connect_candies()
 	_connect_signals()
 	hud.set_candies(_collected_candies, _total_candies)
@@ -109,6 +112,7 @@ func _on_continue_pressed() -> void:
 
 
 func _return_to_lobby() -> void:
+	LabyrinthService.stop_music_session()
 	SceneTransition.change_scene(LOBBY_SCENE_PATH, _mark_lobby_return)
 
 

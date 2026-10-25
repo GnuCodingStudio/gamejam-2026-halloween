@@ -4,7 +4,12 @@ extends Node
 const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
 const FINALE_MUSIC_PATH: String = "res://assets/audio/bilan_final.mp3"
 const CHURCH_DOOR_PATH: NodePath = NodePath("CSGCombiner3D/church/door")
-const COMPLETED_WORLDS: Array[StringName] = [&"candy_bucket", &"labyrinth", &"chaseween"]
+const COMPLETED_WORLDS: Array[StringName] = [
+	&"candy_bucket",
+	&"labyrinth",
+	&"chaseween",
+	&"faction_territory",
+]
 
 var _failures: Array[String] = []
 var _original_progression: Progression
@@ -34,6 +39,7 @@ func _run() -> void:
 	var interactor: ChurchFinaleInteractor = lobby.get_node_or_null("ChurchFinaleInteractor") as ChurchFinaleInteractor
 	var player: CharacterBody3D = lobby.get_node_or_null("Player") as CharacterBody3D
 	var church_door: Node3D = lobby.get_node_or_null(CHURCH_DOOR_PATH) as Node3D
+	var lobby_music: AudioStreamPlayer = lobby.get_node_or_null("LobbyMusic") as AudioStreamPlayer
 	_check(hud != null, "Le HUD final existe")
 	_check(interactor != null, "La porte de l'église possède une interaction dédiée")
 	_check(player != null and church_door != null, "Le joueur et la porte visible sont résolus")
@@ -43,7 +49,7 @@ func _run() -> void:
 		return
 
 	_check(not hud.finale_overlay.visible, "Le bilan ne s'ouvre pas automatiquement")
-	_check(interactor._available and interactor.light.visible, "L'église s'active après les trois mondes")
+	_check(interactor._available and interactor.light.visible, "L'église s'active après tous les mondes")
 	var horizontal_distance := Vector2(
 		interactor.global_position.x - church_door.global_position.x,
 		interactor.global_position.z - church_door.global_position.z
@@ -77,6 +83,8 @@ func _run() -> void:
 	)
 	_check(ResourceLoader.exists(FINALE_MUSIC_PATH) and hud.finale_audio.stream is AudioStreamMP3, "bilan_final.mp3 accompagne le bilan")
 	_check(hud.finale_audio.playing, "La musique finale démarre une seule fois")
+	_check(lobby_music != null and lobby_music.stream_paused, "La musique du lobby est suspendue pendant le bilan")
+	_check(is_equal_approx(LobbyCandyHud.FINALE_VOLUME_DB, -10.0), "Le gain mesuré du bilan est appliqué")
 	_check(ProgressionService.get_total_candy() == score_before, "L'ouverture ne modifie pas les CANDY")
 
 	_test_pseudo_serialization()
@@ -183,6 +191,9 @@ func _run() -> void:
 	_check(not get_tree().paused, "Le joueur retrouve le contrôle du lobby")
 	_check(Input.mouse_mode == previous_mouse_mode, "Le mode souris précédent est restauré")
 	_check(not hud.finale_audio.playing, "La musique finale s'arrête au retour")
+	_check(lobby_music != null and not lobby_music.stream_paused and lobby_music.playing, "La musique du lobby reprend sans doublon")
+	await get_tree().create_timer(0.9, true).timeout
+	_check(is_equal_approx(lobby_music.volume_db, 5.0), "Le lobby retrouve progressivement son gain mesuré")
 	_check(ProgressionService.get_total_candy() == score_before, "La fermeture ne modifie pas les CANDY")
 	_check(interactor.prompt.visible, "Le bilan peut être consulté à nouveau depuis l'église")
 

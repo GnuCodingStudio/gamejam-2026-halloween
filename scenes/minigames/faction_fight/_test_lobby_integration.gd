@@ -94,23 +94,23 @@ func _test_shared_results_and_audio() -> void:
 	var candy_bucket := (load("res://scenes/minigames/candy_bucket/CandyBucket.tscn") as PackedScene).instantiate() as CandyBucketGame
 	get_tree().root.add_child(candy_bucket)
 	await get_tree().process_frame
-	_check(candy_bucket.collect_audio_player.stream.resource_path == "res://assets/audio/collect.wav", "Candy Bucket réutilise exactement collect.wav")
-	_check(candy_bucket.collect_audio_player.bus == &"SFX", "Candy Bucket utilise le même bus SFX")
+	_check(candy_bucket.collect_sfx_player.stream.resource_path == "res://assets/audio/collect.wav", "Candy Bucket réutilise exactement collect.wav")
+	_check(candy_bucket.collect_sfx_player.bus == &"SFX", "Candy Bucket utilise le même bus SFX")
 	_check(candy_bucket.result_overlay.scene_file_path == RESULT_OVERLAY_PATH, "Candy Bucket instancie la carte de résultat du Labyrinthe")
 	candy_bucket._round_active = true
 	var healthy_candy := (load("res://scenes/minigames/candy_bucket/FallingCandy.tscn") as PackedScene).instantiate() as CandyBucketFallingCandy
 	candy_bucket.candies.add_child(healthy_candy)
-	candy_bucket.collect_audio_player.stop()
+	candy_bucket.collect_sfx_player.stop()
 	candy_bucket._on_player_candy_entered(healthy_candy)
 	_check(candy_bucket._collected_candies == 1, "Candy Bucket valide le CANDY sain une seule fois")
-	_check(candy_bucket.collect_audio_player.playing, "Candy Bucket joue collect.wav lors du gain réel")
+	_check(candy_bucket.collect_sfx_player.playing, "Candy Bucket joue collect.wav lors du gain réel")
 	var toxic_candy := (load("res://scenes/minigames/candy_bucket/FallingCandy.tscn") as PackedScene).instantiate() as CandyBucketFallingCandy
 	candy_bucket.candies.add_child(toxic_candy)
 	toxic_candy.is_poison = true
-	candy_bucket.collect_audio_player.stop()
+	candy_bucket.collect_sfx_player.stop()
 	candy_bucket._on_player_candy_entered(toxic_candy)
 	_check(candy_bucket._collected_candies == 1, "Un bonbon toxique ne modifie pas le score")
-	_check(not candy_bucket.collect_audio_player.playing, "Un bonbon toxique ne joue pas le son officiel de collecte")
+	_check(not candy_bucket.collect_sfx_player.playing, "Un bonbon toxique ne joue pas le son officiel de collecte")
 	candy_bucket.result_overlay.show_result("TEST", 17)
 	_check(candy_bucket.result_overlay.candy_score_label.text == "CANDY : 17", "Candy Bucket affiche le vrai score local")
 	_check(candy_bucket.result_overlay.continue_button.text == ResultOverlay.EXIT_TEXT, "Candy Bucket utilise le bouton Sortir dans la rue")

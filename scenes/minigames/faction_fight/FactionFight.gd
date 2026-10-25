@@ -85,11 +85,11 @@ func set_storm_phase(phase: int) -> void:
 		0:
 			_configure_storm(0.0, 22.0, 32.0, -80.0)
 		1:
-			_configure_storm(0.34, 13.0, 21.0, -20.0)
+			_configure_storm(0.34, 13.0, 21.0, -22.0)
 		2:
-			_configure_storm(0.68, 7.0, 12.0, -13.0)
+			_configure_storm(0.68, 7.0, 12.0, -15.0)
 		3:
-			_configure_storm(1.0, 3.8, 7.0, -8.0)
+			_configure_storm(1.0, 3.8, 7.0, -11.0)
 		_:
 			push_warning("FactionFight: phase d’orage inconnue %d" % phase)
 

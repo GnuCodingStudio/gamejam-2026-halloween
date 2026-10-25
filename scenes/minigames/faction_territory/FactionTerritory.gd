@@ -17,6 +17,7 @@ const ENEMY_NERF_MAX_PLAYER_SITES := 1
 const ENEMY_NERF_DAMAGE_MULTIPLIER := 0.2
 const ENEMY_BOOST_MAX_ENEMY_SITES := 1
 const ENEMY_BOOST_DAMAGE_MULTIPLIER := 5.0
+const MUSIC_VOLUME_DB: float = -8.0
 
 var _candies := 0
 
@@ -27,11 +28,13 @@ var _candies := 0
 @onready var _round_timer: Timer = %RoundTimer
 @onready var _hud: FactionTerritoryHud = %Hud
 @onready var _result_overlay: FactionTerritoryResultOverlay = %ResultOverlay
+@onready var _music: AudioStreamPlayer = %FactionMusic
 
 
 func _ready() -> void:
 	seed(13121988)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_start_music()
 	_hud.setup(ALL_STATS, _player_spawner)
 	_hud.unit_requested.connect(_on_unit_requested)
 	_payout_timer.timeout.connect(_on_payout_timer_timeout)
@@ -44,6 +47,19 @@ func _ready() -> void:
 	_enemy_ai.start(ALL_STATS)
 	_player_spawner.spawn_free(RANGER_STATS)
 	_player_spawner.start_cooldowns(_stats_unlocked_at(0).slice(UNITS_AVAILABLE_AT_START))
+
+
+func _exit_tree() -> void:
+	if is_instance_valid(_music):
+		_music.stop()
+
+
+func _start_music() -> void:
+	var local_stream: AudioStreamMP3 = _music.stream.duplicate() as AudioStreamMP3
+	local_stream.loop = true
+	_music.stream = local_stream
+	_music.volume_db = MUSIC_VOLUME_DB
+	_music.play()
 
 
 func _process(_delta: float) -> void:

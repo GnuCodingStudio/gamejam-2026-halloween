@@ -177,7 +177,7 @@ script = ExtResource("1_ysjpo")
 
 [node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_lobby_music")
-volume_db = -10.0
+volume_db = 5.0
 autoplay = true
 bus = &"Music"
 
@@ -1300,7 +1300,7 @@ horizontal_alignment = 2
 [node name="FinaleAudio" type="AudioStreamPlayer" parent="CandyHUD" unique_id=946234494]
 unique_name_in_owner = true
 stream = ExtResource("7_finale_audio")
-volume_db = -6.0
+volume_db = -10.0
 bus = &"Music"
 
 [node name="FinaleOverlay" type="Control" parent="CandyHUD" unique_id=1219026685]

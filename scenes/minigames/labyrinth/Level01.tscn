@@ -13,6 +13,7 @@ size = Vector3(31, 0.2, 31)
 [node name="Level01" unique_id=378172021 instance=ExtResource("1_base")]
 extra_candies = 5
 next_level = ExtResource("6_next")
+starts_music_session = true
 
 [node name="DirectionalLight3D" parent="WorldEnvironment" parent_id_path=PackedInt32Array(864570109) index="0" unique_id=1691361756]
 transform = Transform3D(0.8300246, 0.31248504, -0.46196574, 0, 0.828301, 0.5602833, 0.55772674, -0.46504894, 0.6875102, 0, 7, 10)

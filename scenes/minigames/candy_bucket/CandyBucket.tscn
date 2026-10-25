@@ -70,7 +70,7 @@ bus = &"SFX"
 [node name="ToxicSfxPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("6_fart")
-volume_db = -4.0
+volume_db = -10.0
 pitch_scale = 1.5
 bus = &"SFX"
 

@@ -72,7 +72,7 @@ func _test_storm_phases(environment: FactionFightEnvironment) -> void:
 	var intensities: Array[float] = [0.0, 0.34, 0.68, 1.0]
 	var minimum_delays: Array[float] = [22.0, 13.0, 7.0, 3.8]
 	var maximum_delays: Array[float] = [32.0, 21.0, 12.0, 7.0]
-	var volumes: Array[float] = [-80.0, -20.0, -13.0, -8.0]
+	var volumes: Array[float] = [-80.0, -22.0, -15.0, -11.0]
 	for phase: int in 4:
 		environment.set_storm_phase(phase)
 		_check(is_equal_approx(environment._storm_intensity, intensities[phase]), "La phase %d applique son intensité d’éclair" % (phase + 1))
