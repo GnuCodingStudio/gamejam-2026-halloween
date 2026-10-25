@@ -89,7 +89,7 @@ func _test_scene_audio_configuration() -> void:
 		_check(is_equal_approx(finale_music.volume_db, -10.0), "Le gain mesuré du bilan est appliqué")
 		lobby.free()
 
-	var chaseween: Node = _instantiate("res://scenes/minigames/faction_fight/Chaseween.tscn")
+	var chaseween: Node = _instantiate("res://scenes/minigames/chaseween/Chaseween.tscn")
 	if chaseween != null:
 		var chaseween_music: AudioStreamPlayer = chaseween.get_node("ChaseweenMusic") as AudioStreamPlayer
 		_check(chaseween_music.stream.resource_path.ends_with("fantasy_V2.mp3"), "Chaseween conserve fantasy_V2.mp3")

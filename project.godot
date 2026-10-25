@@ -33,6 +33,7 @@ buses/default_bus_layout="uid://cyxdv4qwyujc8"
 
 SceneTransition="*res://services/transition/SceneTransition.tscn"
 AudioSettingsService="*uid://c3u02wgsfno1d"
+GraphicsSettingsService="*res://services/save/GraphicsSettingsService.gd"
 ProgressionService="*res://services/save/ProgressionService.gd"
 UiAudio="*res://components/uicontrols/UIAudio.gd"
 LabyrinthService="*res://services/labyrinth/LabyrinthService.gd"
@@ -134,3 +135,4 @@ locale/translations=PackedStringArray("res://resources/localization/MenuTranslat
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

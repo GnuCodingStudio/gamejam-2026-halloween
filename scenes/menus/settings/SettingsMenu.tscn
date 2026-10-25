@@ -113,6 +113,32 @@ max_value = 1.5
 step = 0.05
 ticks_position = 3
 
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1203948570]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="GraphicsLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1203948571]
+layout_mode = 2
+theme_type_variation = &"SubTitle"
+text = "SETTINGS_GRAPHICS"
+
+[node name="GraphicsGridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1203948572]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="ParticlesLabel" type="Label" parent="MarginContainer/VBoxContainer/GraphicsGridContainer" unique_id=1203948573]
+layout_mode = 2
+text = "SETTINGS_GRAPHICS_PARTICLES"
+
+[node name="ParticlesCheckButton" type="CheckButton" parent="MarginContainer/VBoxContainer/GraphicsGridContainer" unique_id=1203948574]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+button_pressed = true
+
 [node name="BackButton" type="Button" parent="MarginContainer" unique_id=1646433742]
 layout_mode = 2
 size_flags_horizontal = 8
@@ -123,4 +149,5 @@ text = "SETTINGS_BACK_BUTTON"
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/AudioMusicSlider" to="." method="_on_audio_music_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/AudioUiSlider" to="." method="_on_audio_ui_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/AudioSfxSlider" to="." method="_on_audio_sfx_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/GraphicsGridContainer/ParticlesCheckButton" to="." method="_on_particles_toggled"]
 [connection signal="pressed" from="MarginContainer/BackButton" to="." method="_on_back_button_pressed"]

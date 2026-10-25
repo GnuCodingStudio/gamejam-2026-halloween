@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bcr1jc10clxpl"]
+
+[ext_resource type="Shader" uid="uid://bk4wgvot6yc1e" path="res://scenes/minigames/chaseween/shaders/syrup.gdshader" id="1_shader"]
+[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/chaseween/materials/rock.tres" id="2_rock"]
+
+[sub_resource type="ShaderMaterial" id="SyrupMaterial"]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/syrup_color = Color(0.72, 0.08, 0.4, 1)
+shader_parameter/highlight_color = Color(1, 0.3, 0.62, 1)
+shader_parameter/flow_speed = 0.55
+
+[sub_resource type="QuadMesh" id="FallMesh"]
+material = SubResource("SyrupMaterial")
+size = Vector2(7, 13)
+
+[sub_resource type="CylinderMesh" id="PoolMesh"]
+material = SubResource("SyrupMaterial")
+top_radius = 4.2
+bottom_radius = 4.5
+height = 0.18
+radial_segments = 24
+
+[sub_resource type="SphereMesh" id="RockMesh"]
+material = ExtResource("2_rock")
+radius = 1.5
+height = 2.2
+radial_segments = 8
+rings = 5
+
+[node name="SyrupFall" type="Node3D" unique_id=1571425134]
+
+[node name="Fall" type="MeshInstance3D" parent="." unique_id=602568299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
+mesh = SubResource("FallMesh")
+
+[node name="BackFall" type="MeshInstance3D" parent="." unique_id=403306337]
+transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, 0, 6.5, 0.08)
+mesh = SubResource("FallMesh")
+
+[node name="Pool" type="MeshInstance3D" parent="." unique_id=1545066336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 1.1)
+mesh = SubResource("PoolMesh")
+
+[node name="RockLeft" type="MeshInstance3D" parent="." unique_id=1063112366]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, -3.8, 0.8, 0.4)
+mesh = SubResource("RockMesh")
+
+[node name="RockRight" type="MeshInstance3D" parent="." unique_id=1742224356]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1.2, 3.7, 0.7, 0.3)
+mesh = SubResource("RockMesh")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=25268745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13641286, 0.7722955, 2.126788)
+light_color = Color(0.93994665, 0.0007541126, 0.94588155, 1)
+light_energy = 7.97

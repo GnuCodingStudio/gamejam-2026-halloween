@@ -156,6 +156,16 @@ To change the values to save you'll have to change:
 - `ProgressionService._parse()` method which parses the saved value
 - `Progression` class which is the structured data
 
+### Services/Save (GraphicsSettingsService)
+
+Autoloaded script which stores the graphics settings (`user://saves/graphics.json`) and loads them by itself in `_ready()`.
+
+- `GraphicsSettingsService.data.particles`: are particles enabled (default `true`)
+- `GraphicsSettingsService.set_particles_enabled(enabled)`: saves the value and applies it right away
+
+When particles are disabled, every `GPUParticles2D/3D` and `CPUParticles2D/3D` of the game is hidden
+(`visible = false`), including the ones added later at runtime. Nothing has to be done on a particles node.
+
 ### Services/Transition (and SceneTransition)
 
 Use `SceneTransition.change_scene(...)` instead of good old `get_tree().change_scene_to_file(...)` to:

@@ -65,7 +65,7 @@ func _on_candy_collected() -> void:
 func _on_door_use_requested() -> void:
 	var missing_candies := _total_candies - _collected_candies
 	if missing_candies > 0:
-		hud.show_message("Candies missing: %d" % missing_candies)
+		hud.show_message(tr("CREDITS_LABYRINTH_CANDIES_MISSING") % missing_candies)
 	else:
 		_win()
 

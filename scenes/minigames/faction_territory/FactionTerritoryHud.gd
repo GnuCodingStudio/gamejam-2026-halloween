@@ -27,7 +27,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if _spawner:
-		_units_label.text = "%d/%d units are fighting" % [_spawner.alive_count, _spawner.max_alive]
+		_units_label.text = tr("CREDITS_TERRITORY_UNITS_FIGHTING") % [_spawner.alive_count, _spawner.max_alive]
 
 
 func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
@@ -40,7 +40,7 @@ func setup(all_stats: Array[UnitStats], spawner: UnitSpawner) -> void:
 
 
 func set_candies(total: int) -> void:
-	_candy_label.text = "Candies: %d" % total
+	_candy_label.text = tr("CREDITS_CANDIES_COUNT") % total
 
 
 func set_time(seconds: float) -> void:
@@ -50,13 +50,13 @@ func set_time(seconds: float) -> void:
 
 
 func set_sites(owned: int, total: int) -> void:
-	_sites_label.text = "Sites: %d / %d" % [owned, total]
+	_sites_label.text = tr("CREDITS_TERRITORY_SITES") % [owned, total]
 
 
 func show_gain(amount: int) -> void:
 	if _gain_tween:
 		_gain_tween.kill()
-	_gain_label.text = "+%d candies" % amount
+	_gain_label.text = tr("CREDITS_TERRITORY_GAIN") % amount
 	_gain_label.modulate.a = 0.0
 	_gain_label.position.y = _gain_rest_y + GAIN_SCROLL_DISTANCE
 	_gain_label.visible = true

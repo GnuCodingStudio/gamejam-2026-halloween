@@ -100,7 +100,10 @@ func _run() -> void:
 	_check(hud.player_name_label.text == "<b>Jyjio</b>", "Les caractères usuels sont affichés littéralement")
 	hud._show_final_result("Jyjio")
 	await get_tree().create_timer(0.55, true).timeout
-	_check(hud.final_score_label.text == "247 CANDY", "Le bilan reprend exactement le total global")
+	_check(
+		hud.final_score_label.text == tr("LOBBY_FINAL_SCORE") % 247,
+		"Le bilan reprend exactement le total global"
+	)
 	_check(hud.result_step.visible and hud.save_button.visible, "Le résultat et l'export PNG apparaissent après validation")
 	_check(hud.find_child("ShareButton", true, false) == null, "Le bouton de partage est absent du bilan")
 	_check(

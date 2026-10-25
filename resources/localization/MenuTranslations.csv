@@ -20,4 +20,224 @@ SETTINGS_AUDIO_MASTER,Master,Principal
 SETTINGS_AUDIO_MUSIC,Music,Musique
 SETTINGS_AUDIO_UI,User Interfaces,Interfaces Utilisateurs
 SETTINGS_AUDIO_SFX,SFX,Effets spéciaux
+SETTINGS_GRAPHICS,Graphics settings,Réglages Graphiques
+SETTINGS_GRAPHICS_PARTICLES,Particles,Particules
 SETTINGS_BACK_BUTTON,BACK,RETOUR
+LOBBY_CANDY_COUNT,CANDIES: %d,BONBONS : %d
+LOBBY_WORLDS_COUNT,WORLDS: %d / %d,MONDES : %d / %d
+LOBBY_NAME_REQUIRED,The nickname is required.,Le pseudo est obligatoire.
+LOBBY_FINAL_SCORE,%d CANDIES,%d CANDIES
+LOBBY_FINAL_WORLDS,%d / %d WORLDS COMPLETED,%d / %d MONDES ACCOMPLIS
+LOBBY_CAPTURE_NEEDS_DISPLAY,PNG capture requires a graphical display.,La capture PNG nécessite un affichage graphique.
+LOBBY_CAPTURE_NOT_READY,The PNG is not ready. Close and reopen the summary.,Le PNG n'est pas prêt. Fermez puis rouvrez le bilan.
+LOBBY_SAVING,Saving…,Enregistrement en cours…
+LOBBY_SAVE_FAILED,Save failed: %s,Échec de l'enregistrement : %s
+LOBBY_DOWNLOAD_STARTED,Download started: %s,Téléchargement lancé : %s
+LOBBY_IMAGE_SAVED,"Image saved:
+%s","Image enregistrée :
+%s"
+LOBBY_SCORE_COPIED,Score text copied.,Texte du score copié.
+LOBBY_IMAGE_READY,The image is ready in the summaries folder.,L'image est prête dans le dossier des bilans.
+LOBBY_SHARE_AND_CLIPBOARD_UNAVAILABLE,System sharing and clipboard are not available.,Le partage système et le presse-papiers ne sont pas disponibles.
+LOBBY_SHARE_UNAVAILABLE_COPIED,System sharing unavailable: score text copied.,Partage système indisponible : texte du score copié.
+LOBBY_SHARE_UNAVAILABLE_BROWSER,Sharing is not available in this browser.,Le partage n'est pas disponible dans ce navigateur.
+LOBBY_SHARE_OPEN_FAILED,Unable to open system sharing.,Impossible d'ouvrir le partage système.
+LOBBY_SHARE_PENDING_IMAGE,Share menu opened with the image and the score…,Menu de partage ouvert avec l'image et le score…
+LOBBY_SHARE_TEXT_ONLY,Share menu opened with the text. Save the PNG first to attach the image.,Menu de partage ouvert avec le texte. Enregistrez d'abord le PNG pour joindre l'image.
+LOBBY_SHARE_SUCCESS_IMAGE,Image and score shared.,Image et score partagés.
+LOBBY_SHARE_SUCCESS_TEXT,Score shared as text.,Score partagé en texte.
+LOBBY_SHARE_CANCELLED,Sharing cancelled.,Partage annulé.
+LOBBY_SHARE_FAILED,Sharing failed. You can save the PNG.,Le partage a échoué. Vous pouvez enregistrer le PNG.
+LOBBY_SHARE_NO_RESPONSE,System sharing did not respond.,Le partage système n'a pas répondu.
+LOBBY_SHARE_TEXT,%s finished Game Jam Halloween 2026 with %d candies!,%s a terminé Game Jam Halloween 2026 avec %d CANDY !
+LOBBY_SAVE_FIRST,Save your PNG summary first.,Enregistrez d'abord votre bilan en PNG.
+LOBBY_FOLDER_OPENED,Summaries folder opened.,Dossier des bilans ouvert.
+LOBBY_FOLDER_OPEN_FAILED,Unable to open the folder: %s,Impossible d'ouvrir le dossier : %s
+LOBBY_PORTAL_COMPLETED,WORLD COMPLETED,MONDE TERMINÉ
+LOBBY_PORTAL_ENTER,E - Enter,E - Entrer
+LOBBY_PORTAL_CANDY_BUCKET,E - Candy Bucket,E - Seau à bonbons
+LOBBY_PORTAL_LABYRINTH,E - Labyrinth,E - Labyrinthe
+LOBBY_PORTAL_CHASEWEEN,E - Chaseween,E – Chaseween
+LOBBY_PORTAL_FACTION_TERRITORY,E - Faction Territory,E - Territoire des factions
+LOBBY_CHURCH_PROMPT,E - View my summary,E - CONSULTER MON BILAN
+LOBBY_GALLERY_EXIT_PROMPT,E - Back to the lobby,E - RETOUR AU LOBBY
+LOBBY_GALLERY_TITLE,THE GALLERY OF MEMORIES,LA GALERIE DES SOUVENIRS
+LOBBY_FINALE_EYEBROW,✦  GAME JAM HALLOWEEN 2026  ✦,✦  GAME JAM HALLOWEEN 2026  ✦
+LOBBY_FINALE_TITLE,THE NIGHT IS OVER,LA NUIT EST TERMINÉE
+LOBBY_FINALE_SUBTITLE,Your adventure deserves to be remembered.,Votre aventure mérite de rester dans les mémoires.
+LOBBY_FINALE_QUESTION,Which adventurer is behind this score?,Quel aventurier se cache derrière ce score ?
+LOBBY_FINALE_NAME_PLACEHOLDER,Your nickname,Ton pseudo
+LOBBY_FINALE_VALIDATE,VALIDATE MY SCORE,VALIDER MON SCORE
+LOBBY_FINALE_TOTAL_CAPTION,TOTAL OF YOUR ADVENTURE,TOTAL DE VOTRE AVENTURE
+LOBBY_FINALE_WORLDS_CAPTION,FULL RUN,PARCOURS COMPLET
+LOBBY_FINALE_COMPLETION,« Legend of Halloween night »,« Légende de la nuit d'Halloween »
+LOBBY_FINALE_SAVE,SAVE MY SUMMARY,ENREGISTRER MON BILAN
+LOBBY_FINALE_SHARE,SHARE MY SCORE,PARTAGER MON SCORE
+LOBBY_FINALE_OPEN_FOLDER,OPEN THE FOLDER,OUVRIR LE DOSSIER
+LOBBY_FINALE_RETURN,BACK TO THE LOBBY,RETOUR AU LOBBY
+LOBBY_FINALE_HINT,ESC also closes this summary,ÉCHAP permet également de fermer ce résumé
+CREDITS_MENU_TITLE,CREDITS,CRÉDITS
+CREDITS_ROLE_N_WIZARD,Master of images and video magic,Maître des images et de la magie vidéo
+CREDITS_ROLE_TATOUNE18,"Sound engineer, sound effects and supernatural FARTS","Ingénieur du son, des bruitages et des PROUTS surnaturels"
+CREDITS_ROLE_MERGUEZ,Director of terrifying ideas,Directrice des idées terrifiantes
+CREDITS_ROLE_TYLGO10,Design director and beta tester,Directeur de la conception et bêta-testeur
+CREDITS_ROLE_EVA,Architect of mazes and paths of no return,Architecte des labyrinthes et des chemins sans retour
+CREDITS_ROLE_LEO,Master of game modes and music,Maître des modes de jeu et des musiques
+CREDITS_ROLE_MACHOUZ,Art director and world builder,Directeur artistique et créateur d'univers
+CREDITS_ROLE_JYJIO,Development intern and disaster fixer,Stagiaire en développement et réparateur de catastrophes
+CREDITS_ROLE_NODD,Development intern and summer camp entertainer,Stagiaire en développement et animateur de colos
+CREDITS_ROLE_GNU,Official intern of mysterious affairs,Stagiaire officiel des affaires mystérieuses
+CREDITS_TEMPLATE_ATTRIBUTION,Game Project Template by Gnu Coding Studio,Game Project Template par Gnu Coding Studio
+CREDITS_CANDY_SCORE,Candies: %d,Bonbons : %d
+CREDITS_CANDIES_COUNT,Candies: %d,Bonbons : %d
+CREDITS_CONTINUE_BUTTON,Continue,Continuer
+CREDITS_TIME_UP,Time's up!,Le temps est écoulé !
+CREDITS_CANDY_BUCKET_GO,GO!,GO !
+CREDITS_CANDY_BUCKET_TIME,Time: %.2f s,Temps : %.2f s
+CREDITS_CANDY_BUCKET_POISON_ACTIVE,Poison active: %.1f s,Poison actif : %.1f s
+CREDITS_CANDY_BUCKET_POISON_INACTIVE,Poison: inactive,Poison : inactif
+CREDITS_CANDY_BUCKET_SPEED_BOOST,Speed +50%% : %.1f s,Vitesse +50 %% : %.1f s
+CREDITS_CANDY_BUCKET_INSTRUCTIONS,Move: Q / D or ← / →    •    Catch as many candies as you can!,Déplacement : Q / D ou ← / →    •    Attrapez un maximum de bonbons !
+CREDITS_CANDY_BUCKET_TIME_UP,Time's up!,TEMPS ÉCOULÉ !
+CREDITS_LABYRINTH_NEXT_LEVEL,Next maze,Prochain labyrinthe
+CREDITS_LABYRINTH_EXIT,Go out to the street,Sortir dans la rue
+CREDITS_LABYRINTH_ESCAPED,You escaped!,Tu t’es échappé !
+CREDITS_LABYRINTH_EXTRA_CANDIES,+%d candies!,+%d bonbons !
+CREDITS_LABYRINTH_CANDIES,Candies: %d / %d,Bonbons : %d / %d
+CREDITS_LABYRINTH_BONUS_CANDIES,Bonus candies: %d,Bonbons bonus : %d
+CREDITS_LABYRINTH_CANDIES_MISSING,Candies missing: %d,Bonbons manquants : %d
+CREDITS_LABYRINTH_DOOR_PROMPT,Press E to open the door,Appuie sur E pour ouvrir la porte
+CREDITS_TERRITORY_UNITS_FIGHTING,%d/%d units are fighting,%d/%d unités se battent
+CREDITS_TERRITORY_SITES,Sites: %d / %d,Sites : %d / %d
+CREDITS_TERRITORY_GAIN,+%d candies,+%d bonbons
+CHASE_HUD_CANDY,CANDIES  %d,BONBONS  %d
+CHASE_HUD_MISSIONS,MISSIONS  %d / 4,MISSIONS  %d / 4
+CHASE_HUD_ITEM,ITEM  %s  ×%d,OBJET  %s  ×%d
+CHASE_HUD_ITEM_NONE,ITEM  -,OBJET  —
+CHASE_HUD_SHIELD,CARAMEL SHIELD  %.1f s,BOUCLIER CARAMEL  %.1f s
+CHASE_HUD_INVENTORY,FINDINGS  %s,TROUVAILLES  %s
+CHASE_HUD_TOOL,ACTIVE TOOL  %s  ×%d,OUTIL ACTIF  %s  ×%d
+CHASE_HUD_TOOL_NONE,ACTIVE TOOL  -,OUTIL ACTIF  —
+CHASE_HUD_SECOND_TOOL,Q  OTHER TOOL  %s  ×%d,Q  AUTRE OUTIL  %s  ×%d
+CHASE_HUD_SECOND_TOOL_NONE,Q  OTHER TOOL  -,Q  AUTRE OUTIL  —
+CHASE_HUD_HELP,Q switch tool • Left click use • E interact • J journal,Q changer d’outil • Clic gauche utiliser • E interagir • J carnet
+CHASE_HUD_JOURNAL_TITLE,AFFINITY JOURNAL,CARNET DES AFFINITÉS
+CHASE_HUD_JOURNAL_CLOSE,J : close,J : fermer
+CHASE_HUD_SUMMARY_TITLE,CHASEWEEN COMPLETE,CHASEWEEN TERMINÉ
+CHASE_HUD_SUMMARY_MISSIONS,MISSIONS COMPLETED: %d / 4,MISSIONS TERMINÉES : %d / 4
+CHASE_HUD_SUMMARY_DISCOVERIES,DISCOVERIES: %d,DÉCOUVERTES : %d
+CHASE_HUD_SUMMARY_EXIT,EXIT: %s,SORTIE : %s
+CHASE_HUD_SUMMARY_BONUS,EXIT BONUS: +%d CANDIES,BONUS DE SORTIE : +%d BONBONS
+CHASE_HUD_CORRUPTION_TITLE,◆  CHASEWEEN CORRUPTION,◆  CORRUPTION DE CHASEWEEN
+CHASE_HUD_PHASE_DEFAULT,THE LAST SWEETNESS,LES DERNIÈRES DOUCEURS
+CHASE_HUD_FINAL_SPELL,THE FINAL SPELL IS BEING CAST…,LE DERNIER SORT S’ACCOMPLIT…
+CHASE_HUD_MARKER_ACTIVE,✦  ACTIVE OBJECTIVE  ✦,✦  OBJECTIF ACTIF  ✦
+CHASE_HUD_CATEGORY_ITEM,✦  ACTION TOOL,✦  OUTIL D’ACTION
+CHASE_HUD_CATEGORY_KEY_ITEM,◇  UNLOCK ITEM,◇  OBJET DE DÉBLOCAGE
+CHASE_HUD_CATEGORY_CHEST,✦  REWARD,✦  RÉCOMPENSE
+CHASE_HUD_CATEGORY_DEVICE,◇  MECHANISM,◇  MÉCANISME
+CHASE_HUD_PICKUP_DEFAULT,CANDY,CANDY
+CHASE_HUD_MONSTER_DEFAULT,Monster,Monstre
+CHASE_HUD_REACTION_EFFECTIVE,EFFECTIVE,EFFICACE
+CHASE_HUD_REACTION_WEAK,NOT VERY EFFECTIVE,PEU EFFICACE
+CHASE_HUD_REACTION_DANGEROUS,DANGEROUS,DANGEREUX
+CHASE_GAME_MISSION_1_TITLE,MISSION 1 / 4 • THE CANDY THIEF,MISSION 1 / 4 • LE VOLEUR DE BONBONS
+CHASE_GAME_MISSION_1_OBJECTIVE,"Grab the cane, push the Goblin back and open the reserve.","Prends le bâton, repousse le Gobelin et ouvre la réserve."
+CHASE_GAME_MISSION_1_HINT,The reserve glows near the Garden Goblin.,La réserve brille près du Gobelin du Jardin.
+CHASE_GAME_MISSION_2_TITLE,MISSION 2 / 4 • THE HAUNTED LOCKER,MISSION 2 / 4 • LE CASIER HANTÉ
+CHASE_GAME_MISSION_2_OBJECTIVE,"Find the caramel key, then open the locker guarded by the Paladin.",Trouve la clé caramel puis ouvre le casier gardé par le Paladin.
+CHASE_GAME_MISSION_2_HINT,The key is by the side of the path before the Paladin.,La clé est au bord du chemin avant le Paladin.
+CHASE_GAME_MISSION_3_TITLE,MISSION 3 / 4 • THE SYRUP CONQUEROR,MISSION 3 / 4 • LE CONQUÉRANT DU SIROP
+CHASE_GAME_MISSION_3_OBJECTIVE,"Test an affinity on the Conqueror, then open the syrup cache.",Teste une affinité sur le Conquérant puis ouvre la cache de sirop.
+CHASE_GAME_MISSION_3_HINT,"The chest is on the bridge, right next to the Conqueror.","Le coffre est sur le pont, tout près du Conquérant."
+CHASE_GAME_MISSION_4_TITLE,MISSION 4 / 4 • THE SANCTUARY TREASURE,MISSION 4 / 4 • LE TRÉSOR DU SANCTUAIRE
+CHASE_GAME_MISSION_4_OBJECTIVE,Reach the sanctuary and open its final chest.,Atteins le sanctuaire et ouvre son dernier coffre.
+CHASE_GAME_MISSION_4_HINT,Follow the golden beam at the back of the sanctuary.,Suis le faisceau doré au fond du sanctuaire.
+CHASE_GAME_ITEM_CANDY_CANE,CANDY CANE,BÂTON BONBON
+CHASE_GAME_ITEM_SUGAR_SPRAY,SUGAR SPRAY,SPRAY SUCRÉ
+CHASE_GAME_ITEM_CARAMEL_SHIELD,CARAMEL SHIELD,BOUCLIER CARAMEL
+CHASE_GAME_ITEM_GHOST_LAMP,GHOST LAMP,LAMPE FANTÔME
+CHASE_GAME_ITEM_FALLBACK,ITEM,OBJET
+CHASE_GAME_KEY_CARAMEL_KEY,CARAMEL KEY,CLÉ CARAMEL
+CHASE_GAME_KEY_SUGAR_CRYSTAL,SUGAR CRYSTAL,CRISTAL SUCRÉ
+CHASE_GAME_KEY_SYRUP_CAPSULE,SYRUP CAPSULE,CAPSULE DE SIROP
+CHASE_GAME_KEY_SPECTRAL_BADGE,SPECTRAL BADGE,INSIGNE SPECTRAL
+CHASE_GAME_KEY_CHEWINGLAND_HEART,HEART OF CHEWINGLAND,CŒUR DE CHEWINGLAND
+CHASE_GAME_MISSING_ITEM,MISSING ITEM,OBJET MANQUANT
+CHASE_GAME_PICKUP_SUGAR_CRYSTAL,SWEET ENERGY CRYSTAL,CRISTAL D’ÉNERGIE SUCRÉE
+CHASE_GAME_PICKUP_CANDY,CANDIES +%d,BONBONS +%d
+CHASE_GAME_CHEST_GARDEN_RESERVE,GARDEN RESERVE,RÉSERVE DU JARDIN
+CHASE_GAME_CHEST_SYRUP_CACHE,SYRUP CACHE,CACHE DE SIROP
+CHASE_GAME_CHEST_SANCTUARY,SANCTUARY CHEST,COFFRE DU SANCTUAIRE
+CHASE_GAME_DEVICE_HAUNTED_LOCKER,HAUNTED LOCKER,CASIER HANTÉ
+CHASE_GAME_DEVICE_MAGIC_MECHANISM,MAGIC MECHANISM,MÉCANISME MAGIQUE
+CHASE_GAME_DEVICE_SYRUP_DISPENSER,SYRUP DISPENSER,DISTRIBUTEUR DE SIROP
+CHASE_GAME_DEVICE_SPECTRAL_ALTAR,SPECTRAL ALTAR,AUTEL SPECTRAL
+CHASE_GAME_MONSTER_GARDEN_GOBLIN,Garden Goblin,Gobelin du Jardin
+CHASE_GAME_MONSTER_BRAMBLE_CONQUEROR,Bramble Conqueror,Conquérant des Ronces
+CHASE_GAME_MONSTER_ROOTS_GOBLIN,Roots Goblin,Gobelin des Racines
+CHASE_GAME_MONSTER_CHEST_PALADIN,Chest Paladin,Paladin du Coffre
+CHASE_GAME_MONSTER_FOREST_CONQUEROR,Forest Conqueror,Conquérant de la Forêt
+CHASE_GAME_MONSTER_SYRUP_GOBLIN,Syrup Goblin,Gobelin du Sirop
+CHASE_GAME_MONSTER_BRIDGE_PALADIN,Bridge Paladin,Paladin du Pont
+CHASE_GAME_MONSTER_BRIDGE_CONQUEROR,Bridge Conqueror,Conquérant du Pont
+CHASE_GAME_MONSTER_SANCTUARY_GOBLIN,Sanctuary Goblin,Gobelin du Sanctuaire
+CHASE_GAME_MONSTER_CORRUPTED_PALADIN,Corrupted Paladin,Paladin Corrompu
+CHASE_GAME_MONSTER_TREASURE_PALADIN,Treasure Paladin,Paladin du Trésor
+CHASE_GAME_MONSTER_PORTAL_CONQUEROR,Portal Conqueror,Conquérant du Portail
+CHASE_GAME_JOURNAL_GOBLIN,PEPPERMINT GOBLIN,GOBELIN MENTHE
+CHASE_GAME_JOURNAL_PALADIN,PUMPKIN PALADIN,PALADIN CITROUILLE
+CHASE_GAME_JOURNAL_CONQUEROR,CANDY CORN CONQUEROR,CONQUÉRANT CANDY CORN
+CHASE_GAME_MSG_GET_CANDY_CANE,GRAB THE CANDY CANE TO PUSH THE GOBLIN BACK,RÉCUPÈRE LE BÂTON BONBON POUR REPOUSSER LE GOBELIN
+CHASE_GAME_MSG_CANDY_GAIN,+%d CANDIES,+%d BONBONS
+CHASE_GAME_MSG_ZONE_REWARD,ZONE %d / 4 • GUARANTEED REWARD +5 CANDIES,ZONE %d / 4 • RÉCOMPENSE GARANTIE +5 BONBONS
+CHASE_GAME_MSG_HINT,HINT • %s,INDICE • %s
+CHASE_GAME_HINT_BACK_TO_MISSION,BACK TO THE MISSION,RETOUR VERS LA MISSION
+CHASE_GAME_MISSIONS_DONE_TITLE,MISSIONS COMPLETED,MISSIONS ACCOMPLIES
+CHASE_GAME_MISSIONS_DONE_OBJECTIVE,Head to the portal and finish Chaseween.,Rejoins le portail et termine CHASEWEEN.
+CHASE_GAME_OBJECTIVE_PICK_CANDY_CANE,Pick up the candy cane from its pedestal.,Ramasse le bâton bonbon sur son socle.
+CHASE_GAME_OBJECTIVE_USE_CANDY_CANE,"Face the Goblin, then use the cane with left click.",Oriente-toi vers le Gobelin puis utilise le bâton au clic gauche.
+CHASE_GAME_OBJECTIVE_OPEN_RESERVE,The Goblin is pushed back: open the reserve.,Le Gobelin est repoussé : ouvre la réserve.
+CHASE_GAME_OBJECTIVE_OPEN_LOCKER,Open the locker guarded by the Paladin with the key.,Ouvre le casier gardé par le Paladin avec la clé.
+CHASE_GAME_OBJECTIVE_FIND_KEY,Find the caramel key by the side of the path.,Trouve la clé caramel au bord du chemin.
+CHASE_GAME_OBJECTIVE_OPEN_SYRUP_CACHE,The affinity is tested: open the syrup cache.,L’affinité est testée : ouvre la cache de sirop.
+CHASE_GAME_OBJECTIVE_TEST_AFFINITY,"Face the Conqueror, then use a tool with left click.",Oriente-toi vers le Conquérant puis utilise un outil au clic gauche.
+CHASE_GAME_OBJECTIVE_REACH_PORTAL,Head to the portal.,Rejoins le portail.
+CHASE_GAME_MSG_HELP_CANE_RESTORED,HELP • 1 cane charge restored,AIDE • 1 charge de bâton restaurée
+CHASE_GAME_MSG_HELP_TOOL_RESTORED,HELP • 1 tool restored to test the affinity,AIDE • 1 outil restauré pour tester l’affinité
+CHASE_GAME_MSG_MISSION_DONE,MISSION COMPLETED • %d / 4,MISSION ACCOMPLIE • %d / 4
+CHASE_GAME_MSG_MISSION_DONE_REWARD,MISSION COMPLETED • %d / 4 • +%d BONBONS,MISSION ACCOMPLIE • %d / 4 • +%d BONBONS
+CHASE_GAME_MSG_CHEST_OPENED,CHEST OPENED • REWARD +%d BONBONS,COFFRE OUVERT • RÉCOMPENSE +%d BONBONS
+CHASE_GAME_PROMPT_INTERACT,E  •  %s,E  •  %s
+CHASE_GAME_PROMPT_EXIT,E  •  LEAVE CHASEWEEN,E  •  QUITTER CHASEWEEN
+CHASE_GAME_PROMPT_FINISH_MISSION,Finish the active mission first,Termine d’abord la mission active
+CHASE_GAME_MSG_PORTAL_WAITS,The portal awaits all four missions,Le portail attend les quatre missions
+CHASE_GAME_MSG_OBJECTIVE_LATER,This objective belongs to a later mission,Cet objectif appartient à une mission suivante
+CHASE_GAME_MSG_REPEL_GOBLIN_FIRST,First push the Goblin back with your cane,Repousse d’abord le Gobelin avec ton bâton
+CHASE_GAME_MSG_TEST_AFFINITY_FIRST,First test an affinity on the Conqueror,Teste d’abord une affinité sur le Conquérant
+CHASE_GAME_MSG_REQUIRES,REQUIRES: %s,NÉCESSITE : %s
+CHASE_GAME_MSG_ACTIVE_ITEM,ACTIVE ITEM: %s ×%d • LEFT CLICK TO USE,OBJET ACTIF : %s ×%d • CLIC GAUCHE POUR UTILISER
+CHASE_GAME_MSG_FOUND,FOUND: %s,TROUVÉ : %s
+CHASE_GAME_MSG_GHOST_LAMP_UNLOCKED,GHOST LAMP UNLOCKED!,LAMPE FANTÔME DÉBLOQUÉE !
+CHASE_GAME_MSG_MECHANISM_ACTIVATED,MECHANISM ACTIVATED • +7 CANDIES,MÉCANISME ACTIVÉ • +7 BONBONS
+CHASE_GAME_MSG_SPRAY_REFILLED,SPRAY REFILLED • SECRET +3 CANDIES,SPRAY RECHARGÉ • SECRET +3 BONBONS
+CHASE_GAME_MSG_SECRET_PASSAGE,SECRET PASSAGE DISCOVERED • +10 CANDIES,PASSAGE SECRET DÉCOUVERT • +10 BONBONS
+CHASE_GAME_MSG_NO_ACTIVE_ITEM,No active item,Aucun objet actif
+CHASE_GAME_MSG_ONE_TOOL_ONLY,Only one tool equipped,Un seul outil équipé
+CHASE_GAME_MSG_TOOL,TOOL: %s,OUTIL : %s
+CHASE_GAME_MSG_NO_MONSTER_NEAR,No monster close enough,Aucun monstre assez proche
+CHASE_GAME_MSG_NO_MONSTER_SPRAY,No monster within spray range,Aucun monstre à portée du spray
+CHASE_GAME_MSG_NO_MONSTER_BEAM,No monster in the beam,Aucun monstre dans le faisceau
+CHASE_GAME_MSG_CANDY_CANE_USED,CANDY CANE • TACTICAL ARC!,BÂTON BONBON • ARC TACTIQUE !
+CHASE_GAME_MSG_SUGAR_SPRAY_USED,SUGAR SPRAY • TACTICAL BLAST!,SPRAY SUCRÉ • PROJECTION TACTIQUE !
+CHASE_GAME_MSG_CARAMEL_SHIELD_USED,CARAMEL SHIELD • 8 S PROTECTION,BOUCLIER CARAMEL • PROTECTION 8 S
+CHASE_GAME_MSG_GHOST_LAMP_USED,GHOST LAMP • SPECTRAL BEAM!,LAMPE FANTÔME • FAISCEAU SPECTRAL !
+CHASE_GAME_MSG_SHIELD_ACTIVE,SHIELD ACTIVE • NO CANDIES STOLEN,BOUCLIER ACTIF • AUCUN BONBONS VOLÉ
+CHASE_GAME_MSG_NOTHING_TO_STEAL,%s found no candies,%s n’a trouvé aucun bonbons
+CHASE_GAME_MSG_CANDY_STOLEN,-%d CANDIES • STOLEN BY %s • 3 S IMMUNITY,-%d BONBONS • VOLÉ PAR %s • IMMUNITÉ 3 S
+CHASE_GAME_EXIT_PORTAL,PORTAL,PORTAIL
+CHASE_GAME_EXIT_FINAL_SPELL,FINAL SPELL,DERNIER SORT
+CHASE_GAME_PHASE_1,THE LAST SWEETNESS,LES DERNIÈRES DOUCEURS
+CHASE_GAME_PHASE_2,THE AWAKENING OF CORRUPTION,L’ÉVEIL DE LA CORRUPTION
+CHASE_GAME_PHASE_3,THE CANDY STORM,LA TEMPÊTE DES CONFISERIES
+CHASE_GAME_PHASE_4,THE FINAL SPELL,LE DERNIER SORT

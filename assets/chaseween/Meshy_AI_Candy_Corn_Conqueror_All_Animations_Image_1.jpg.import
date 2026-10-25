@@ -3,22 +3,24 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://f4ymyb2beh4j"
-path="res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.ctex"
+path.s3tc="res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
-"md5": "10554a2e629d30a89e69c6875e365bcc"
+"md5": "c4a5a24553b7b85c8535310d6ed3be7c"
 }
 
 [deps]
 
 source_file="res://assets/chaseween/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.s3tc.ctex", "res://.godot/imported/Meshy_AI_Candy_Corn_Conqueror_All_Animations_Image_1.jpg-4f1db738b5a89e7b4e23cb2336fa8827.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

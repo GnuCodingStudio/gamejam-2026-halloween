@@ -99,11 +99,11 @@ func open_finale() -> bool:
 
 
 func _update_candy_label(total_candy: int) -> void:
-	candy_label.text = "CANDY : %d" % total_candy
+	candy_label.text = tr("LOBBY_CANDY_COUNT") % total_candy
 
 
 func _update_worlds_label(completed_worlds: int, available_worlds: int) -> void:
-	worlds_label.text = "MONDES : %d / %d" % [completed_worlds, available_worlds]
+	worlds_label.text = tr("LOBBY_WORLDS_COUNT") % [completed_worlds, available_worlds]
 
 
 func _prepare_finale() -> void:
@@ -155,7 +155,7 @@ func _show_name_entry() -> void:
 
 func _validate_player_name() -> void:
 	if not ProgressionService.set_player_name(name_input.text):
-		name_error.text = "Le pseudo est obligatoire."
+		name_error.text = tr("LOBBY_NAME_REQUIRED")
 		name_input.grab_focus()
 		return
 
@@ -198,8 +198,8 @@ func _show_final_result(player_name: String) -> void:
 
 
 func _update_finale_summary() -> void:
-	final_score_label.text = "%d CANDY" % ProgressionService.get_total_candy()
-	final_worlds_label.text = "%d / %d MONDES ACCOMPLIS" % [
+	final_score_label.text = tr("LOBBY_FINAL_SCORE") % ProgressionService.get_total_candy()
+	final_worlds_label.text = tr("LOBBY_FINAL_WORLDS") % [
 		ProgressionService.get_completed_world_count(),
 		ProgressionService.get_available_world_count(),
 	]
@@ -255,26 +255,26 @@ func _save_finale_capture() -> void:
 	if _capture_in_progress or not result_step.visible:
 		return
 	if DisplayServer.get_name() == "headless":
-		_finish_capture_with_error("La capture PNG nécessite un affichage graphique.")
+		_finish_capture_with_error(tr("LOBBY_CAPTURE_NEEDS_DISPLAY"))
 		return
 	if _last_capture_png.is_empty() or _last_capture_file_name.is_empty():
-		_finish_capture_with_error("Le PNG n'est pas prêt. Fermez puis rouvrez le bilan.")
+		_finish_capture_with_error(tr("LOBBY_CAPTURE_NOT_READY"))
 		return
 
 	_capture_in_progress = true
 	_set_action_buttons_disabled(true)
-	_set_status("Enregistrement en cours…", STATUS_NEUTRAL_COLOR)
+	_set_status(tr("LOBBY_SAVING"), STATUS_NEUTRAL_COLOR)
 	var save_error: Error = _deliver_capture(_last_capture_png, _last_capture_file_name)
 	if save_error != OK:
-		_finish_capture_with_error("Échec de l'enregistrement : %s" % error_string(save_error))
+		_finish_capture_with_error(tr("LOBBY_SAVE_FAILED") % error_string(save_error))
 		return
 
 	_capture_in_progress = false
 	_set_action_buttons_disabled(false)
 	if FinaleSharePlatform.is_web():
-		_set_status("Téléchargement lancé : %s" % _last_capture_file_name, STATUS_SUCCESS_COLOR)
+		_set_status(tr("LOBBY_DOWNLOAD_STARTED") % _last_capture_file_name, STATUS_SUCCESS_COLOR)
 	else:
-		_set_status("Image enregistrée :\n%s" % _last_capture_path, STATUS_SUCCESS_COLOR)
+		_set_status(tr("LOBBY_IMAGE_SAVED") % _last_capture_path, STATUS_SUCCESS_COLOR)
 
 
 func _prepare_capture_buffer() -> void:
@@ -364,13 +364,13 @@ func _build_capture_file_name(player_name: String) -> String:
 
 func _open_capture_directory() -> void:
 	if _last_capture_path.is_empty() or not FinaleSharePlatform.is_desktop():
-		_set_status("Enregistrez d'abord votre bilan en PNG.", STATUS_NEUTRAL_COLOR)
+		_set_status(tr("LOBBY_SAVE_FIRST"), STATUS_NEUTRAL_COLOR)
 		return
 	var open_error: Error = FinaleSharePlatform.open_directory(_last_capture_path.get_base_dir())
 	if open_error == OK:
-		_set_status("Dossier des bilans ouvert.", STATUS_SUCCESS_COLOR)
+		_set_status(tr("LOBBY_FOLDER_OPENED"), STATUS_SUCCESS_COLOR)
 	else:
-		_set_status("Impossible d'ouvrir le dossier : %s" % error_string(open_error), STATUS_ERROR_COLOR)
+		_set_status(tr("LOBBY_FOLDER_OPEN_FAILED") % error_string(open_error), STATUS_ERROR_COLOR)
 
 
 func _finish_capture_with_error(message: String) -> void:

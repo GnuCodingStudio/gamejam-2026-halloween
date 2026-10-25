@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://cjed2iwo8bmdu"]
+
+[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/chaseween/materials/rock.tres" id="1_rock"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/chaseween/materials/corruption_glow.tres" id="2_glow"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/bark.tres" id="3_dark"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/chaseween/props/Banner.tscn" id="4_banner"]
+
+[sub_resource type="CylinderMesh" id="DaisMesh"]
+material = ExtResource("1_rock")
+top_radius = 10.0
+bottom_radius = 11.0
+height = 1.0
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="WallMesh"]
+material = ExtResource("1_rock")
+size = Vector3(24, 10, 3)
+
+[sub_resource type="CylinderMesh" id="TowerMesh"]
+material = ExtResource("1_rock")
+top_radius = 3.3
+bottom_radius = 3.8
+height = 18.0
+radial_segments = 10
+
+[sub_resource type="PrismMesh" id="RoofMesh"]
+material = ExtResource("1_rock")
+size = Vector3(8, 5, 8)
+
+[sub_resource type="TorusMesh" id="TowerBand"]
+material = ExtResource("2_glow")
+inner_radius = 3.55
+outer_radius = 3.75
+rings = 20
+ring_segments = 5
+
+[sub_resource type="BoxMesh" id="ArrowSlit"]
+material = ExtResource("3_dark")
+size = Vector3(0.55, 2.7, 0.12)
+
+[sub_resource type="BoxMesh" id="MasonryRib"]
+material = ExtResource("1_rock")
+size = Vector3(0.85, 10, 0.65)
+
+[sub_resource type="BoxMesh" id="PillarMesh"]
+material = ExtResource("1_rock")
+size = Vector3(2.3, 10, 2.3)
+
+[sub_resource type="BoxMesh" id="BeamMesh"]
+material = ExtResource("1_rock")
+size = Vector3(14, 2.2, 2.5)
+
+[sub_resource type="SphereMesh" id="RuneStone"]
+material = ExtResource("2_glow")
+radius = 0.32
+height = 0.32
+radial_segments = 8
+rings = 4
+
+[sub_resource type="CylinderShape3D" id="DaisShape"]
+height = 1.0
+radius = 10.0
+
+[sub_resource type="BoxShape3D" id="WallShape"]
+size = Vector3(24, 10, 3)
+
+[sub_resource type="BoxShape3D" id="PillarShape"]
+size = Vector3(2.3, 10, 2.3)
+
+[sub_resource type="CylinderShape3D" id="TowerShape"]
+height = 18.0
+radius = 3.5
+
+[node name="Sanctuary" type="Node3D" unique_id=1358529099]
+
+[node name="Dais" type="MeshInstance3D" parent="." unique_id=1281851350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("DaisMesh")
+
+[node name="BackWall" type="MeshInstance3D" parent="." unique_id=1317301274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -8)
+mesh = SubResource("WallMesh")
+
+[node name="LeftTower" type="MeshInstance3D" parent="." unique_id=1405289246]
+transform = Transform3D(0.99875027, 0.04997917, 0, -0.04997917, 0.99875027, 0, 0, 0, 1, -11, 9, -7.5)
+mesh = SubResource("TowerMesh")
+
+[node name="LeftRoof" type="MeshInstance3D" parent="." unique_id=50140674]
+transform = Transform3D(0.99875027, 0.04997917, 0, -0.04997917, 0.99875027, 0, 0, 0, 1, -11, 20.4, -7.5)
+mesh = SubResource("RoofMesh")
+
+[node name="RightTower" type="MeshInstance3D" parent="." unique_id=1289974866]
+transform = Transform3D(0.99875027, -0.04997917, 0, 0.04997917, 0.99875027, 0, 0, 0, 1, 11, 9, -7.5)
+mesh = SubResource("TowerMesh")
+
+[node name="RightRoof" type="MeshInstance3D" parent="." unique_id=167123247]
+transform = Transform3D(0.99875027, -0.04997917, 0, 0.04997917, 0.99875027, 0, 0, 0, 1, 11, 20.4, -7.5)
+mesh = SubResource("RoofMesh")
+
+[node name="LeftCrown" type="MeshInstance3D" parent="." unique_id=806915068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 17.7, -7.5)
+mesh = SubResource("TowerBand")
+
+[node name="RightCrown" type="MeshInstance3D" parent="." unique_id=1706043848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 17.7, -7.5)
+gi_mode = 0
+gi_lightmap_texel_scale = 5.3521
+mesh = SubResource("TowerBand")
+
+[node name="LeftTowerWindow" type="MeshInstance3D" parent="." unique_id=379055679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 10.8, -3.7)
+mesh = SubResource("ArrowSlit")
+
+[node name="RightTowerWindow" type="MeshInstance3D" parent="." unique_id=132951584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 10.8, -3.7)
+mesh = SubResource("ArrowSlit")
+
+[node name="BackRibLeft" type="MeshInstance3D" parent="." unique_id=1921807894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 6, -6.35)
+mesh = SubResource("MasonryRib")
+
+[node name="BackRibRight" type="MeshInstance3D" parent="." unique_id=1182994862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 6, -6.35)
+mesh = SubResource("MasonryRib")
+
+[node name="LeftBanner" parent="." unique_id=1045349674 instance=ExtResource("4_banner")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -8.2, 7.4, -2.8)
+
+[node name="RightBanner" parent="." unique_id=1674360994 instance=ExtResource("4_banner")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 8.2, 7.4, -2.8)
+
+[node name="ArchLeft" type="MeshInstance3D" parent="." unique_id=1811264098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 5.4, 1)
+mesh = SubResource("PillarMesh")
+
+[node name="ArchRight" type="MeshInstance3D" parent="." unique_id=1170235868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8, 5.4, 1)
+mesh = SubResource("PillarMesh")
+
+[node name="ArchTop" type="MeshInstance3D" parent="." unique_id=910204734]
+transform = Transform3D(0.99820054, -0.059964005, 0, 0.059964005, 0.99820054, 0, 0, 0, 1, 0, 10, 1)
+mesh = SubResource("BeamMesh")
+
+[node name="ArchRuneLeft" type="MeshInstance3D" parent="." unique_id=753212952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 10.3, 2.35)
+mesh = SubResource("RuneStone")
+
+[node name="ArchRuneRight" type="MeshInstance3D" parent="." unique_id=783375203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 10.3, 2.35)
+mesh = SubResource("RuneStone")
+
+[node name="ArchKeystone" type="MeshInstance3D" parent="." unique_id=657352921]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 11.1, 2.35)
+mesh = SubResource("RuneStone")
+
+[node name="GlowSpire" type="MeshInstance3D" parent="." unique_id=555882193]
+transform = Transform3D(0.5, 0, 0, 0, 1.8, 0, 0, 0, 0.5, 0, 16, -8)
+mesh = SubResource("RoofMesh")
+
+[node name="WalkableCollision" type="StaticBody3D" parent="." unique_id=226407458]
+collision_layer = 2
+collision_mask = 0
+
+[node name="DaisShape" type="CollisionShape3D" parent="WalkableCollision" unique_id=1750511693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("DaisShape")
+
+[node name="StructureCollision" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="BackWallShape" type="CollisionShape3D" parent="StructureCollision" unique_id=2050043135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -8)
+shape = SubResource("WallShape")
+
+[node name="ArchLeftShape" type="CollisionShape3D" parent="StructureCollision" unique_id=619257031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 5.4, 1)
+shape = SubResource("PillarShape")
+
+[node name="ArchRightShape" type="CollisionShape3D" parent="StructureCollision" unique_id=726601414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8, 5.4, 1)
+shape = SubResource("PillarShape")
+
+[node name="LeftTowerShape" type="CollisionShape3D" parent="StructureCollision"]
+position = Vector3(-11, 9, -7.5)
+shape = SubResource("TowerShape")
+
+[node name="RightTowerShape" type="CollisionShape3D" parent="StructureCollision"]
+position = Vector3(11, 9, -7.5)
+shape = SubResource("TowerShape")

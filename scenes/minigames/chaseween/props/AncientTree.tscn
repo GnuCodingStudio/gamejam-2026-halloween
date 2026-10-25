@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://dv17mkoo5l6gh"]
+
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/bark.tres" id="1_bark"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/chaseween/materials/corruption_glow.tres" id="2_glow"]
+
+[sub_resource type="CylinderMesh" id="Trunk"]
+material = ExtResource("1_bark")
+top_radius = 0.56
+bottom_radius = 1.65
+height = 10.0
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="Limb"]
+material = ExtResource("1_bark")
+top_radius = 0.08
+bottom_radius = 0.52
+height = 7.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="Twig"]
+material = ExtResource("1_bark")
+top_radius = 0.015
+bottom_radius = 0.19
+height = 4.0
+radial_segments = 5
+
+[sub_resource type="CylinderMesh" id="Root"]
+material = ExtResource("1_bark")
+top_radius = 0.05
+bottom_radius = 0.65
+height = 4.5
+radial_segments = 6
+
+[sub_resource type="SphereMesh" id="Scar"]
+material = ExtResource("2_glow")
+radius = 0.22
+height = 0.58
+radial_segments = 6
+rings = 3
+
+[sub_resource type="CylinderShape3D" id="TrunkCollision"]
+height = 8.0
+radius = 1.25
+
+[node name="AncientTree" type="Node3D" unique_id=1283935330]
+
+[node name="Trunk" type="MeshInstance3D" parent="." unique_id=942571818]
+transform = Transform3D(0.9864422, -0.110092536, -0.12170233, 0.10438521, 0.99315894, -0.05233596, 0.12663156, 0.038922474, 0.99118584, 0, 4.9, 0)
+mesh = SubResource("Trunk")
+
+[node name="ForkLeft" type="MeshInstance3D" parent="." unique_id=651590538]
+transform = Transform3D(0.5866905, 0.7294124, 0.35178372, -0.71791667, 0.6694681, -0.190809, -0.37468645, -0.14060557, 0.9164279, -2.7, 10.4, 0)
+mesh = SubResource("Limb")
+
+[node name="ForkRight" type="MeshInstance3D" parent="." unique_id=1137137598]
+transform = Transform3D(0.6952904, -0.5780366, -0.42713574, 0.7009032, 0.6768544, 0.22495104, 0.15907872, -0.45578706, 0.875758, 2.8, 10.2, 0.2)
+mesh = SubResource("Limb")
+
+[node name="BackLimb" type="MeshInstance3D" parent="." unique_id=1816216200]
+transform = Transform3D(0.58918095, -0.5278173, 0.26971185, 0.07355991, 0.52249384, 0.64721364, -0.53614813, -0.5083395, 0.38518843, 0.3, 9.6, -2)
+mesh = SubResource("Limb")
+
+[node name="LeftTwigA" type="MeshInstance3D" parent="." unique_id=536171404]
+transform = Transform3D(0.845119, 0.4785525, -0.23824656, -0.5218686, 0.8351643, -0.17364818, 0.11587527, 0.27108675, 0.9555547, 0.627007, 13.1, 0.6)
+mesh = SubResource("Twig")
+
+[node name="LeftTwigB" type="MeshInstance3D" parent="." unique_id=1348943499]
+transform = Transform3D(0.7603196, 0.574016, 0.30400613, -0.58924866, 0.41259637, 0.6946584, 0.27331322, -0.7072976, 0.6519432, 0.56483936, 9.914414, -1)
+mesh = SubResource("Twig")
+
+[node name="RightTwigA" type="MeshInstance3D" parent="." unique_id=1024958017]
+transform = Transform3D(0.76160973, -0.61463916, 0.20535196, 0.59440565, 0.78880304, 0.15643448, -0.258133, 0.002920352, 0.96610504, 0.4456625, 12.7, 0.2)
+mesh = SubResource("Twig")
+
+[node name="RightTwigB" type="MeshInstance3D" parent="." unique_id=1312636460]
+transform = Transform3D(0.19485731, -0.89639246, -0.39813447, 0.748782, 0.3981345, -0.52991927, 0.63352674, -0.19485727, 0.748782, 2.4044828, 10.9, 1.2)
+mesh = SubResource("Twig")
+
+[node name="LeftRoot" type="MeshInstance3D" parent="." unique_id=1060852275]
+transform = Transform3D(0.35823813, 0.88667035, 0.2923717, -0.92718387, 0.37460664, 0, -0.10952438, -0.2710823, 0.9563048, -1.5, 0.65, 0)
+mesh = SubResource("Root")
+
+[node name="RightRoot" type="MeshInstance3D" parent="." unique_id=1110789569]
+transform = Transform3D(0.35201508, -0.87126786, -0.34202012, 0.92718387, 0.37460664, 0, 0.12812302, -0.31711555, 0.9396926, 1.4, 0.6, -0.4)
+mesh = SubResource("Root")
+
+[node name="FrontRoot" type="MeshInstance3D" parent="." unique_id=1993276236]
+transform = Transform3D(0.73622036, -0.1526472, 0, 0.044222414, 0.24267156, -0.7132924, 0.1361026, 0.7468664, 0.23176274, 0.1, 0.57, 1.2)
+mesh = SubResource("Root")
+
+[node name="ScarA" type="MeshInstance3D" parent="." unique_id=1555153334]
+transform = Transform3D(0.6005449, -0.4011975, 0.6916548, 0.36642054, 0.9069227, 0.2079117, -0.7106911, 0.1285762, 0.6916548, 0.78, 5.9, 0.61)
+mesh = SubResource("Scar")
+
+[node name="ScarB" type="MeshInstance3D" parent="." unique_id=551602564]
+transform = Transform3D(0.55119365, 0.15805224, 0.4015035, -0.19294615, 0.67288315, 0, -0.38594997, -0.11066937, 0.57340646, 0.55, 7.1, 0.45)
+mesh = SubResource("Scar")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=2013870552]
+collision_layer = 4
+collision_mask = 0
+
+[node name="TrunkShape" type="CollisionShape3D" parent="Collision" unique_id=348861716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("TrunkCollision")

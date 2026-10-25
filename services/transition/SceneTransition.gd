@@ -13,7 +13,7 @@ const DESTINATION_MESSAGES: Dictionary[String, String] = {
 	"res://scenes/minigames/labyrinth/Level01.tscn": "Ouverture du labyrinthe…",
 	"res://scenes/minigames/labyrinth/Level02.tscn": "Ouverture du labyrinthe…",
 	"res://scenes/minigames/labyrinth/Level03.tscn": "Ouverture du labyrinthe…",
-	"res://scenes/minigames/faction_fight/Chaseween.tscn": "Le royaume des sucreries vous attend…",
+	"res://scenes/minigames/chaseween/Chaseween.tscn": "Le royaume des sucreries vous attend…",
 	"res://scenes/minigames/faction_territory/FactionTerritory.tscn": "Préparation du prochain défi…",
 	"res://scenes/secret_gallery/SecretGallery.tscn": "Ouverture des souvenirs…",
 }

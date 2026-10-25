@@ -17,7 +17,7 @@
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
 [ext_resource type="Material" path="res://assets/textures/Planks023B_1K-PNG/Planks023B_1K-PNG.tres" id="10_gexqn"]
-[ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
+[ext_resource type="Material" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles014A_1K-PNG/RoofingTiles014A_1K-PNG.tres" id="12_e5eww"]
 [ext_resource type="Material" path="res://assets/textures/Bricks028_1K-PNG/Bricks028_1K-PNG.tres" id="13_ygu70"]
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
@@ -175,7 +175,7 @@ corner_radius_bottom_left = 12
 [node name="Main" type="Node3D" unique_id=90916086]
 script = ExtResource("1_ysjpo")
 
-[node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
+[node name="LobbyMusic" type="AudioStreamPlayer" parent="." unique_id=1146803745]
 stream = ExtResource("7_lobby_music")
 volume_db = 5.0
 autoplay = true
@@ -1216,14 +1216,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.262502, 1.1, -8.8)
 player_path = NodePath("../Player")
 hud_path = NodePath("../CandyHUD")
 
-[node name="SecretGalleryEntrance" parent="." instance=ExtResource("20_secret_gallery")]
-position = Vector3(25, 0.5, 10.3972)
+[node name="SecretGalleryEntrance" parent="." unique_id=830860619 instance=ExtResource("20_secret_gallery")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.5, 10.3972)
 player_path = NodePath("../Player")
 
 [node name="CandyBucketPortal" parent="." unique_id=1888599199 instance=ExtResource("18_px1c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.673725, 0.3572799, -9.696306)
 target_scene_path = "res://scenes/minigames/candy_bucket/CandyBucket.tscn"
-prompt_text = "E - Candy Bucket"
+prompt_text = "LOBBY_PORTAL_CANDY_BUCKET"
 world_id = &"candy_bucket"
 return_meta = &"candy_bucket_return_to_door"
 player_path = NodePath("../Player")
@@ -1231,15 +1231,15 @@ player_path = NodePath("../Player")
 [node name="LabyrinthPortal" parent="." unique_id=1888599200 instance=ExtResource("18_px1c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.786613, 0.3572799, -9.696306)
 target_scene_path = "res://scenes/minigames/labyrinth/Level01.tscn"
-prompt_text = "E - Labyrinth"
+prompt_text = "LOBBY_PORTAL_LABYRINTH"
 world_id = &"labyrinth"
 return_meta = &"labyrinth_return_to_door"
 player_path = NodePath("../Player")
 
 [node name="ChaseweenPortal" parent="." unique_id=1144210649 instance=ExtResource("18_px1c8")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6.483225, 0.3572799, 20.4333)
-target_scene_path = "res://scenes/minigames/faction_fight/Chaseween.tscn"
-prompt_text = "E - CHASEWEEN"
+target_scene_path = "uid://d1ohqcmxsf4qo"
+prompt_text = "LOBBY_PORTAL_CHASEWEEN"
 world_id = &"chaseween"
 return_meta = &"chaseween_return_to_door"
 player_path = NodePath("../Player")
@@ -1247,7 +1247,7 @@ player_path = NodePath("../Player")
 [node name="FactionTerritoryPortal" parent="." unique_id=1591606476 instance=ExtResource("18_px1c8")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 22.574, 0.357, 20.43)
 target_scene_path = "res://scenes/minigames/faction_territory/FactionTerritory.tscn"
-prompt_text = "E - Faction Territory"
+prompt_text = "LOBBY_PORTAL_FACTION_TERRITORY"
 world_id = &"faction_territory"
 return_meta = &"faction_territory_return_to_door"
 player_path = NodePath("../Player")
@@ -1356,7 +1356,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.854902, 0.482353, 1, 1)
 theme_override_font_sizes/font_size = 18
-text = "✦  GAME JAM HALLOWEEN 2026  ✦"
+text = "LOBBY_FINALE_EYEBROW"
 horizontal_alignment = 1
 
 [node name="Title" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1188558847]
@@ -1366,14 +1366,14 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 4
 theme_override_font_sizes/font_size = 46
-text = "LA NUIT EST TERMINÉE"
+text = "LOBBY_FINALE_TITLE"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1039753315]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 22
-text = "Votre aventure mérite de rester dans les mémoires."
+text = "LOBBY_FINALE_SUBTITLE"
 horizontal_alignment = 1
 
 [node name="Separator" type="ColorRect" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=453483081]
@@ -1391,7 +1391,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 24
-text = "Quel aventurier se cache derrière ce score ?"
+text = "LOBBY_FINALE_QUESTION"
 horizontal_alignment = 1
 
 [node name="NameInput" type="LineEdit" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/NameStep" unique_id=1934744663]
@@ -1403,7 +1403,7 @@ theme_override_colors/font_color = Color(1, 0.941176, 0.8, 1)
 theme_override_colors/caret_color = Color(1, 0.690196, 0.239216, 1)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_finale_input")
-placeholder_text = "Ton pseudo"
+placeholder_text = "LOBBY_FINALE_NAME_PLACEHOLDER"
 alignment = 1
 max_length = 20
 clear_button_enabled = true
@@ -1429,7 +1429,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
-text = "VALIDER MON SCORE"
+text = "LOBBY_FINALE_VALIDATE"
 
 [node name="ResultStep" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=47619605]
 unique_name_in_owner = true
@@ -1473,7 +1473,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 17
-text = "TOTAL DE VOTRE AVENTURE"
+text = "LOBBY_FINALE_TOTAL_CAPTION"
 horizontal_alignment = 1
 
 [node name="WorldStat" type="PanelContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=114426191]
@@ -1498,14 +1498,14 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.886275, 0.85098, 0.933333, 1)
 theme_override_font_sizes/font_size = 15
-text = "PARCOURS COMPLET"
+text = "LOBBY_FINALE_WORLDS_CAPTION"
 horizontal_alignment = 1
 
 [node name="CompletionMessage" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/ResultStep" unique_id=1039807375]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.713726, 0.921569, 0.776471, 1)
 theme_override_font_sizes/font_size = 20
-text = "« Légende de la nuit d'Halloween »"
+text = "LOBBY_FINALE_COMPLETION"
 horizontal_alignment = 1
 
 [node name="Actions" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1126415730]
@@ -1513,11 +1513,11 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="ActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
+[node name="ActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions" unique_id=1768792844]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ActionButtons" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter"]
+[node name="ActionButtons" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter" unique_id=941235242]
 layout_mode = 2
 theme_override_constants/separation = 12
 
@@ -1533,13 +1533,12 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
-text = "ENREGISTRER MON BILAN"
+text = "LOBBY_FINALE_SAVE"
 
-[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons"]
+[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons" unique_id=1184514055]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
-disabled = true
 theme_override_colors/font_color = Color(0.941176, 0.878431, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.941176, 0.878431, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 0.941176, 0.8, 1)
@@ -1548,7 +1547,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_secondary_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_secondary_hover")
-text = "OUVRIR LE DOSSIER"
+disabled = true
+text = "LOBBY_FINALE_OPEN_FOLDER"
 
 [node name="ReturnButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons" unique_id=884537251]
 unique_name_in_owner = true
@@ -1562,7 +1562,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_secondary_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_secondary_hover")
-text = "RETOUR AU LOBBY"
+text = "LOBBY_FINALE_RETURN"
 
 [node name="SaveStatus" type="Label" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content" unique_id=1521934037]
 unique_name_in_owner = true
@@ -1578,7 +1578,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.580392, 0.521569, 0.65098, 1)
 theme_override_font_sizes/font_size = 15
-text = "ÉCHAP permet également de fermer ce résumé"
+text = "LOBBY_FINALE_HINT"
 horizontal_alignment = 1
 
 [node name="GameConsole" parent="." unique_id=618939243 instance=ExtResource("24_gexqn")]
