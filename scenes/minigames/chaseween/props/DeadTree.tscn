@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://chfflpt6swt5o"]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/bark.tres" id="1_bark"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/bark.tres" id="1_bark"]
 
 [sub_resource type="CylinderMesh" id="TrunkMesh"]
 material = ExtResource("1_bark")

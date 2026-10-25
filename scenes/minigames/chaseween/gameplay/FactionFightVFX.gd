@@ -1,7 +1,7 @@
 class_name FactionFightVFX
 extends RefCounted
 
-const GHOST_BEAM_SHADER: Shader = preload("res://scenes/minigames/faction_fight/gameplay/ghost_lamp_beam.gdshader")
+const GHOST_BEAM_SHADER: Shader = preload("res://scenes/minigames/chaseween/gameplay/ghost_lamp_beam.gdshader")
 const GHOST_BEAM_DISTANCE: float = 8.0
 const GHOST_BEAM_HALF_ANGLE: float = deg_to_rad(26.0)
 

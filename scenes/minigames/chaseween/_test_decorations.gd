@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
+const SCENE_PATH := "res://scenes/minigames/chaseween/Chaseween.tscn"
 const MODEL_PATHS: Array[String] = [
 	"res://assets/chaseween/objets/Chaseween_Candy_Tree.glb",
 	"res://assets/chaseween/objets/Chaseween_Haunted_Lamppost.glb",

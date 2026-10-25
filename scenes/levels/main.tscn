@@ -17,7 +17,7 @@
 [ext_resource type="Material" path="res://assets/textures/Planks019_1K-PNG/Planks019_1K-PNG.tres" id="8_im81g"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles013A_1K-PNG/RoofingTiles013A_1K-PNG.tres" id="9_ysjpo"]
 [ext_resource type="Material" path="res://assets/textures/Planks023B_1K-PNG/Planks023B_1K-PNG.tres" id="10_gexqn"]
-[ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
+[ext_resource type="Material" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles014A_1K-PNG/RoofingTiles014A_1K-PNG.tres" id="12_e5eww"]
 [ext_resource type="Material" path="res://assets/textures/Bricks028_1K-PNG/Bricks028_1K-PNG.tres" id="13_ygu70"]
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
@@ -175,7 +175,7 @@ corner_radius_bottom_left = 12
 [node name="Main" type="Node3D" unique_id=90916086]
 script = ExtResource("1_ysjpo")
 
-[node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
+[node name="LobbyMusic" type="AudioStreamPlayer" parent="." unique_id=1146803745]
 stream = ExtResource("7_lobby_music")
 volume_db = 5.0
 autoplay = true
@@ -1216,8 +1216,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.262502, 1.1, -8.8)
 player_path = NodePath("../Player")
 hud_path = NodePath("../CandyHUD")
 
-[node name="SecretGalleryEntrance" parent="." instance=ExtResource("20_secret_gallery")]
-position = Vector3(25, 0.5, 10.3972)
+[node name="SecretGalleryEntrance" parent="." unique_id=830860619 instance=ExtResource("20_secret_gallery")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.5, 10.3972)
 player_path = NodePath("../Player")
 
 [node name="CandyBucketPortal" parent="." unique_id=1888599199 instance=ExtResource("18_px1c8")]
@@ -1238,7 +1238,7 @@ player_path = NodePath("../Player")
 
 [node name="ChaseweenPortal" parent="." unique_id=1144210649 instance=ExtResource("18_px1c8")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6.483225, 0.3572799, 20.4333)
-target_scene_path = "res://scenes/minigames/faction_fight/Chaseween.tscn"
+target_scene_path = "uid://d1ohqcmxsf4qo"
 prompt_text = "LOBBY_PORTAL_CHASEWEEN"
 world_id = &"chaseween"
 return_meta = &"chaseween_return_to_door"
@@ -1513,11 +1513,11 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="PrimaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
+[node name="PrimaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions" unique_id=1768792844]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PrimaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter"]
+[node name="PrimaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter" unique_id=941235242]
 layout_mode = 2
 theme_override_constants/separation = 14
 
@@ -1535,7 +1535,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
 text = "LOBBY_FINALE_SAVE"
 
-[node name="ShareButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter/PrimaryActions"]
+[node name="ShareButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter/PrimaryActions" unique_id=1432970589]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
@@ -1549,19 +1549,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
 text = "LOBBY_FINALE_SHARE"
 
-[node name="SecondaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
+[node name="SecondaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions" unique_id=629978036]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SecondaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter"]
+[node name="SecondaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter" unique_id=1023432051]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter/SecondaryActions"]
+[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter/SecondaryActions" unique_id=1184514055]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
-disabled = true
 theme_override_colors/font_color = Color(0.941176, 0.878431, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.941176, 0.878431, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 0.941176, 0.8, 1)
@@ -1570,6 +1569,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_secondary")
 theme_override_styles/hover = SubResource("StyleBoxFlat_finale_secondary_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_secondary_hover")
+disabled = true
 text = "LOBBY_FINALE_OPEN_FOLDER"
 
 [node name="ReturnButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter/SecondaryActions" unique_id=884537251]

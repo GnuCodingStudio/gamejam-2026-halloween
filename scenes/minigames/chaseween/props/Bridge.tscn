@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bh38kvql4l13k"]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="1_wood"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_pink.tres" id="2_candy"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/wood.tres" id="1_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/candy_pink.tres" id="2_candy"]
 
 [sub_resource type="BoxMesh" id="PlankMesh"]
 material = ExtResource("1_wood")

@@ -1,8 +1,8 @@
 extends SceneTree
 
-const FallProtectionScript := preload("res://scenes/minigames/faction_fight/gameplay/FallProtection.gd")
+const FallProtectionScript := preload("res://scenes/minigames/chaseween/gameplay/FallProtection.gd")
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
+const SCENE_PATH := "res://scenes/minigames/chaseween/Chaseween.tscn"
 
 var _failures: Array[String] = []
 
@@ -87,7 +87,7 @@ func _test_interactive_collisions(gameplay: FactionFightGameplay) -> void:
 		else:
 			_check(body == null, "%s reste collectable sans obstacle solide" % pickup.display_name)
 	_check(solid_count == 7, "Les trois coffres et quatre mécanismes sont solides")
-	var supports := get_nodes_in_group(&"faction_fight_support")
+	var supports := get_nodes_in_group(&"chaseween_support")
 	_check(supports.size() == 7, "Les sept supports existants sont conservés")
 	for support: Node in supports:
 		var collision := support.get_node_or_null("SupportCollision") as StaticBody3D

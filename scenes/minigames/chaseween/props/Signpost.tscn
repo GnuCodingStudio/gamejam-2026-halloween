@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="1_wood"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_mint.tres" id="2_mint"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/wood.tres" id="1_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/candy_mint.tres" id="2_mint"]
 
 [sub_resource type="CylinderMesh" id="PostMesh"]
 top_radius = 0.11

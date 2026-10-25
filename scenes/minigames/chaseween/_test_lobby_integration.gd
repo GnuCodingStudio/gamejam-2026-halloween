@@ -1,11 +1,11 @@
 extends Node
 
 const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
-const CHASEWEEN_SCENE_PATH: String = "res://scenes/minigames/faction_fight/Chaseween.tscn"
+const CHASEWEEN_SCENE_PATH: String = "res://scenes/minigames/chaseween/Chaseween.tscn"
 const CHASEWEEN_WORLD_ID: StringName = &"chaseween"
 const CHASEWEEN_PORTAL_POSITION: Vector3 = Vector3(-6.483225, 0.3572799, 20.4333)
 const RESULT_OVERLAY_PATH: String = "res://scenes/minigames/labyrinth/ResultOverlay.tscn"
-const HUD_SCRIPT: Script = preload("res://scenes/minigames/faction_fight/gameplay/FactionFightHUD.gd")
+const HUD_SCRIPT: Script = preload("res://scenes/minigames/chaseween/gameplay/FactionFightHUD.gd")
 
 var _failures: Array[String] = []
 var _progression_service: Node

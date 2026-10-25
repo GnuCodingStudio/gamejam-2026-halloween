@@ -5,7 +5,7 @@ signal candy_collected(pickup: FactionFightPickup)
 
 const CRYSTALBERRY_SCENE: PackedScene = preload("res://objects/candy_crystalberry.tscn")
 const PUMPKIN_SCENE: PackedScene = preload("res://objects/candy_pumpkin.tscn")
-const PresentationScript := preload("res://scenes/minigames/faction_fight/gameplay/ChaseweenItemPresentation.gd")
+const PresentationScript := preload("res://scenes/minigames/chaseween/gameplay/ChaseweenItemPresentation.gd")
 
 enum Kind {
 	CANDY,

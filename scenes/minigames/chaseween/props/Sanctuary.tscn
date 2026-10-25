@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cjed2iwo8bmdu"]
 
-[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/faction_fight/materials/rock.tres" id="1_rock"]
-[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="2_glow"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/bark.tres" id="3_dark"]
-[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/Banner.tscn" id="4_banner"]
+[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/chaseween/materials/rock.tres" id="1_rock"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/chaseween/materials/corruption_glow.tres" id="2_glow"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/bark.tres" id="3_dark"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/chaseween/props/Banner.tscn" id="4_banner"]
 
 [sub_resource type="CylinderMesh" id="DaisMesh"]
 material = ExtResource("1_rock")

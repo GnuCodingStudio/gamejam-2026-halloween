@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Shader" path="res://scenes/minigames/faction_fight/shaders/mist.gdshader" id="1_mist"]
+[ext_resource type="Shader" uid="uid://si8hx3bdc1fg" path="res://scenes/minigames/chaseween/shaders/mist.gdshader" id="1_mist"]
 
 [sub_resource type="ShaderMaterial" id="MistMaterial"]
 shader = ExtResource("1_mist")

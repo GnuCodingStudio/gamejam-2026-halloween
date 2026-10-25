@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cvb058sh74sot"]
 
-[ext_resource type="Script" uid="uid://blt4xpbhmjurh" path="res://scenes/minigames/faction_fight/props/ChaseweenDecoration.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://blt4xpbhmjurh" path="res://scenes/minigames/chaseween/props/ChaseweenDecoration.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bun57kw1bc01q" path="res://assets/chaseween/objets/Chaseween_Haunted_Lamppost.glb" id="2_model"]
 
 [sub_resource type="CylinderShape3D" id="PostShape"]

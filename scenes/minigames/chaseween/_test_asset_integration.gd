@@ -1,7 +1,7 @@
 extends SceneTree
 
-const SCENE_PATH := "res://scenes/minigames/faction_fight/Chaseween.tscn"
-const PresentationScript := preload("res://scenes/minigames/faction_fight/gameplay/ChaseweenItemPresentation.gd")
+const SCENE_PATH := "res://scenes/minigames/chaseween/Chaseween.tscn"
+const PresentationScript := preload("res://scenes/minigames/chaseween/gameplay/ChaseweenItemPresentation.gd")
 
 var _failures: Array[String] = []
 
@@ -12,7 +12,7 @@ func _initialize() -> void:
 
 func _run() -> void:
 	_test_model_catalog()
-	await _test_faction_fight_scene()
+	await _test_chaseween_scene()
 	_finish()
 
 
@@ -28,7 +28,7 @@ func _test_model_catalog() -> void:
 		presentation.queue_free()
 
 
-func _test_faction_fight_scene() -> void:
+func _test_chaseween_scene() -> void:
 	var packed_scene := load(SCENE_PATH) as PackedScene
 	_check(packed_scene != null, "La scène FactionFight charge avec les nouveaux assets")
 	if packed_scene == null:

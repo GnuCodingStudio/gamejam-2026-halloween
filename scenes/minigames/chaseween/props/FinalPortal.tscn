@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dyydy1n4qiaya"]
 
-[ext_resource type="Shader" uid="uid://bnd87xnsiun76" path="res://scenes/minigames/faction_fight/shaders/portal.gdshader" id="1_shader"]
-[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/faction_fight/materials/rock.tres" id="2_rock"]
-[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="3_glow"]
-[ext_resource type="Script" uid="uid://bouthhiqtul0w" path="res://scenes/minigames/faction_fight/props/AmbientMotion.gd" id="4_motion"]
+[ext_resource type="Shader" uid="uid://bnd87xnsiun76" path="res://scenes/minigames/chaseween/shaders/portal.gdshader" id="1_shader"]
+[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/chaseween/materials/rock.tres" id="2_rock"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/chaseween/materials/corruption_glow.tres" id="3_glow"]
+[ext_resource type="Script" uid="uid://bouthhiqtul0w" path="res://scenes/minigames/chaseween/props/AmbientMotion.gd" id="4_motion"]
 
 [sub_resource type="ShaderMaterial" id="PortalMaterial"]
 render_priority = 1

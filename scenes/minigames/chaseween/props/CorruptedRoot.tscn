@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cfllhtjbtpyjw"]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/bark.tres" id="1_bark"]
-[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="2_glow"]
-[ext_resource type="Script" path="res://scenes/minigames/faction_fight/props/CorruptedRoot.gd" id="3_script"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/bark.tres" id="1_bark"]
+[ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/chaseween/materials/corruption_glow.tres" id="2_glow"]
+[ext_resource type="Script" uid="uid://sobylqr0p2cu" path="res://scenes/minigames/chaseween/props/CorruptedRoot.gd" id="3_script"]
 
 [sub_resource type="CylinderMesh" id="RootMesh"]
 material = ExtResource("1_bark")

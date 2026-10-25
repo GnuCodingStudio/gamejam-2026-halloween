@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3]
 
-[ext_resource type="Shader" path="res://scenes/minigames/faction_fight/shaders/terrain.gdshader" id="1_shader"]
+[ext_resource type="Shader" uid="uid://dv87qubgp7vq3" path="res://scenes/minigames/chaseween/shaders/terrain.gdshader" id="1_shader"]
 
 [resource]
 shader = ExtResource("1_shader")

@@ -1,13 +1,13 @@
 class_name FactionFightGameplay
 extends Node3D
 
-const MonsterScript := preload("res://scenes/minigames/faction_fight/gameplay/MonsterAgent.gd")
-const PickupScript := preload("res://scenes/minigames/faction_fight/gameplay/GameplayPickup.gd")
-const HUDScript := preload("res://scenes/minigames/faction_fight/gameplay/FactionFightHUD.gd")
-const VFX := preload("res://scenes/minigames/faction_fight/gameplay/FactionFightVFX.gd")
-const PresentationScript := preload("res://scenes/minigames/faction_fight/gameplay/ChaseweenItemPresentation.gd")
-const FallProtectionScript := preload("res://scenes/minigames/faction_fight/gameplay/FallProtection.gd")
-const MissionMarkerScript := preload("res://scenes/minigames/faction_fight/gameplay/MissionMarker.gd")
+const MonsterScript := preload("res://scenes/minigames/chaseween/gameplay/MonsterAgent.gd")
+const PickupScript := preload("res://scenes/minigames/chaseween/gameplay/GameplayPickup.gd")
+const HUDScript := preload("res://scenes/minigames/chaseween/gameplay/FactionFightHUD.gd")
+const VFX := preload("res://scenes/minigames/chaseween/gameplay/FactionFightVFX.gd")
+const PresentationScript := preload("res://scenes/minigames/chaseween/gameplay/ChaseweenItemPresentation.gd")
+const FallProtectionScript := preload("res://scenes/minigames/chaseween/gameplay/FallProtection.gd")
+const MissionMarkerScript := preload("res://scenes/minigames/chaseween/gameplay/MissionMarker.gd")
 const COLLECT_SOUND: AudioStream = preload("res://assets/audio/collect.wav")
 const CRYSTALBERRY_SCENE: PackedScene = preload("res://objects/candy_crystalberry.tscn")
 const PUMPKIN_SCENE: PackedScene = preload("res://objects/candy_pumpkin.tscn")
@@ -369,7 +369,7 @@ func _spawn_pickup(
 func _spawn_support(position_3d: Vector3, color: Color) -> void:
 	var support_root := Node3D.new()
 	support_root.name = "GameplaySupport"
-	support_root.add_to_group(&"faction_fight_support")
+	support_root.add_to_group(&"chaseween_support")
 	add_child(support_root)
 	support_root.global_position = Vector3(position_3d.x, 0.0, position_3d.z)
 	var support := MeshInstance3D.new()

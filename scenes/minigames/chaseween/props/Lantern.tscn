@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://vmktkssicuv6"]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="1_wood"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/warm_glow.tres" id="2_glow"]
-[ext_resource type="Script" uid="uid://bouthhiqtul0w" path="res://scenes/minigames/faction_fight/props/AmbientMotion.gd" id="3_motion"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/wood.tres" id="1_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/warm_glow.tres" id="2_glow"]
+[ext_resource type="Script" uid="uid://bouthhiqtul0w" path="res://scenes/minigames/chaseween/props/AmbientMotion.gd" id="3_motion"]
 
 [sub_resource type="CylinderMesh" id="PostMesh"]
 material = ExtResource("1_wood")

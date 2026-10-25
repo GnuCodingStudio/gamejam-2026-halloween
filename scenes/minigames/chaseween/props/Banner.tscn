@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/banner.tres" id="1_cloth"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="2_wood"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_mint.tres" id="3_mint"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/banner.tres" id="1_cloth"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/wood.tres" id="2_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/candy_mint.tres" id="3_mint"]
 
 [sub_resource type="BoxMesh" id="ClothMesh"]
 size = Vector3(1.65, 3.1, 0.06)

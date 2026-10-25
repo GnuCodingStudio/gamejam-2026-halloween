@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_pink.tres" id="1_pink"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/candy_mint.tres" id="2_mint"]
-[ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/wood.tres" id="3_wood"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/candy_pink.tres" id="1_pink"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/candy_mint.tres" id="2_mint"]
+[ext_resource type="Material" path="res://scenes/minigames/chaseween/materials/wood.tres" id="3_wood"]
 
 [sub_resource type="CylinderMesh" id="StemMesh"]
 top_radius = 0.10

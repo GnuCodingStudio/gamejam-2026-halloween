@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bcr1jc10clxpl"]
 
-[ext_resource type="Shader" uid="uid://bk4wgvot6yc1e" path="res://scenes/minigames/faction_fight/shaders/syrup.gdshader" id="1_shader"]
-[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/faction_fight/materials/rock.tres" id="2_rock"]
+[ext_resource type="Shader" uid="uid://bk4wgvot6yc1e" path="res://scenes/minigames/chaseween/shaders/syrup.gdshader" id="1_shader"]
+[ext_resource type="Material" uid="uid://dgjd6tykgd4aj" path="res://scenes/minigames/chaseween/materials/rock.tres" id="2_rock"]
 
 [sub_resource type="ShaderMaterial" id="SyrupMaterial"]
 render_priority = 0
