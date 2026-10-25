@@ -102,23 +102,27 @@ func _run() -> void:
 	await get_tree().create_timer(0.55, true).timeout
 	_check(hud.final_score_label.text == "247 CANDY", "Le bilan reprend exactement le total global")
 	_check(hud.result_step.visible and hud.save_button.visible, "Le résultat et l'export PNG apparaissent après validation")
-	_check(hud.share_button.visible, "L'action de partage apparaît avec le résultat")
+	_check(hud.find_child("ShareButton", true, false) == null, "Le bouton de partage est absent du bilan")
 	_check(
 		hud.open_folder_button.visible == FinaleSharePlatform.is_desktop(),
 		"L'ouverture du dossier est réservée aux plateformes desktop"
 	)
 	_check(hud.open_folder_button.disabled, "Le dossier reste désactivé avant le premier PNG")
-	var primary_actions: HBoxContainer = hud.actions.get_node("PrimaryActionCenter/PrimaryActions") as HBoxContainer
-	var secondary_actions: HBoxContainer = hud.actions.get_node("SecondaryActionCenter/SecondaryActions") as HBoxContainer
-	_check(hud.actions is VBoxContainer, "Les actions utilisent deux rangées verticales centrées")
+	var action_buttons: VBoxContainer = hud.actions.get_node("ActionCenter/ActionButtons") as VBoxContainer
+	_check(hud.actions is VBoxContainer, "Le bloc d'actions utilise une disposition verticale")
 	_check(
-		_is_horizontally_aligned(primary_actions, hud.finale_card)
-		and _is_horizontally_aligned(secondary_actions, hud.finale_card),
-		"Les rangées d'actions partagent l'axe central de la carte"
+		action_buttons.get_theme_constant("separation") == 12,
+		"La colonne conserve un espacement régulier entre les boutons"
 	)
 	_check(
-		hud.save_button.size.x >= 350.0 and hud.share_button.size.x >= 350.0,
-		"Les actions principales conservent de grandes zones cliquables"
+		action_buttons != null and _is_horizontally_aligned(action_buttons, hud.finale_card),
+		"La colonne d'actions partage l'axe central de la carte"
+	)
+	_check(
+		hud.save_button.size == Vector2(350.0, 64.0)
+		and hud.open_folder_button.size == Vector2(350.0, 64.0)
+		and hud.return_button.size == Vector2(350.0, 64.0),
+		"Les trois actions conservent des dimensions cohérentes"
 	)
 	var folder_was_visible: bool = hud.open_folder_button.visible
 	hud.open_folder_button.hide()
@@ -126,6 +130,13 @@ func _run() -> void:
 	_check(
 		_is_horizontally_aligned(hud.return_button, hud.finale_card),
 		"Le retour reste centré quand l'ouverture du dossier est masquée"
+	)
+	_check(
+		is_equal_approx(
+			hud.return_button.global_position.y - hud.save_button.get_global_rect().end.y,
+			12.0
+		),
+		"Masquer l'ouverture du dossier ne laisse aucun espace vide"
 	)
 	hud.open_folder_button.visible = folder_was_visible
 	await get_tree().process_frame
@@ -141,10 +152,6 @@ func _run() -> void:
 	_check(
 		hud._build_capture_file_name(" Ludo / Test:*? ") == "halloween2026_bilan_ludo_test.png",
 		"Le nom du PNG est explicite et nettoyé"
-	)
-	_check(
-		hud._build_share_text() == "Jyjio a terminé Game Jam Halloween 2026 avec 247 CANDY !",
-		"Le texte de partage reprend le pseudo et le score exacts"
 	)
 	var tested_names: Array[String] = ["Jyjio", "Chasseur2026", "WWWWWWWWWWWWWWWWWWWW"]
 	var all_names_fit: bool = true
@@ -175,7 +182,7 @@ func _run() -> void:
 		_check(capture_exists, "L'export PNG crée une image lisible")
 		_check(
 			capture_path.get_file().begins_with("halloween2026_bilan_jyjio"),
-			"Le fichier exporté porte un nom partageable"
+			"Le fichier exporté porte un nom explicite"
 		)
 		_check(not hud.open_folder_button.disabled, "L'ouverture du dossier s'active après l'export")
 		if capture_exists:

@@ -27,7 +27,6 @@ const STATUS_NEUTRAL_COLOR: Color = Color(0.886275, 0.85098, 0.933333)
 @onready var final_score_label: Label = %FinalScoreLabel
 @onready var final_worlds_label: Label = %FinalWorldsLabel
 @onready var save_button: Button = %SaveButton
-@onready var share_button: Button = %ShareButton
 @onready var open_folder_button: Button = %OpenFolderButton
 @onready var return_button: Button = %ReturnButton
 @onready var save_status: Label = %SaveStatus
@@ -56,7 +55,6 @@ func _ready() -> void:
 	name_input.text_submitted.connect(_on_name_submitted)
 	name_input.text_changed.connect(_on_name_changed)
 	save_button.pressed.connect(_save_finale_capture)
-	share_button.pressed.connect(_share_finale)
 	open_folder_button.pressed.connect(_open_capture_directory)
 	return_button.pressed.connect(_dismiss_finale)
 	_update_candy_label(ProgressionService.get_total_candy())
@@ -150,7 +148,6 @@ func _show_name_entry() -> void:
 	name_step.show()
 	result_step.hide()
 	save_button.hide()
-	share_button.hide()
 	open_folder_button.hide()
 	validate_button.disabled = false
 	return_button.disabled = false
@@ -177,11 +174,9 @@ func _show_final_result(player_name: String) -> void:
 	save_status.hide()
 	hint.hide()
 	save_button.show()
-	share_button.show()
 	open_folder_button.visible = FinaleSharePlatform.is_desktop()
 	_capture_in_progress = true
 	save_button.disabled = true
-	share_button.disabled = true
 	open_folder_button.disabled = true
 	save_status.text = ""
 	result_step.modulate = Color(1.0, 1.0, 1.0, 0.0)
@@ -199,7 +194,6 @@ func _show_final_result(player_name: String) -> void:
 	_restore_capture_controls()
 	_capture_in_progress = false
 	save_button.disabled = false
-	share_button.disabled = false
 	save_button.grab_focus()
 
 
@@ -368,83 +362,6 @@ func _build_capture_file_name(player_name: String) -> String:
 	return "halloween2026_bilan_%s.png" % safe_name
 
 
-func _share_finale() -> void:
-	if _capture_in_progress or not result_step.visible:
-		return
-
-	var share_text: String = _build_share_text()
-	if FinaleSharePlatform.is_web():
-		await _share_finale_on_web(share_text)
-		return
-
-	if FinaleSharePlatform.copy_text(share_text):
-		var message: String = "Texte du score copié."
-		if not _last_capture_path.is_empty():
-			message += " L'image est prête dans le dossier des bilans."
-		_set_status(message, STATUS_SUCCESS_COLOR)
-		return
-	_set_status("Le partage système et le presse-papiers ne sont pas disponibles.", STATUS_ERROR_COLOR)
-
-
-func _share_finale_on_web(share_text: String) -> void:
-	share_button.disabled = true
-	var share_mode: String = FinaleSharePlatform.start_web_share(
-		share_text,
-		_last_capture_png,
-		_last_capture_file_name
-	)
-	if share_mode == "unavailable":
-		share_button.disabled = false
-		if FinaleSharePlatform.copy_text(share_text):
-			_set_status("Partage système indisponible : texte du score copié.", STATUS_SUCCESS_COLOR)
-		else:
-			_set_status("Le partage n'est pas disponible dans ce navigateur.", STATUS_ERROR_COLOR)
-		return
-	if share_mode == "error":
-		share_button.disabled = false
-		_set_status("Impossible d'ouvrir le partage système.", STATUS_ERROR_COLOR)
-		return
-
-	if share_mode == "pending_image":
-		_set_status("Menu de partage ouvert avec l'image et le score…", STATUS_NEUTRAL_COLOR)
-	else:
-		_set_status(
-			"Menu de partage ouvert avec le texte. Enregistrez d'abord le PNG pour joindre l'image.",
-			STATUS_NEUTRAL_COLOR
-		)
-	await _poll_web_share_result()
-
-
-func _poll_web_share_result() -> void:
-	for _attempt: int in range(600):
-		await get_tree().create_timer(0.1, true).timeout
-		if _finale_closing or not finale_overlay.visible:
-			return
-		var status: String = FinaleSharePlatform.get_web_share_status()
-		if status == "pending" or status.is_empty():
-			continue
-		share_button.disabled = false
-		match status:
-			"success_image":
-				_set_status("Image et score partagés.", STATUS_SUCCESS_COLOR)
-			"success_text":
-				_set_status("Score partagé en texte.", STATUS_SUCCESS_COLOR)
-			"cancelled":
-				_set_status("Partage annulé.", STATUS_NEUTRAL_COLOR)
-			_:
-				_set_status("Le partage a échoué. Vous pouvez enregistrer le PNG.", STATUS_ERROR_COLOR)
-		return
-	share_button.disabled = false
-	_set_status("Le partage système n'a pas répondu.", STATUS_ERROR_COLOR)
-
-
-func _build_share_text() -> String:
-	return "%s a terminé Game Jam Halloween 2026 avec %d CANDY !" % [
-		ProgressionService.get_player_name(),
-		ProgressionService.get_total_candy(),
-	]
-
-
 func _open_capture_directory() -> void:
 	if _last_capture_path.is_empty() or not FinaleSharePlatform.is_desktop():
 		_set_status("Enregistrez d'abord votre bilan en PNG.", STATUS_NEUTRAL_COLOR)
@@ -470,7 +387,6 @@ func _restore_capture_controls() -> void:
 
 func _set_action_buttons_disabled(disabled: bool) -> void:
 	save_button.disabled = disabled
-	share_button.disabled = disabled
 	return_button.disabled = disabled
 	open_folder_button.disabled = disabled or _last_capture_path.is_empty()
 
@@ -494,7 +410,6 @@ func _dismiss_finale() -> void:
 	_finale_closing = true
 	validate_button.disabled = true
 	save_button.disabled = true
-	share_button.disabled = true
 	open_folder_button.disabled = true
 	return_button.disabled = true
 	name_input.release_focus()

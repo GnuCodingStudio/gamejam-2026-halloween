@@ -1513,15 +1513,15 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="PrimaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
+[node name="ActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PrimaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter"]
+[node name="ActionButtons" type="VBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
 
-[node name="SaveButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter/PrimaryActions" unique_id=815572470]
+[node name="SaveButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons" unique_id=815572470]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
@@ -1535,29 +1535,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
 text = "ENREGISTRER MON BILAN"
 
-[node name="ShareButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/PrimaryActionCenter/PrimaryActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(350, 64)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.0941176, 0.0470588, 0.117647, 1)
-theme_override_colors/font_pressed_color = Color(0.0941176, 0.0470588, 0.117647, 1)
-theme_override_colors/font_hover_color = Color(0.0941176, 0.0470588, 0.117647, 1)
-theme_override_font_sizes/font_size = 21
-theme_override_styles/normal = SubResource("StyleBoxFlat_finale_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_finale_button_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_finale_button_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_finale_button_hover")
-text = "PARTAGER MON SCORE"
-
-[node name="SecondaryActionCenter" type="CenterContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SecondaryActions" type="HBoxContainer" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter"]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter/SecondaryActions"]
+[node name="OpenFolderButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
@@ -1572,7 +1550,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_finale_secondary_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_finale_secondary_hover")
 text = "OUVRIR LE DOSSIER"
 
-[node name="ReturnButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/SecondaryActionCenter/SecondaryActions" unique_id=884537251]
+[node name="ReturnButton" type="Button" parent="CandyHUD/FinaleOverlay/Center/FinaleCard/Content/Actions/ActionCenter/ActionButtons" unique_id=884537251]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 64)
 layout_mode = 2
