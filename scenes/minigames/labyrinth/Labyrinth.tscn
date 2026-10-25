@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/ResultOverlay.tscn" id="5_overlay"]
 [ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="6_capture"]
 [ext_resource type="AudioStream" uid="uid://ce11blu4iphxr" path="res://assets/audio/collect.wav" id="7_collect"]
+[ext_resource type="PackedScene" path="res://components/touch_controls/TouchControls.tscn" id="touch_controls"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_labyrinth"]
 sky_top_color = Color(0.12, 0.1, 0.25, 1)
@@ -55,3 +56,5 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 stream = ExtResource("7_collect")
 bus = &"SFX"
+
+[node name="TouchControls" parent="." instance=ExtResource("touch_controls")]

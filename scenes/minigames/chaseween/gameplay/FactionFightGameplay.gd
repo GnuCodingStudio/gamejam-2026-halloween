@@ -170,30 +170,36 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _hud == null or _completed or _finishing or _hud.summary_visible:
 		return
 	if _hud.is_journal_visible():
-		if event is InputEventKey:
-			var journal_key := event as InputEventKey
-			if journal_key.pressed and not journal_key.echo and journal_key.physical_keycode == KEY_J:
-				_hud.toggle_journal()
-				_player.process_mode = Node.PROCESS_MODE_INHERIT
-				get_viewport().set_input_as_handled()
+		if event.is_action_pressed(&"action_journal"):
+			_toggle_journal()
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed(&"action_activate"):
 		_interact()
 		get_viewport().set_input_as_handled()
-	elif event is InputEventMouseButton:
-		var mouse_event := event as InputEventMouseButton
-		if mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT and _mouse_was_captured:
-			_use_active_item()
-			get_viewport().set_input_as_handled()
-	elif event is InputEventKey:
-		var key_event := event as InputEventKey
-		if key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_Q:
-			_switch_tool()
-			get_viewport().set_input_as_handled()
-		elif key_event.pressed and not key_event.echo and key_event.physical_keycode == KEY_J:
-			_hud.toggle_journal()
-			_player.process_mode = Node.PROCESS_MODE_DISABLED if _hud.is_journal_visible() else Node.PROCESS_MODE_INHERIT
-			get_viewport().set_input_as_handled()
+	elif _is_attack_pressed(event):
+		_use_active_item()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(&"action_switch_tool"):
+		_switch_tool()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(&"action_journal"):
+		_toggle_journal()
+		get_viewport().set_input_as_handled()
+
+
+func _is_attack_pressed(event: InputEvent) -> bool:
+	if not event.is_action_pressed(&"action_attack"):
+		return false
+	if event is InputEventMouseButton:
+		# A touch also emulates a mouse click: only the Attack button must attack on a touch screen.
+		return event.device != InputEvent.DEVICE_ID_EMULATION and _mouse_was_captured
+	return true
+
+
+func _toggle_journal() -> void:
+	_hud.toggle_journal()
+	_player.process_mode = Node.PROCESS_MODE_DISABLED if _hud.is_journal_visible() else Node.PROCESS_MODE_INHERIT
 
 
 func _create_hud() -> void:

@@ -29,6 +29,20 @@ To be used when players can collect items by pressing "action_collect" when they
 Add the `Magnet` component to an element to attract elements which contain a `Magnetable` component.
 The `Magnetable` component can only be used on `RigidBody2D` and its sub-classes.
 
+### Components/Touch Controls
+
+Add `TouchControls.tscn` to a scene to make it playable on a tablet: floating joystick (left half), jump and interact buttons,
+camera drag on the rest of the screen. It presses the existing input actions, so game code does not change.
+It frees itself on devices without a touch screen.
+
+- `show_jump`, `show_interact`: hide the buttons the scene does not need (eg: CandyBucket only needs the joystick);
+- `show_combat`: shows attack, switch tool and journal buttons (Chaseween);
+- `force_visible`: shows it on desktop, for tests.
+
+Game code reads actions (`action_attack`, `action_switch_tool`, `action_journal`...), never raw keys or mouse buttons,
+otherwise the buttons cannot trigger them. Touches also emulate a mouse: ignore `InputEvent.DEVICE_ID_EMULATION` events when
+a mouse click has a gameplay meaning.
+
 ### Components/Trigger (and Triggerrable)
 
 To be used when elements can trigger other elements.

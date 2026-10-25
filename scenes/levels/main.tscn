@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/secret_gallery_entrance/SecretGalleryEntrance.tscn" id="20_secret_gallery"]
 [ext_resource type="PackedScene" uid="uid://b1jimh7w0a3n7" path="res://scenes/console/GameConsole.tscn" id="24_gexqn"]
 [ext_resource type="PackedScene" uid="uid://ckdgdo4aq6h5l" path="res://scenes/console/command/Command.tscn" id="25_kc8j3"]
+[ext_resource type="PackedScene" uid="uid://cvvkle84jmjfp" path="res://components/touch_controls/TouchControls.tscn" id="touch_controls"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85s04"]
 sky_top_color = Color(0.1321393, 0.25306827, 0.35236278, 1)
@@ -1587,3 +1588,5 @@ visible = false
 [node name="finish" parent="GameConsole" unique_id=1852908088 node_paths=PackedStringArray("target") instance=ExtResource("25_kc8j3")]
 target = NodePath("../..")
 function = "debug_finish"
+
+[node name="TouchControls" parent="." unique_id=359175460 instance=ExtResource("touch_controls")]
