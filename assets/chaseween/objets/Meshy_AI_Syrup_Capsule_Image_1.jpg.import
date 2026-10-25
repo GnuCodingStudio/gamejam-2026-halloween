@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://beal46umwjxec"
-path="res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.ctex"
+path.s3tc="res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "9a84482fa3f62471194999107af68a37"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Syrup_Capsule_Image_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.s3tc.ctex", "res://.godot/imported/Meshy_AI_Syrup_Capsule_Image_1.jpg-310d9e3cc75ee45e33f2ce13b3b205df.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

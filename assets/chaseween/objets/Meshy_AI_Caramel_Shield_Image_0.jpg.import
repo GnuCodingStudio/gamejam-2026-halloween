@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbumd0mhwlktk"
-path="res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.ctex"
+path.s3tc="res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "cce49f7a28b4ba9b7761e906a6fddf58"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Caramel_Shield_Image_0.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.s3tc.ctex", "res://.godot/imported/Meshy_AI_Caramel_Shield_Image_0.jpg-64b97ad1f9b228f28fe852fd2831ac37.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

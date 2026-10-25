@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://drjhbj3rwvlql"
-path="res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.ctex"
+path.s3tc="res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "a8a29d8e11d087528b808a6acf2e0fab"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/chaseween/objets/Meshy_AI_Ghost_Lantern_Image_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.s3tc.ctex", "res://.godot/imported/Meshy_AI_Ghost_Lantern_Image_1.jpg-0a85bd26f67fd796dc9a494a9a7d0e84.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
