@@ -61,20 +61,20 @@ func _ready() -> void:
 
 
 func update_status(candy: int, zones: int, item_name: String, charges: int, shield_seconds: float) -> void:
-	_candy_label.text = "CANDY  %d" % candy
-	_zones_label.text = "MISSIONS  %d / 4" % zones
-	_item_label.text = "OBJET  %s  ×%d" % [item_name, charges] if not item_name.is_empty() else "OBJET  —"
+	_candy_label.text = tr("CHASE_HUD_CANDY") % candy
+	_zones_label.text = tr("CHASE_HUD_MISSIONS") % zones
+	_item_label.text = tr("CHASE_HUD_ITEM") % [item_name, charges] if not item_name.is_empty() else tr("CHASE_HUD_ITEM_NONE")
 	_shield_label.visible = shield_seconds > 0.0
-	_shield_label.text = "BOUCLIER CARAMEL  %.1f s" % shield_seconds
+	_shield_label.text = tr("CHASE_HUD_SHIELD") % shield_seconds
 
 
 func update_inventory(text: String) -> void:
-	_inventory_label.text = "TROUVAILLES  " + (text if not text.is_empty() else "—")
+	_inventory_label.text = tr("CHASE_HUD_INVENTORY") % (text if not text.is_empty() else "—")
 
 
 func update_tools(primary: String, primary_charges: int, secondary: String, secondary_charges: int) -> void:
-	_item_label.text = "OUTIL ACTIF  %s  ×%d" % [primary, primary_charges] if not primary.is_empty() else "OUTIL ACTIF  —"
-	_second_item_label.text = "Q  AUTRE OUTIL  %s  ×%d" % [secondary, secondary_charges] if not secondary.is_empty() else "Q  AUTRE OUTIL  —"
+	_item_label.text = tr("CHASE_HUD_TOOL") % [primary, primary_charges] if not primary.is_empty() else tr("CHASE_HUD_TOOL_NONE")
+	_second_item_label.text = tr("CHASE_HUD_SECOND_TOOL") % [secondary, secondary_charges] if not secondary.is_empty() else tr("CHASE_HUD_SECOND_TOOL_NONE")
 
 
 func set_objective(title: String, objective: String, distance: float, direction: String = "◆", hint: String = "") -> void:
@@ -100,7 +100,7 @@ func update_corruption(percent: float, phase_name: String) -> void:
 
 
 func set_journal(entries: Array[String]) -> void:
-	_journal_text.text = "CARNET DES AFFINITÉS\n\n" + "\n".join(entries) + "\n\nJ : fermer"
+	_journal_text.text = tr("CHASE_HUD_JOURNAL_TITLE") + "\n\n" + "\n".join(entries) + "\n\n" + tr("CHASE_HUD_JOURNAL_CLOSE")
 
 
 func toggle_journal() -> void:
@@ -195,10 +195,10 @@ func _finish_gameplay_message() -> void:
 func show_summary(candy: int, guarantee_added: int, zones: int, discoveries: int, exit_mode: String) -> void:
 	summary_visible = true
 	_cinematic_overlay.visible = false
-	var details := "MISSIONS TERMINÉES : %d / 4\nDÉCOUVERTES : %d\nSORTIE : %s" % [zones, discoveries, exit_mode]
+	var details := tr("CHASE_HUD_SUMMARY_MISSIONS") % zones + "\n" + tr("CHASE_HUD_SUMMARY_DISCOVERIES") % discoveries + "\n" + tr("CHASE_HUD_SUMMARY_EXIT") % exit_mode
 	if guarantee_added > 0:
-		details += "\nBONUS DE SORTIE : +%d CANDY" % guarantee_added
-	_summary_overlay.show_result("CHASEWEEN TERMINÉ", candy, details)
+		details += "\n" + tr("CHASE_HUD_SUMMARY_BONUS") % guarantee_added
+	_summary_overlay.show_result(tr("CHASE_HUD_SUMMARY_TITLE"), candy, details)
 
 
 func _build_status_panel() -> void:
@@ -215,19 +215,19 @@ func _build_status_panel() -> void:
 	panel.add_child(box)
 	var title := _label("CHASEWEEN", 24, Color(1.0, 0.66, 0.2))
 	box.add_child(title)
-	_candy_label = _label("CANDY  0", 22, Color.WHITE)
-	_zones_label = _label("MISSIONS  0 / 4", 18, Color(0.8, 0.85, 1.0))
-	_item_label = _label("OBJET  —", 18, Color(0.5, 1.0, 0.8))
-	_second_item_label = _label("Q  AUTRE OUTIL  —", 15, Color(0.66, 0.84, 0.78))
+	_candy_label = _label(tr("CHASE_HUD_CANDY") % 0, 22, Color.WHITE)
+	_zones_label = _label(tr("CHASE_HUD_MISSIONS") % 0, 18, Color(0.8, 0.85, 1.0))
+	_item_label = _label(tr("CHASE_HUD_ITEM_NONE"), 18, Color(0.5, 1.0, 0.8))
+	_second_item_label = _label(tr("CHASE_HUD_SECOND_TOOL_NONE"), 15, Color(0.66, 0.84, 0.78))
 	_shield_label = _label("", 17, Color(1.0, 0.66, 0.22))
 	box.add_child(_candy_label)
 	box.add_child(_zones_label)
 	box.add_child(_item_label)
 	box.add_child(_second_item_label)
 	box.add_child(_shield_label)
-	_inventory_label = _label("TROUVAILLES  —", 15, Color(0.75, 0.92, 1.0))
+	_inventory_label = _label(tr("CHASE_HUD_INVENTORY") % "—", 15, Color(0.75, 0.92, 1.0))
 	box.add_child(_inventory_label)
-	_help_label = _label("Q changer d’outil • Clic gauche utiliser • E interagir • J carnet", 14, Color(0.76, 0.7, 0.84))
+	_help_label = _label(tr("CHASE_HUD_HELP"), 14, Color(0.76, 0.7, 0.84))
 	box.add_child(_help_label)
 
 
@@ -351,13 +351,13 @@ func _build_corruption_panel() -> void:
 	margin.add_child(panel)
 	var box := VBoxContainer.new()
 	panel.add_child(box)
-	box.add_child(_label("◆  CORRUPTION DE CHASEWEEN", 16, Color(0.92, 0.7, 1.0)))
+	box.add_child(_label(tr("CHASE_HUD_CORRUPTION_TITLE"), 16, Color(0.92, 0.7, 1.0)))
 	_corruption_bar = ProgressBar.new()
 	_corruption_bar.max_value = 100.0
 	_corruption_bar.show_percentage = true
 	_corruption_bar.custom_minimum_size = Vector2(320.0, 18.0)
 	box.add_child(_corruption_bar)
-	_phase_label = _label("LES DERNIÈRES DOUCEURS", 14, Color(0.72, 0.82, 1.0))
+	_phase_label = _label(tr("CHASE_HUD_PHASE_DEFAULT"), 14, Color(0.72, 0.82, 1.0))
 	box.add_child(_phase_label)
 
 
@@ -388,7 +388,7 @@ func _build_cinematic_overlay() -> void:
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_cinematic_overlay.add_child(center)
-	var message := _label("LE DERNIER SORT S’ACCOMPLIT…", 36, Color(0.92, 0.72, 1.0))
+	var message := _label(tr("CHASE_HUD_FINAL_SPELL"), 36, Color(0.92, 0.72, 1.0))
 	center.add_child(message)
 	_cinematic_overlay.visible = false
 

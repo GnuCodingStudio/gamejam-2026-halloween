@@ -27,9 +27,9 @@ const MATRIX: Dictionary = {
 }
 
 const LABELS: Dictionary = {
-	Reaction.EFFECTIVE: "EFFICACE",
-	Reaction.WEAK: "PEU EFFICACE",
-	Reaction.INVERSE: "DANGEREUX",
+	Reaction.EFFECTIVE: "CHASE_HUD_REACTION_EFFECTIVE",
+	Reaction.WEAK: "CHASE_HUD_REACTION_WEAK",
+	Reaction.INVERSE: "CHASE_HUD_REACTION_DANGEROUS",
 }
 
 const COLORS: Dictionary = {
@@ -45,7 +45,7 @@ static func reaction(item_id: StringName, monster_type: StringName) -> int:
 
 
 static func label(reaction_id: int) -> String:
-	return String(LABELS.get(reaction_id, "PEU EFFICACE"))
+	return TranslationServer.translate(LABELS.get(reaction_id, "CHASE_HUD_REACTION_WEAK"))
 
 
 static func color(reaction_id: int) -> Color:

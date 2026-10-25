@@ -143,7 +143,7 @@ func _run() -> void:
 		"Le nom du PNG est explicite et nettoyé"
 	)
 	_check(
-		hud._build_share_text() == "Jyjio a terminé Game Jam Halloween 2026 avec 247 CANDY !",
+		hud._build_share_text() == tr("LOBBY_SHARE_TEXT") % ["Jyjio", 247],
 		"Le texte de partage reprend le pseudo et le score exacts"
 	)
 	var tested_names: Array[String] = ["Jyjio", "Chasseur2026", "WWWWWWWWWWWWWWWWWWWW"]

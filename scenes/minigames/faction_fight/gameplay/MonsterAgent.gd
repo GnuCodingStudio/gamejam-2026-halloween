@@ -14,7 +14,7 @@ enum State {
 	RETURN,
 }
 
-var display_name: String = "Monstre"
+var display_name: String = "CHASE_HUD_MONSTER_DEFAULT"
 var model_resource_path: String = ""
 var monster_type: StringName = &"goblin"
 var patrol_speed: float = 1.2
@@ -390,7 +390,7 @@ func _create_model(model_path: String, model_scale: float) -> void:
 
 func _create_feedback() -> void:
 	var label := Label3D.new()
-	label.text = display_name
+	label.text = tr(display_name)
 	label.position = Vector3(0.0, 2.25, 0.0)
 	label.font_size = 36
 	label.outline_size = 10

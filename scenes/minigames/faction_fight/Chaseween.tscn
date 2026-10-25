@@ -5,7 +5,7 @@
 [ext_resource type="Material" path="res://scenes/minigames/faction_fight/materials/ground.tres" id="3_52fbt"]
 [ext_resource type="Script" uid="uid://b5bvyc8ftrybp" path="res://scenes/minigames/faction_fight/ScenicDressing.gd" id="4_2cupl"]
 [ext_resource type="Material" uid="uid://cxq474uaq5t4y" path="res://assets/textures/Metal041A_1k/Metal041A_1K-PNG.tres" id="5_gqwk4"]
-[ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="6_1a8a4"]
+[ext_resource type="Material" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="6_1a8a4"]
 [ext_resource type="PackedScene" uid="uid://chfflpt6swt5o" path="res://scenes/minigames/faction_fight/props/DeadTree.tscn" id="7_ujver"]
 [ext_resource type="PackedScene" uid="uid://dv17mkoo5l6gh" path="res://scenes/minigames/faction_fight/props/AncientTree.tscn" id="8_tt073"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/CandyPlant.tscn" id="9_yq5tr"]
@@ -14,8 +14,8 @@
 [ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/Signpost.tscn" id="12_atspj"]
 [ext_resource type="PackedScene" uid="uid://cfllhtjbtpyjw" path="res://scenes/minigames/faction_fight/props/CorruptedRoot.tscn" id="13_uiois"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/MistPatch.tscn" id="14_2k8os"]
-[ext_resource type="PackedScene" uid="uid://bh38kvql4l13k" path="res://scenes/minigames/faction_fight/props/Bridge.tscn" id="15_l755t"]
-[ext_resource type="PackedScene" uid="uid://bcr1jc10clxpl" path="res://scenes/minigames/faction_fight/props/SyrupFall.tscn" id="16_hbltl"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/Bridge.tscn" id="15_l755t"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/faction_fight/props/SyrupFall.tscn" id="16_hbltl"]
 [ext_resource type="PackedScene" uid="uid://cjed2iwo8bmdu" path="res://scenes/minigames/faction_fight/props/Sanctuary.tscn" id="17_7gxmb"]
 [ext_resource type="PackedScene" uid="uid://dyydy1n4qiaya" path="res://scenes/minigames/faction_fight/props/FinalPortal.tscn" id="18_a421m"]
 [ext_resource type="Material" uid="uid://bo5cjast4ihmp" path="res://scenes/minigames/faction_fight/materials/corruption_glow.tres" id="19_gasek"]
@@ -279,7 +279,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.208519, 1.5, -166.58705)
 shape = SubResource("BoxShape3D_tn7l8")
 
 [node name="BridgeExitLeft2" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1340808227]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.231056, 1.6081543, -194.5651)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.231056, 1.6081543, -194.3155)
 shape = SubResource("BoxShape3D_ohtio")
 
 [node name="BridgeExitRight" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=521847514]
@@ -319,7 +319,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, 14, 1.5, -180.37515)
 shape = SubResource("BoxShape3D_stbo2")
 
 [node name="Zone4Left" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=930705741]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.114502, 1.5, -225.1127)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.114502, 1.5, -225.39311)
 shape = SubResource("SideBoundaryShape")
 
 [node name="Zone4Right" type="CollisionShape3D" parent="Ground/MapBoundaries" unique_id=1243505563]
@@ -370,7 +370,7 @@ transform = Transform3D(0.30901697, 0, 0.95105654, 0, 1, 0, -0.95105654, 0, 0.30
 mesh = SubResource("PathMesh")
 
 [node name="ForestSidePath02" type="MeshInstance3D" parent="MainPath" unique_id=1350413755]
-transform = Transform3D(0.7250462, 0, 0.33809462, 0, 1, 0, -0.33809462, 0, 0.7250462, 2.553056, 0.06, -96.941216)
+transform = Transform3D(0.7250462, 0, 0.33809462, 0, 1, 0, -0.33809462, 0, 0.7250462, 2.553, 0.07, -96.941)
 mesh = SubResource("PathMesh")
 
 [node name="BridgeApproach" type="MeshInstance3D" parent="MainPath" unique_id=1019785437]
@@ -386,7 +386,7 @@ transform = Transform3D(0.9781476, 0, 0.2079117, 0, 0.93729055, 0, -0.2079117, 0
 mesh = SubResource("PathWideMesh")
 
 [node name="SanctuaryPath02" type="MeshInstance3D" parent="MainPath" unique_id=1295613315]
-transform = Transform3D(0.95105654, 0, 0.309017, 0, 1, 0, -0.309017, 0, 0.95105654, 4, 0.06, -211)
+transform = Transform3D(0.95105654, 0, 0.309017, 0, 1, 0, -0.309017, 0, 0.95105654, 4, 0.07, -211)
 mesh = SubResource("PathWideMesh")
 
 [node name="SanctuaryPath03" type="MeshInstance3D" parent="MainPath" unique_id=222144414]

@@ -181,7 +181,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_instruction")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Déplacement : Q / D ou ← / →    •    Attrapez un maximum de bonbons !"
+text = "CREDITS_CANDY_BUCKET_INSTRUCTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -16,7 +16,7 @@ enum Kind {
 }
 
 var kind: int = Kind.CANDY
-var display_name: String = "CANDY"
+var display_name: String = "CHASE_HUD_PICKUP_DEFAULT"
 var candy_value: int = 0
 var item_id: StringName = &""
 var item_charges: int = 0
@@ -238,7 +238,7 @@ func _create_label() -> void:
 	title_root.add_child(category)
 	var title := Label3D.new()
 	title.name = "Title"
-	title.text = display_name
+	title.text = tr(display_name)
 	title.position = Vector3(0.0, -0.055, 0.014)
 	title.font_size = 30
 	title.outline_size = 7
@@ -248,7 +248,7 @@ func _create_label() -> void:
 
 
 func _add_title_backdrop(parent: Node3D, accent: Color) -> void:
-	var width := clampf(float(display_name.length()) * 0.105 + 0.75, 2.0, 4.4)
+	var width := clampf(float(tr(display_name).length()) * 0.105 + 0.75, 2.0, 4.4)
 	var backdrop := MeshInstance3D.new()
 	backdrop.name = "TitleBackdrop"
 	var backdrop_mesh := QuadMesh.new()
@@ -308,12 +308,12 @@ func _label_accent_color() -> Color:
 func _label_category() -> String:
 	match kind:
 		Kind.ITEM:
-			return "✦  OUTIL D’ACTION"
+			return tr("CHASE_HUD_CATEGORY_ITEM")
 		Kind.KEY_ITEM:
-			return "◇  OBJET DE DÉBLOCAGE"
+			return tr("CHASE_HUD_CATEGORY_KEY_ITEM")
 		Kind.CHEST:
-			return "✦  RÉCOMPENSE"
+			return tr("CHASE_HUD_CATEGORY_CHEST")
 		Kind.DEVICE:
-			return "◇  MÉCANISME"
+			return tr("CHASE_HUD_CATEGORY_DEVICE")
 		_:
 			return ""

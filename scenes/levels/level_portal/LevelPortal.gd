@@ -2,14 +2,14 @@ class_name LevelPortal
 extends Node3D
 
 
-const COMPLETED_TEXT: String = "MONDE TERMINÉ"
+const COMPLETED_TEXT: String = "LOBBY_PORTAL_COMPLETED"
 const PULSE_MIN_ENERGY: float = 1.0
 const PULSE_MAX_ENERGY: float = 3.0
 const PULSE_DURATION: float = 1.0
 
 
 @export_file("*.tscn") var target_scene_path: String
-@export var prompt_text: String = "E — Enter"
+@export var prompt_text: String = "LOBBY_PORTAL_ENTER"
 ## Leave empty for a level that is never "completed" (it can be entered again and again).
 @export var world_id: StringName = &""
 ## Leave empty if the player does not need to be placed at `ReturnSpawn` when coming back.
@@ -69,7 +69,7 @@ func _stop_light_pulse() -> void:
 func _refresh_progress_state() -> void:
     var was_completed: bool = _world_completed
     _world_completed = ProgressionService.is_world_completed(world_id)
-    prompt_label.text = COMPLETED_TEXT if _world_completed else prompt_text
+    prompt_label.text = tr(COMPLETED_TEXT if _world_completed else prompt_text)
     if _light_tween == null or _world_completed != was_completed:
         _update_light()
 

@@ -179,7 +179,7 @@ func _run_preparation_countdown(round_id: int) -> void:
     if round_id != _round_generation:
         return
 
-    countdown_label.text = "GO !"
+    countdown_label.text = tr("CREDITS_CANDY_BUCKET_GO")
     _start_round()
     await get_tree().create_timer(0.7).timeout
 
@@ -211,18 +211,18 @@ func _configure_hud() -> void:
 
 
 func _update_hud() -> void:
-    time_label.text = "Temps : %.2f s" % _remaining_time
-    candy_label.text = "CANDY : %d" % _collected_candies
+    time_label.text = tr("CREDITS_CANDY_BUCKET_TIME") % _remaining_time
+    candy_label.text = tr("CREDITS_CANDY_SCORE") % _collected_candies
 
     if _poison_remaining > 0.0:
-        poison_label.text = "Poison actif : %.1f s" % _poison_remaining
+        poison_label.text = tr("CREDITS_CANDY_BUCKET_POISON_ACTIVE") % _poison_remaining
         poison_label.modulate = Color("a8ff7a")
     else:
-        poison_label.text = "Poison : inactif"
+        poison_label.text = tr("CREDITS_CANDY_BUCKET_POISON_INACTIVE")
         poison_label.modulate = Color("d8d2df")
 
     magic_boost_label.visible = _magic_boost_remaining > 0.0
-    magic_boost_label.text = "Vitesse +50 %% : %.1f s" % _magic_boost_remaining
+    magic_boost_label.text = tr("CREDITS_CANDY_BUCKET_SPEED_BOOST") % _magic_boost_remaining
 
 
 func _update_layout() -> void:
@@ -394,7 +394,7 @@ func _finish_round() -> void:
 
 
 func _prepare_round_result() -> void:
-    result_overlay.show_result("TEMPS ÉCOULÉ !", _collected_candies)
+    result_overlay.show_result("CREDITS_CANDY_BUCKET_TIME_UP", _collected_candies)
     round_completed.emit(MINIGAME_ID, _collected_candies)
 
 

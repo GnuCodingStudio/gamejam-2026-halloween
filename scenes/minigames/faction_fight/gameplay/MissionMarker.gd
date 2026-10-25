@@ -112,7 +112,7 @@ func _build_title() -> void:
 	backdrop.visibility_range_end_margin = 14.0
 	title_root.add_child(backdrop)
 	var label := Label3D.new()
-	label.text = "✦  OBJECTIF ACTIF  ✦"
+	label.text = tr("CHASE_HUD_MARKER_ACTIVE")
 	label.position.z = 0.012
 	label.font_size = 30
 	label.outline_size = 8

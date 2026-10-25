@@ -66,7 +66,7 @@ func _test_faction_fight_scene() -> void:
 	gameplay._hud.set_prompt("E  •  TEST D’INTERACTION")
 	_check(gameplay._hud._prompt_key_panel.visible, "Le prompt distingue la touche d’interaction")
 	_check(gameplay._hud._prompt_action_label.text == "TEST D’INTERACTION", "Le prompt hiérarchise le libellé d’action")
-	_check(gameplay._hud._help_label.text.contains("Clic gauche utiliser"), "Le HUD annonce le clic gauche pour utiliser l’outil")
+	_check(gameplay._hud._help_label.text == tr("CHASE_HUD_HELP"), "Le HUD annonce le clic gauche pour utiliser l’outil")
 	_check(not gameplay._hud._help_label.text.contains("R ") and not gameplay._hud._help_label.text.contains("F "), "Le HUD ne mentionne plus les anciennes commandes R/F")
 	var toast_style := gameplay._hud._toast_panel.get_theme_stylebox("panel")
 	_check(toast_style is StyleBoxEmpty, "Les consignes temporaires n’ont plus de carte ni de bordure")

@@ -101,7 +101,7 @@ func _test_shared_candies(gameplay: FactionFightGameplay) -> void:
 	var expected_score := gameplay._candy + first_candy.candy_value
 	first_candy._shared_candy._on_body_entered(gameplay._player)
 	_check(gameplay._candy == expected_score, "Le signal partagé ajoute la valeur prévue au score local")
-	_check(gameplay._hud._candy_label.text == "CANDY  %d" % expected_score, "Le HUD est actualisé après collecte")
+	_check(gameplay._hud._candy_label.text == tr("CHASE_HUD_CANDY") % expected_score, "Le HUD est actualisé après collecte")
 	_check(gameplay._collect_audio_player.playing, "Le bruitage collect.wav est déclenché")
 	_check(_has_sparkles(first_candy), "Les particules Labyrinth sont déclenchées")
 	first_candy._shared_candy._on_body_entered(gameplay._player)
@@ -268,10 +268,10 @@ func _test_tool_slots(gameplay: FactionFightGameplay) -> void:
 
 
 func _test_corruption_phases(gameplay: FactionFightGameplay) -> void:
-	_check(gameplay._corruption_phase_name(0.0) == "LES DERNIÈRES DOUCEURS", "Phase climatique 1")
-	_check(gameplay._corruption_phase_name(60.0) == "L’ÉVEIL DE LA CORRUPTION", "Phase climatique 2 à 60 secondes")
-	_check(gameplay._corruption_phase_name(120.0) == "LA TEMPÊTE DES CONFISERIES", "Phase climatique 3 à 120 secondes")
-	_check(gameplay._corruption_phase_name(180.0) == "LE DERNIER SORT", "Phase climatique 4 à 180 secondes")
+	_check(gameplay._corruption_phase_name(0.0) == tr("CHASE_GAME_PHASE_1"), "Phase climatique 1")
+	_check(gameplay._corruption_phase_name(60.0) == tr("CHASE_GAME_PHASE_2"), "Phase climatique 2 à 60 secondes")
+	_check(gameplay._corruption_phase_name(120.0) == tr("CHASE_GAME_PHASE_3"), "Phase climatique 3 à 120 secondes")
+	_check(gameplay._corruption_phase_name(180.0) == tr("CHASE_GAME_PHASE_4"), "Phase climatique 4 à 180 secondes")
 	gameplay._session_time = 120.0
 	gameplay._update_corruption(0.0)
 	_check(is_equal_approx(gameplay._hud._corruption_bar.value, 50.0), "La jauge affiche la corruption sans secondes")
@@ -345,7 +345,7 @@ func _test_theft_rules(gameplay: FactionFightGameplay) -> void:
 	gameplay._on_player_bumped(gameplay._monsters[1], Vector3.LEFT, 0.0)
 	_check(gameplay._candy == after_first_contact, "Deux contacts simultanés ne provoquent qu'un vol")
 	_check(is_equal_approx(gameplay._theft_immunity_time, 3.0), "L'immunité globale dure trois secondes")
-	_check(gameplay._hud._candy_label.text == "CANDY  %d" % gameplay._candy, "Le HUD est actualisé immédiatement")
+	_check(gameplay._hud._candy_label.text == tr("CHASE_HUD_CANDY") % gameplay._candy, "Le HUD est actualisé immédiatement")
 
 
 func _test_protections(gameplay: FactionFightGameplay) -> void:
@@ -376,8 +376,8 @@ func _test_exit_guarantee(gameplay: FactionFightGameplay) -> void:
 	_check(gameplay._candy == 20, "La sortie garantit vingt CANDY")
 	_check(int(gameplay.result_data.candy_amount) == 20, "Le résultat local contient le minimum garanti")
 	_check(gameplay._hud._summary_overlay.candy_score_label.text == "CANDY : 20", "La carte commune affiche le score local CHASEWEEN")
-	_check("BONUS DE SORTIE : +20 CANDY" in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
-	_check("SORTIE : PORTAIL" in gameplay._hud._summary_candy.text, "La sortie volontaire est indiquée")
+	_check((tr("CHASE_HUD_SUMMARY_BONUS") % 20) in gameplay._hud._summary_candy.text, "Le complément est expliqué dans le résumé")
+	_check((tr("CHASE_HUD_SUMMARY_EXIT") % "PORTAIL") in gameplay._hud._summary_candy.text, "La sortie volontaire est indiquée")
 	_check(gameplay._hud._summary_button.text == ResultOverlay.EXIT_TEXT, "CHASEWEEN affiche Sortir dans la rue")
 	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Le résumé de sortie volontaire libère et affiche la souris")
 	gameplay._complete_world()
@@ -402,7 +402,7 @@ func _test_auto_finish() -> void:
 	gameplay._finish_final_spell()
 	_check(gameplay._completed, "Le Dernier Sort termine le mini-jeu sans défaite")
 	_check(gameplay._candy == 20, "La fin automatique applique aussi le minimum garanti")
-	_check("SORTIE : DERNIER SORT" in gameplay._hud._summary_candy.text, "Le résumé distingue la fin automatique")
+	_check((tr("CHASE_HUD_SUMMARY_EXIT") % "DERNIER SORT") in gameplay._hud._summary_candy.text, "Le résumé distingue la fin automatique")
 	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Le résumé de fin automatique libère et affiche la souris")
 	scene.queue_free()
 	await process_frame

@@ -14,11 +14,11 @@ var _message_tween: Tween
 
 
 func set_candies(collected: int, total: int) -> void:
-	candy_label.text = "Candies: %d / %d" % [collected, total]
+	candy_label.text = tr("CREDITS_LABYRINTH_CANDIES") % [collected, total]
 
 
 func set_bonus_candies(total: int) -> void:
-	bonus_label.text = "Bonus candies: %d" % total
+	bonus_label.text = tr("CREDITS_LABYRINTH_BONUS_CANDIES") % total
 
 
 func set_time(seconds: float) -> void:

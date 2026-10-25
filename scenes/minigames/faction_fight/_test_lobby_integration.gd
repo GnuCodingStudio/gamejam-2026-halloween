@@ -45,7 +45,7 @@ func _test_lobby_portal() -> void:
 	_check(portal != null, "La porte libre de house2 est attribuée à CHASEWEEN")
 	if portal != null:
 		_check(portal.target_scene_path == CHASEWEEN_SCENE_PATH, "La porte charge la scène CHASEWEEN officielle")
-		_check(portal.prompt_text == "E - CHASEWEEN", "Le nom CHASEWEEN est affiché par le prompt existant")
+		_check(portal.prompt_text == "LOBBY_PORTAL_CHASEWEEN", "Le nom CHASEWEEN est affiché par le prompt existant")
 		_check(portal.world_id == CHASEWEEN_WORLD_ID, "La porte utilise l’identifiant de progression CHASEWEEN")
 		_check(portal.return_meta == &"chaseween_return_to_door", "Le retour cible la même porte du lobby")
 		_check(portal.light.visible, "La lumière existante signale le monde disponible")

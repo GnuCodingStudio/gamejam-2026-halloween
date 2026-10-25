@@ -30,45 +30,45 @@ const LOBBY_RETURN_META: StringName = &"chaseween_return_to_door"
 const MISSIONS: Array[Dictionary] = [
 	{
 		"id": &"garden_reserve",
-		"title": "MISSION 1 / 4 — LE VOLEUR DE BONBONS",
-		"objective": "Prends le bâton, repousse le Gobelin et ouvre la réserve.",
-		"hint": "La réserve brille près du Gobelin du Jardin.",
+		"title": "CHASE_GAME_MISSION_1_TITLE",
+		"objective": "CHASE_GAME_MISSION_1_OBJECTIVE",
+		"hint": "CHASE_GAME_MISSION_1_HINT",
 		"target": Vector3(7.0, 0.05, -38.0),
 	},
 	{
 		"id": &"forest_locker",
-		"title": "MISSION 2 / 4 — LE CASIER HANTÉ",
-		"objective": "Trouve la clé caramel puis ouvre le casier gardé par le Paladin.",
-		"hint": "La clé est au bord du chemin avant le Paladin.",
+		"title": "CHASE_GAME_MISSION_2_TITLE",
+		"objective": "CHASE_GAME_MISSION_2_OBJECTIVE",
+		"hint": "CHASE_GAME_MISSION_2_HINT",
 		"target": Vector3(-11.0, 0.05, -92.0),
 	},
 	{
 		"id": &"syrup_cache",
-		"title": "MISSION 3 / 4 — LE CONQUÉRANT DU SIROP",
-		"objective": "Teste une affinité sur le Conquérant puis ouvre la cache de sirop.",
-		"hint": "Le coffre est sur le pont, tout près du Conquérant.",
+		"title": "CHASE_GAME_MISSION_3_TITLE",
+		"objective": "CHASE_GAME_MISSION_3_OBJECTIVE",
+		"hint": "CHASE_GAME_MISSION_3_HINT",
 		"target": Vector3(4.0, 0.05, -176.0),
 	},
 	{
 		"id": &"sanctuary_treasure",
-		"title": "MISSION 4 / 4 — LE TRÉSOR DU SANCTUAIRE",
-		"objective": "Atteins le sanctuaire et ouvre son dernier coffre.",
-		"hint": "Suis le faisceau doré au fond du sanctuaire.",
+		"title": "CHASE_GAME_MISSION_4_TITLE",
+		"objective": "CHASE_GAME_MISSION_4_OBJECTIVE",
+		"hint": "CHASE_GAME_MISSION_4_HINT",
 		"target": Vector3(-8.0, 0.05, -233.0),
 	},
 ]
 const ITEM_NAMES: Dictionary = {
-	&"candy_cane": "BÂTON BONBON",
-	&"sugar_spray": "SPRAY SUCRÉ",
-	&"caramel_shield": "BOUCLIER CARAMEL",
-	&"ghost_lamp": "LAMPE FANTÔME",
+	&"candy_cane": "CHASE_GAME_ITEM_CANDY_CANE",
+	&"sugar_spray": "CHASE_GAME_ITEM_SUGAR_SPRAY",
+	&"caramel_shield": "CHASE_GAME_ITEM_CARAMEL_SHIELD",
+	&"ghost_lamp": "CHASE_GAME_ITEM_GHOST_LAMP",
 }
 const KEY_ITEM_NAMES: Dictionary = {
-	&"caramel_key": "CLÉ CARAMEL",
-	&"sugar_crystal": "CRISTAL SUCRÉ",
-	&"syrup_capsule": "CAPSULE DE SIROP",
-	&"spectral_badge": "INSIGNE SPECTRAL",
-	&"chewingland_heart": "CŒUR DE CHEWINGLAND",
+	&"caramel_key": "CHASE_GAME_KEY_CARAMEL_KEY",
+	&"sugar_crystal": "CHASE_GAME_KEY_SUGAR_CRYSTAL",
+	&"syrup_capsule": "CHASE_GAME_KEY_SYRUP_CAPSULE",
+	&"spectral_badge": "CHASE_GAME_KEY_SPECTRAL_BADGE",
+	&"chewingland_heart": "CHASE_GAME_KEY_CHEWINGLAND_HEART",
 }
 
 var result_data: Dictionary = {
@@ -148,7 +148,7 @@ func _ready() -> void:
 	_refresh_mission()
 	_refresh_journal()
 	_update_hud()
-	_hud.show_gameplay_message("RÉCUPÈRE LE BÂTON BONBON POUR REPOUSSER LE GOBELIN", FactionFightHUD.MessageCategory.OBJECTIVE)
+	_hud.show_gameplay_message(tr("CHASE_GAME_MSG_GET_CANDY_CANE"), FactionFightHUD.MessageCategory.OBJECTIVE)
 
 
 func _process(delta: float) -> void:
@@ -210,24 +210,24 @@ func _create_collect_audio_player() -> void:
 
 func _spawn_monsters() -> void:
 	# Zone 1 — Jardin oublié : deux rencontres, dont une hors du chemin direct.
-	_spawn_goblin("Gobelin du Jardin", Vector3(7.0, 0.02, -42.0), Vector3(5.0, 0.0, -8.0))
-	_spawn_conqueror("Conquérant des Ronces", Vector3(-11.0, 0.02, -26.0), Vector3(5.0, 0.0, 1.0))
+	_spawn_goblin(tr("CHASE_GAME_MONSTER_GARDEN_GOBLIN"), Vector3(7.0, 0.02, -42.0), Vector3(5.0, 0.0, -8.0))
+	_spawn_conqueror(tr("CHASE_GAME_MONSTER_BRAMBLE_CONQUEROR"), Vector3(-11.0, 0.02, -26.0), Vector3(5.0, 0.0, 1.0))
 
 	# Zone 2 — Forêt des racines : trois gardiens répartis entre chemin et cachettes.
-	_spawn_goblin("Gobelin des Racines", Vector3(13.0, 0.02, -72.0), Vector3(6.0, 0.0, -4.0))
-	_spawn_paladin("Paladin du Coffre", Vector3(-11.0, 0.02, -91.0), Vector3(5.0, 0.0, 0.0))
-	_spawn_conqueror("Conquérant de la Forêt", Vector3(25.0, 0.02, -102.0), Vector3(-5.0, 0.0, 3.0))
+	_spawn_goblin(tr("CHASE_GAME_MONSTER_ROOTS_GOBLIN"), Vector3(13.0, 0.02, -72.0), Vector3(6.0, 0.0, -4.0))
+	_spawn_paladin(tr("CHASE_GAME_MONSTER_CHEST_PALADIN"), Vector3(-11.0, 0.02, -91.0), Vector3(5.0, 0.0, 0.0))
+	_spawn_conqueror(tr("CHASE_GAME_MONSTER_FOREST_CONQUEROR"), Vector3(25.0, 0.02, -102.0), Vector3(-5.0, 0.0, 3.0))
 
 	# Zone 3 — Ponts de sirop : trois patrouilles courtes pour préserver les passages.
-	_spawn_goblin("Gobelin du Sirop", Vector3(-12.0, 0.02, -126.0), Vector3(5.0, 0.0, 0.0))
-	_spawn_paladin("Paladin du Pont", Vector3(-5.0, 0.02, -178.0), Vector3(5.0, 0.0, 0.0))
-	_spawn_conqueror("Conquérant du Pont", Vector3(4.0, 0.02, -169.0), Vector3(-4.0, 0.0, 0.0))
+	_spawn_goblin(tr("CHASE_GAME_MONSTER_SYRUP_GOBLIN"), Vector3(-12.0, 0.02, -126.0), Vector3(5.0, 0.0, 0.0))
+	_spawn_paladin(tr("CHASE_GAME_MONSTER_BRIDGE_PALADIN"), Vector3(-5.0, 0.02, -178.0), Vector3(5.0, 0.0, 0.0))
+	_spawn_conqueror(tr("CHASE_GAME_MONSTER_BRIDGE_CONQUEROR"), Vector3(4.0, 0.02, -169.0), Vector3(-4.0, 0.0, 0.0))
 
 	# Zone 4 — Sanctuaire corrompu : quatre gardiens, sans collision bloquante.
-	_spawn_goblin("Gobelin du Sanctuaire", Vector3(-8.0, 0.02, -208.0), Vector3(5.0, 0.0, 0.0))
-	_spawn_paladin("Paladin Corrompu", Vector3(8.0, 0.02, -217.0), Vector3(7.0, 0.0, 0.0))
-	_spawn_paladin("Paladin du Trésor", Vector3(-8.0, 0.02, -233.0), Vector3(5.0, 0.0, 0.0))
-	_spawn_conqueror("Conquérant du Portail", Vector3(22.0, 0.02, -226.0), Vector3(0.0, 0.0, 6.0))
+	_spawn_goblin(tr("CHASE_GAME_MONSTER_SANCTUARY_GOBLIN"), Vector3(-8.0, 0.02, -208.0), Vector3(5.0, 0.0, 0.0))
+	_spawn_paladin(tr("CHASE_GAME_MONSTER_CORRUPTED_PALADIN"), Vector3(8.0, 0.02, -217.0), Vector3(7.0, 0.0, 0.0))
+	_spawn_paladin(tr("CHASE_GAME_MONSTER_TREASURE_PALADIN"), Vector3(-8.0, 0.02, -233.0), Vector3(5.0, 0.0, 0.0))
+	_spawn_conqueror(tr("CHASE_GAME_MONSTER_PORTAL_CONQUEROR"), Vector3(22.0, 0.02, -226.0), Vector3(0.0, 0.0, 6.0))
 
 
 func _spawn_goblin(monster_name: String, spawn_position: Vector3, patrol_offset: Vector3) -> void:
@@ -279,45 +279,45 @@ func _spawn_monster(
 
 
 func _spawn_rewards() -> void:
-	_spawn_item("BÂTON BONBON", Vector3(-6.0, 0.45, -10.0), &"candy_cane", 3)
+	_spawn_item(tr("CHASE_GAME_ITEM_CANDY_CANE"), Vector3(-6.0, 0.45, -10.0), &"candy_cane", 3)
 	_spawn_support(Vector3(-6.0, 0.02, -10.0), Color(1.0, 0.24, 0.18))
 	_spawn_candy(Vector3(-6.0, 0.55, -18.0), 2)
 	_spawn_candy(Vector3(11.0, 0.55, -38.0), 3)
-	_spawn_chest("RÉSERVE DU JARDIN", Vector3(7.0, 0.05, -38.0), 6, &"garden_reserve")
+	_spawn_chest(tr("CHASE_GAME_CHEST_GARDEN_RESERVE"), Vector3(7.0, 0.05, -38.0), 6, &"garden_reserve")
 
-	_spawn_item("SPRAY SUCRÉ", Vector3(20.0, 0.45, -78.0), &"sugar_spray", 3)
+	_spawn_item(tr("CHASE_GAME_ITEM_SUGAR_SPRAY"), Vector3(20.0, 0.45, -78.0), &"sugar_spray", 3)
 	_spawn_support(Vector3(20.0, 0.02, -78.0), Color(0.25, 0.92, 1.0))
 	_spawn_candy(Vector3(-11.0, 0.55, -65.0), 2)
 	_spawn_candy(Vector3(22.0, 0.55, -90.0), 3)
 	_spawn_candy(Vector3(24.0, 0.55, -102.0), 4)
 
-	_spawn_item("BOUCLIER CARAMEL", Vector3(-12.0, 0.45, -126.0), &"caramel_shield", 1)
+	_spawn_item(tr("CHASE_GAME_ITEM_CARAMEL_SHIELD"), Vector3(-12.0, 0.45, -126.0), &"caramel_shield", 1)
 	_spawn_support(Vector3(-12.0, 0.02, -126.0), Color(1.0, 0.54, 0.12))
 	_spawn_candy(Vector3(-14.0, 0.55, -130.0), 3)
 	_spawn_candy(Vector3(4.0, 0.55, -176.0), 4)
-	_spawn_chest("CACHE DE SIROP", Vector3(4.0, 0.05, -176.0), 8, &"syrup_cache")
+	_spawn_chest(tr("CHASE_GAME_CHEST_SYRUP_CACHE"), Vector3(4.0, 0.05, -176.0), 8, &"syrup_cache")
 
 	_spawn_candy(Vector3(-8.0, 0.55, -208.0), 4)
 	_spawn_candy(Vector3(22.0, 0.55, -226.0), 5)
-	_spawn_chest("COFFRE DU SANCTUAIRE", Vector3(-8.0, 0.05, -233.0), 12, &"sanctuary_treasure")
+	_spawn_chest(tr("CHASE_GAME_CHEST_SANCTUARY"), Vector3(-8.0, 0.05, -233.0), 12, &"sanctuary_treasure")
 
 
 func _spawn_unlock_chains() -> void:
-	_spawn_key_item("CLÉ CARAMEL", Vector3(-4.0, 0.45, -66.0), &"caramel_key")
+	_spawn_key_item(tr("CHASE_GAME_KEY_CARAMEL_KEY"), Vector3(-4.0, 0.45, -66.0), &"caramel_key")
 	_spawn_support(Vector3(-4.0, 0.02, -66.0), Color(1.0, 0.48, 0.08))
-	_spawn_device("CASIER HANTÉ", Vector3(-11.0, 0.05, -92.0), &"caramel_key", &"ghost_lamp", &"forest_locker")
-	_spawn_key_item("CRISTAL D’ÉNERGIE SUCRÉE", Vector3(20.0, 0.45, -95.0), &"sugar_crystal")
-	_spawn_device("MÉCANISME MAGIQUE", Vector3(-10.0, 0.05, -120.0), &"sugar_crystal", &"crystal_chest")
-	_spawn_key_item("CAPSULE DE SIROP", Vector3(-5.0, 0.45, -148.0), &"syrup_capsule")
-	_spawn_device("DISTRIBUTEUR DE SIROP", Vector3(-8.0, 0.05, -134.0), &"syrup_capsule", &"spray_refill")
-	_spawn_key_item("INSIGNE SPECTRAL", Vector3(14.0, 0.45, -207.0), &"spectral_badge")
-	_spawn_device("AUTEL SPECTRAL", Vector3(20.0, 0.05, -236.0), &"spectral_badge", &"spectral_secret")
+	_spawn_device(tr("CHASE_GAME_DEVICE_HAUNTED_LOCKER"), Vector3(-11.0, 0.05, -92.0), &"caramel_key", &"ghost_lamp", &"forest_locker")
+	_spawn_key_item(tr("CHASE_GAME_PICKUP_SUGAR_CRYSTAL"), Vector3(20.0, 0.45, -95.0), &"sugar_crystal")
+	_spawn_device(tr("CHASE_GAME_DEVICE_MAGIC_MECHANISM"), Vector3(-10.0, 0.05, -120.0), &"sugar_crystal", &"crystal_chest")
+	_spawn_key_item(tr("CHASE_GAME_KEY_SYRUP_CAPSULE"), Vector3(-5.0, 0.45, -148.0), &"syrup_capsule")
+	_spawn_device(tr("CHASE_GAME_DEVICE_SYRUP_DISPENSER"), Vector3(-8.0, 0.05, -134.0), &"syrup_capsule", &"spray_refill")
+	_spawn_key_item(tr("CHASE_GAME_KEY_SPECTRAL_BADGE"), Vector3(14.0, 0.45, -207.0), &"spectral_badge")
+	_spawn_device(tr("CHASE_GAME_DEVICE_SPECTRAL_ALTAR"), Vector3(20.0, 0.05, -236.0), &"spectral_badge", &"spectral_secret")
 
 
 func _spawn_candy(position_3d: Vector3, amount: int) -> void:
 	_spawn_pickup(
 		FactionFightPickup.Kind.CANDY,
-		"CANDY +%d" % amount,
+		tr("CHASE_GAME_PICKUP_CANDY") % amount,
 		position_3d,
 		amount,
 		&"",
@@ -401,7 +401,7 @@ func _on_shared_candy_collected(pickup: FactionFightPickup) -> void:
 		return
 	_add_candy(pickup.candy_value, true)
 	_update_hud()
-	_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
+	_hud.show_gameplay_message(tr("CHASE_GAME_MSG_CANDY_GAIN") % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 
 
 func _update_zone_progress() -> void:
@@ -410,7 +410,7 @@ func _update_zone_progress() -> void:
 			break
 		_zones_completed += 1
 		_add_candy(5, true)
-		_hud.show_gameplay_message("ZONE %d / 4 • RÉCOMPENSE GARANTIE +5 CANDY" % _zones_completed, FactionFightHUD.MessageCategory.SUCCESS)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_ZONE_REWARD") % _zones_completed, FactionFightHUD.MessageCategory.SUCCESS)
 		_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.62, 0.18))
 
 
@@ -425,7 +425,7 @@ func _update_mission(delta: float) -> void:
 	if not _mission_hint_shown and _mission_elapsed >= RESCUE_HINT_DELAY and _mission_index < MISSIONS.size():
 		_mission_hint_shown = true
 		_ensure_mission_tool()
-		_hud.show_gameplay_message("INDICE • %s" % String(MISSIONS[_mission_index]["hint"]), FactionFightHUD.MessageCategory.INFORMATION)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_HINT") % tr(String(MISSIONS[_mission_index]["hint"])), FactionFightHUD.MessageCategory.INFORMATION)
 	_refresh_mission_hud()
 
 
@@ -445,12 +445,12 @@ func _refresh_mission_hud() -> void:
 	var distance := _player.global_position.distance_to(target)
 	if _mission_index < MISSIONS.size():
 		var mission: Dictionary = MISSIONS[_mission_index]
-		var rescue_text := String(mission["hint"]) if _mission_hint_shown else ""
+		var rescue_text := tr(String(mission["hint"])) if _mission_hint_shown else ""
 		if distance > 75.0:
-			rescue_text = "RETOUR VERS LA MISSION"
-		_hud.set_objective(String(mission["title"]), _mission_objective_text(), distance, _mission_direction_symbol(target), rescue_text)
+			rescue_text = tr("CHASE_GAME_HINT_BACK_TO_MISSION")
+		_hud.set_objective(tr(String(mission["title"])), _mission_objective_text(), distance, _mission_direction_symbol(target), rescue_text)
 	else:
-		_hud.set_objective("MISSIONS ACCOMPLIES", "Rejoins le portail et termine CHASEWEEN.", distance, _mission_direction_symbol(target))
+		_hud.set_objective(tr("CHASE_GAME_MISSIONS_DONE_TITLE"), tr("CHASE_GAME_MISSIONS_DONE_OBJECTIVE"), distance, _mission_direction_symbol(target))
 
 
 func _mission_target() -> Vector3:
@@ -472,15 +472,15 @@ func _mission_target() -> Vector3:
 func _mission_objective_text() -> String:
 	if _mission_index == 0:
 		if not _tool_has_charges(&"candy_cane") and not _mission_tactical_done.get(&"garden_reserve", false):
-			return "Ramasse le bâton bonbon sur son socle."
+			return tr("CHASE_GAME_OBJECTIVE_PICK_CANDY_CANE")
 		if not _mission_tactical_done.get(&"garden_reserve", false):
-			return "Oriente-toi vers le Gobelin puis utilise le bâton au clic gauche."
-		return "Le Gobelin est repoussé : ouvre la réserve."
+			return tr("CHASE_GAME_OBJECTIVE_USE_CANDY_CANE")
+		return tr("CHASE_GAME_OBJECTIVE_OPEN_RESERVE")
 	if _mission_index == 1:
-		return "Ouvre le casier gardé par le Paladin avec la clé." if _inventory.get(&"caramel_key", false) else "Trouve la clé caramel au bord du chemin."
+		return tr("CHASE_GAME_OBJECTIVE_OPEN_LOCKER") if _inventory.get(&"caramel_key", false) else tr("CHASE_GAME_OBJECTIVE_FIND_KEY")
 	if _mission_index == 2:
-		return "L’affinité est testée : ouvre la cache de sirop." if _mission_tactical_done.get(&"syrup_cache", false) else "Oriente-toi vers le Conquérant puis utilise un outil au clic gauche."
-	return String(MISSIONS[_mission_index]["objective"]) if _mission_index < MISSIONS.size() else "Rejoins le portail."
+		return tr("CHASE_GAME_OBJECTIVE_OPEN_SYRUP_CACHE") if _mission_tactical_done.get(&"syrup_cache", false) else tr("CHASE_GAME_OBJECTIVE_TEST_AFFINITY")
+	return tr(String(MISSIONS[_mission_index]["objective"])) if _mission_index < MISSIONS.size() else tr("CHASE_GAME_OBJECTIVE_REACH_PORTAL")
 
 
 func _is_active_mission(mission_id: StringName) -> bool:
@@ -507,12 +507,12 @@ func _ensure_mission_tool() -> void:
 		if not _tool_has_charges(&"candy_cane"):
 			_equip_tool(&"candy_cane", 1)
 			_objective_marker.global_position = _mission_target()
-			_hud.show_gameplay_message("AIDE • 1 charge de bâton restaurée", FactionFightHUD.MessageCategory.INFORMATION)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_HELP_CANE_RESTORED"), FactionFightHUD.MessageCategory.INFORMATION)
 	elif _mission_index == 2 and not _mission_tactical_done.get(&"syrup_cache", false):
 		if _tool_slots.is_empty():
 			_equip_tool(&"candy_cane", 1)
 			_objective_marker.global_position = _mission_target()
-			_hud.show_gameplay_message("AIDE • 1 outil restauré pour tester l’affinité", FactionFightHUD.MessageCategory.INFORMATION)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_HELP_TOOL_RESTORED"), FactionFightHUD.MessageCategory.INFORMATION)
 
 
 func _tool_has_charges(tool_id: StringName) -> bool:
@@ -528,13 +528,13 @@ func _complete_mission(mission_id: StringName, reward_amount: int = 0) -> void:
 	_mission_index += 1
 	_zones_completed = maxi(_zones_completed, _mission_index)
 	_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.72, 0.16))
-	var reward_text := " • +%d CANDY" % reward_amount if reward_amount > 0 else ""
-	_hud.show_gameplay_message("MISSION ACCOMPLIE • %d / 4%s" % [_mission_index, reward_text], FactionFightHUD.MessageCategory.SUCCESS)
+	var message := tr("CHASE_GAME_MSG_MISSION_DONE_REWARD") % [_mission_index, reward_amount] if reward_amount > 0 else tr("CHASE_GAME_MSG_MISSION_DONE") % _mission_index
+	_hud.show_gameplay_message(message, FactionFightHUD.MessageCategory.SUCCESS)
 	_refresh_mission()
 
 
 func _celebrate_chest(pickup: FactionFightPickup, amount: int) -> void:
-	_hud.show_gameplay_message("COFFRE OUVERT • RÉCOMPENSE +%d CANDY" % amount, FactionFightHUD.MessageCategory.SUCCESS)
+	_hud.show_gameplay_message(tr("CHASE_GAME_MSG_CHEST_OPENED") % amount, FactionFightHUD.MessageCategory.SUCCESS)
 	for index: int in 3:
 		var candy_scene := CRYSTALBERRY_SCENE if index % 2 == 0 else PUMPKIN_SCENE
 		var candy_visual := candy_scene.instantiate() as Node3D
@@ -568,13 +568,13 @@ func _update_interaction_prompt() -> void:
 			nearest_distance = distance
 			_nearest_interactive = pickup
 	if _nearest_interactive != null:
-		_hud.set_prompt("E  •  %s" % _nearest_interactive.display_name)
+		_hud.set_prompt(tr("CHASE_GAME_PROMPT_INTERACT") % _nearest_interactive.display_name)
 		return
 	if _is_player_near_portal():
 		if _mission_index >= MISSIONS.size():
-			_hud.set_prompt("E  •  QUITTER CHASEWEEN")
+			_hud.set_prompt(tr("CHASE_GAME_PROMPT_EXIT"))
 		else:
-			_hud.set_prompt("Termine d’abord la mission active")
+			_hud.set_prompt(tr("CHASE_GAME_PROMPT_FINISH_MISSION"))
 		return
 	_hud.set_prompt("")
 
@@ -587,7 +587,7 @@ func _interact() -> void:
 		if _mission_index >= MISSIONS.size():
 			_complete_world()
 		else:
-			_hud.show_gameplay_message("Le portail attend les quatre missions", FactionFightHUD.MessageCategory.INFORMATION)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_PORTAL_WAITS"), FactionFightHUD.MessageCategory.INFORMATION)
 
 
 func _is_player_near_portal() -> bool:
@@ -617,16 +617,16 @@ func _portal_objective_position() -> Vector3:
 
 func _collect_pickup(pickup: FactionFightPickup) -> void:
 	if pickup.mission_id != &"" and not _is_active_mission(pickup.mission_id):
-		_hud.show_gameplay_message("Cet objectif appartient à une mission suivante", FactionFightHUD.MessageCategory.INFORMATION)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_OBJECTIVE_LATER"), FactionFightHUD.MessageCategory.INFORMATION)
 		return
 	if pickup.mission_id == &"garden_reserve" and not _mission_tactical_done.get(&"garden_reserve", false):
-		_hud.show_gameplay_message("Repousse d’abord le Gobelin avec ton bâton", FactionFightHUD.MessageCategory.OBJECTIVE)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_REPEL_GOBLIN_FIRST"), FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if pickup.mission_id == &"syrup_cache" and not _mission_tactical_done.get(&"syrup_cache", false):
-		_hud.show_gameplay_message("Teste d’abord une affinité sur le Conquérant", FactionFightHUD.MessageCategory.OBJECTIVE)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_TEST_AFFINITY_FIRST"), FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if pickup.kind == FactionFightPickup.Kind.DEVICE and not _inventory.get(pickup.required_item_id, false):
-		_hud.show_gameplay_message("NÉCESSITE : %s" % KEY_ITEM_NAMES.get(pickup.required_item_id, "OBJET MANQUANT"), FactionFightHUD.MessageCategory.OBJECTIVE)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_REQUIRES") % tr(String(KEY_ITEM_NAMES.get(pickup.required_item_id, "CHASE_GAME_MISSING_ITEM"))), FactionFightHUD.MessageCategory.OBJECTIVE)
 		return
 	if not pickup.collect_once():
 		return
@@ -634,18 +634,18 @@ func _collect_pickup(pickup: FactionFightPickup) -> void:
 	match pickup.kind:
 		FactionFightPickup.Kind.CANDY:
 			_add_candy(pickup.candy_value, true)
-			_hud.show_gameplay_message("+%d CANDY" % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_CANDY_GAIN") % pickup.candy_value, FactionFightHUD.MessageCategory.SUCCESS)
 		FactionFightPickup.Kind.CHEST:
 			_add_candy(pickup.candy_value, true)
 			_celebrate_chest(pickup, pickup.candy_value)
 		FactionFightPickup.Kind.ITEM:
 			_equip_tool(pickup.item_id, pickup.item_charges)
-			_hud.show_gameplay_message("OBJET ACTIF : %s ×%d • CLIC GAUCHE POUR UTILISER" % [ITEM_NAMES.get(_active_item, "OBJET"), _item_charges], FactionFightHUD.MessageCategory.INFORMATION)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_ACTIVE_ITEM") % [tr(String(ITEM_NAMES.get(_active_item, "CHASE_GAME_ITEM_FALLBACK"))), _item_charges], FactionFightHUD.MessageCategory.INFORMATION)
 			if _mission_index == 0:
 				_refresh_mission()
 		FactionFightPickup.Kind.KEY_ITEM:
 			_inventory[pickup.item_id] = true
-			_hud.show_gameplay_message("TROUVÉ : %s" % KEY_ITEM_NAMES.get(pickup.item_id, "OBJET"), FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_FOUND") % tr(String(KEY_ITEM_NAMES.get(pickup.item_id, "CHASE_GAME_ITEM_FALLBACK"))), FactionFightHUD.MessageCategory.SUCCESS)
 			if pickup.item_id == &"caramel_key" and _mission_index == 1:
 				_refresh_mission()
 		FactionFightPickup.Kind.DEVICE:
@@ -660,24 +660,24 @@ func _apply_unlock_reward(reward_id: StringName) -> void:
 	match reward_id:
 		&"ghost_lamp":
 			_equip_tool(&"ghost_lamp", 4)
-			_hud.show_gameplay_message("LAMPE FANTÔME DÉBLOQUÉE !", FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_GHOST_LAMP_UNLOCKED"), FactionFightHUD.MessageCategory.SUCCESS)
 		&"crystal_chest":
 			_add_candy(7, true)
-			_hud.show_gameplay_message("MÉCANISME ACTIVÉ • +7 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_MECHANISM_ACTIVATED"), FactionFightHUD.MessageCategory.SUCCESS)
 		&"spray_refill":
 			_equip_tool(&"sugar_spray", 5)
 			_add_candy(3, true)
-			_hud.show_gameplay_message("SPRAY RECHARGÉ • SECRET +3 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_SPRAY_REFILLED"), FactionFightHUD.MessageCategory.SUCCESS)
 		&"spectral_secret":
 			_add_candy(10, true)
-			_hud.show_gameplay_message("PASSAGE SECRET DÉCOUVERT • +10 CANDY", FactionFightHUD.MessageCategory.SUCCESS)
+			_hud.show_gameplay_message(tr("CHASE_GAME_MSG_SECRET_PASSAGE"), FactionFightHUD.MessageCategory.SUCCESS)
 		_:
 			push_warning("FactionFight: récompense inconnue %s" % reward_id)
 
 
 func _use_active_item() -> void:
 	if _active_item == &"" or _item_charges <= 0:
-		_hud.show_gameplay_message("Aucun objet actif", FactionFightHUD.MessageCategory.DANGER)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_NO_ACTIVE_ITEM"), FactionFightHUD.MessageCategory.DANGER)
 		return
 	match _active_item:
 		&"candy_cane":
@@ -708,11 +708,11 @@ func _equip_tool(tool_id: StringName, charges: int) -> void:
 
 func _switch_tool() -> void:
 	if _tool_slots.size() < 2:
-		_hud.show_gameplay_message("Un seul outil équipé", FactionFightHUD.MessageCategory.INFORMATION)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_ONE_TOOL_ONLY"), FactionFightHUD.MessageCategory.INFORMATION)
 		return
 	_active_tool_index = (_active_tool_index + 1) % _tool_slots.size()
 	_sync_active_tool()
-	_hud.show_gameplay_message("OUTIL : %s" % ITEM_NAMES.get(_active_item, "OBJET"), FactionFightHUD.MessageCategory.INFORMATION)
+	_hud.show_gameplay_message(tr("CHASE_GAME_MSG_TOOL") % tr(String(ITEM_NAMES.get(_active_item, "CHASE_GAME_ITEM_FALLBACK"))), FactionFightHUD.MessageCategory.INFORMATION)
 
 
 func _sync_active_tool() -> void:
@@ -822,21 +822,21 @@ func _use_candy_cane() -> void:
 	var targets := _monsters_in_cone(6.0, deg_to_rad(75.0))
 	var affected := targets.size()
 	if affected == 0:
-		_hud.show_gameplay_message("Aucun monstre assez proche", FactionFightHUD.MessageCategory.DANGER)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_NO_MONSTER_NEAR"), FactionFightHUD.MessageCategory.DANGER)
 		return
 	for monster: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"candy_cane", monster)
 		monster.apply_repel(_player.global_position, 1.5 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 0.6, 8.0 if reaction == FactionFightAffinityRules.Reaction.EFFECTIVE else 2.6)
 		if monster.monster_type == &"conqueror":
 			monster.apply_stun(0.8)
-	_consume_charge("BÂTON BONBON • ARC TACTIQUE !")
+	_consume_charge(tr("CHASE_GAME_MSG_CANDY_CANE_USED"))
 	VFX.spawn_arc(self, _player.global_transform, 2.6, Color(1.0, 0.22, 0.08))
 
 
 func _use_sugar_spray() -> void:
 	var targets := _monsters_in_cone(7.0, deg_to_rad(30.0))
 	if targets.is_empty():
-		_hud.show_gameplay_message("Aucun monstre à portée du spray", FactionFightHUD.MessageCategory.DANGER)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_NO_MONSTER_SPRAY"), FactionFightHUD.MessageCategory.DANGER)
 		return
 	for target: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"sugar_spray", target)
@@ -847,13 +847,13 @@ func _use_sugar_spray() -> void:
 				target.apply_slow(2.0, 0.72)
 			FactionFightAffinityRules.Reaction.INVERSE:
 				target.apply_enrage(5.0)
-	_consume_charge("SPRAY SUCRÉ • PROJECTION TACTIQUE !")
+	_consume_charge(tr("CHASE_GAME_MSG_SUGAR_SPRAY_USED"))
 	VFX.spawn_cone(self, _player.global_transform, 7.0, deg_to_rad(30.0), Color(1.0, 0.12, 0.62, 0.32))
 
 
 func _use_caramel_shield() -> void:
 	_shield_time = 8.0
-	_consume_charge("BOUCLIER CARAMEL • PROTECTION 8 S")
+	_consume_charge(tr("CHASE_GAME_MSG_CARAMEL_SHIELD_USED"))
 	VFX.spawn_dome(self, _player.global_position, 1.65, Color(1.0, 0.55, 0.08, 0.24), 8.0)
 
 
@@ -861,7 +861,7 @@ func _use_ghost_lamp() -> void:
 	VFX.pulse_spectral_beam(_aim_preview)
 	var targets := _monsters_in_cone(VFX.GHOST_BEAM_DISTANCE, VFX.GHOST_BEAM_HALF_ANGLE)
 	if targets.is_empty():
-		_hud.show_gameplay_message("Aucun monstre dans le faisceau", FactionFightHUD.MessageCategory.DANGER)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_NO_MONSTER_BEAM"), FactionFightHUD.MessageCategory.DANGER)
 		return
 	for target: FactionFightMonster in targets:
 		var reaction := _apply_affinity(&"ghost_lamp", target)
@@ -872,7 +872,7 @@ func _use_ghost_lamp() -> void:
 			target.apply_slow(4.0, 0.45)
 		else:
 			target.apply_slow(1.0, 0.8)
-	_consume_charge("LAMPE FANTÔME • FAISCEAU SPECTRAL !")
+	_consume_charge(tr("CHASE_GAME_MSG_GHOST_LAMP_USED"))
 
 
 func _monsters_in_cone(max_distance: float, half_angle: float) -> Array[FactionFightMonster]:
@@ -946,7 +946,7 @@ func _on_player_bumped(monster: FactionFightMonster, direction: Vector3, strengt
 		if reaction == FactionFightAffinityRules.Reaction.INVERSE:
 			_shield_time = maxf(_shield_time - 2.0, 0.5)
 		monster.apply_repel(_player.global_position, 1.35, 6.5)
-		_hud.show_gameplay_message("BOUCLIER ACTIF • AUCUN CANDY VOLÉ", FactionFightHUD.MessageCategory.SUCCESS)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_SHIELD_ACTIVE"), FactionFightHUD.MessageCategory.SUCCESS)
 		_spawn_burst(_player.global_position + Vector3.UP, FactionFightAffinityRules.color(reaction))
 		return
 	_player.move_and_collide(direction * strength)
@@ -960,14 +960,14 @@ func _steal_candy(monster: FactionFightMonster) -> int:
 	var requested_amount := _roll_theft_amount()
 	var stolen_amount := mini(requested_amount, _candy)
 	if stolen_amount <= 0:
-		_hud.show_gameplay_message("%s n’a trouvé aucun CANDY" % monster.display_name, FactionFightHUD.MessageCategory.INFORMATION)
+		_hud.show_gameplay_message(tr("CHASE_GAME_MSG_NOTHING_TO_STEAL") % monster.display_name, FactionFightHUD.MessageCategory.INFORMATION)
 		return 0
 	_candy -= stolen_amount
 	result_data.candy_amount = _candy
 	_theft_immunity_time = THEFT_IMMUNITY_DURATION
 	_update_hud()
 	_hud.pulse_candy(Color(1.0, 0.25, 0.14))
-	_hud.show_gameplay_message("-%d CANDY • VOLÉ PAR %s • IMMUNITÉ 3 S" % [stolen_amount, monster.display_name], FactionFightHUD.MessageCategory.DANGER)
+	_hud.show_gameplay_message(tr("CHASE_GAME_MSG_CANDY_STOLEN") % [stolen_amount, monster.display_name], FactionFightHUD.MessageCategory.DANGER)
 	_spawn_burst(_player.global_position + Vector3.UP, Color(1.0, 0.24, 0.08))
 	VFX.spawn_dome(self, _player.global_position, 1.0, Color(0.3, 0.85, 1.0, 0.14), THEFT_IMMUNITY_DURATION)
 	return stolen_amount
@@ -977,9 +977,11 @@ func _roll_theft_amount() -> int:
 	return _random.randi_range(1, 5)
 
 
-func _complete_world(exit_mode: String = "PORTAIL") -> void:
+func _complete_world(exit_mode: String = "") -> void:
 	if _completed:
 		return
+	if exit_mode.is_empty():
+		exit_mode = tr("CHASE_GAME_EXIT_PORTAL")
 	_completed = true
 	_finishing = false
 	var guarantee_added := _ensure_exit_minimum()
@@ -1027,35 +1029,39 @@ func _add_candy(amount: int, play_collect_sound: bool = false) -> void:
 
 
 func _update_hud() -> void:
-	var item_name := String(ITEM_NAMES.get(_active_item, ""))
+	var item_name := _translated_name(ITEM_NAMES, _active_item)
 	_hud.update_status(_candy, mini(_mission_index, 4), item_name, _item_charges, _shield_time)
 	var secondary_name := ""
 	var secondary_charges := 0
 	if _tool_slots.size() == 2:
 		var secondary_index := (_active_tool_index + 1) % 2
-		secondary_name = String(ITEM_NAMES.get(StringName(_tool_slots[secondary_index].get("id", &"")), ""))
+		secondary_name = _translated_name(ITEM_NAMES, StringName(_tool_slots[secondary_index].get("id", &"")))
 		secondary_charges = int(_tool_slots[secondary_index].get("charges", 0))
 	_hud.update_tools(item_name, _item_charges, secondary_name, secondary_charges)
 	var found_names: Array[String] = []
 	for item_id: StringName in _inventory:
 		if _inventory[item_id]:
-			found_names.append(String(KEY_ITEM_NAMES.get(item_id, item_id)))
+			found_names.append(_translated_name(KEY_ITEM_NAMES, item_id))
 	_hud.update_inventory(" • ".join(found_names))
+
+
+func _translated_name(names: Dictionary, id: StringName) -> String:
+	return tr(String(names[id])) if names.has(id) else ""
 
 
 func _refresh_journal() -> void:
 	if _hud == null:
 		return
 	var entries: Array[String] = []
-	var monster_names: Dictionary = {&"goblin": "PEPPERMINT GOBLIN", &"paladin": "PUMPKIN PALADIN", &"conqueror": "CANDY CORN CONQUEROR"}
+	var monster_names: Dictionary = {&"goblin": "CHASE_GAME_JOURNAL_GOBLIN", &"paladin": "CHASE_GAME_JOURNAL_PALADIN", &"conqueror": "CHASE_GAME_JOURNAL_CONQUEROR"}
 	for monster_type: StringName in monster_names:
-		entries.append(String(monster_names[monster_type]))
+		entries.append(tr(String(monster_names[monster_type])))
 		for item_id: StringName in ITEM_NAMES:
 			var key := "%s:%s" % [item_id, monster_type]
 			var result := "?"
 			if _discoveries.has(key):
 				result = FactionFightAffinityRules.label(_discoveries[key])
-			entries.append("  %s : %s" % [ITEM_NAMES[item_id], result])
+			entries.append("  %s : %s" % [tr(String(ITEM_NAMES[item_id])), result])
 		entries.append("")
 	_hud.set_journal(entries)
 
@@ -1107,12 +1113,12 @@ func _update_corruption(delta: float) -> void:
 
 func _corruption_phase_name(seconds: float) -> String:
 	if seconds < 60.0:
-		return "LES DERNIÈRES DOUCEURS"
+		return tr("CHASE_GAME_PHASE_1")
 	if seconds < 120.0:
-		return "L’ÉVEIL DE LA CORRUPTION"
+		return tr("CHASE_GAME_PHASE_2")
 	if seconds < 180.0:
-		return "LA TEMPÊTE DES CONFISERIES"
-	return "LE DERNIER SORT"
+		return tr("CHASE_GAME_PHASE_3")
+	return tr("CHASE_GAME_PHASE_4")
 
 
 func _begin_final_spell() -> void:
@@ -1127,7 +1133,7 @@ func _begin_final_spell() -> void:
 
 func _finish_final_spell() -> void:
 	if not _completed:
-		_complete_world("DERNIER SORT")
+		_complete_world(tr("CHASE_GAME_EXIT_FINAL_SPELL"))
 
 
 func _stop_world_interactions() -> void:
@@ -1157,7 +1163,7 @@ func _create_chewingland_heart() -> void:
 	_heart = PickupScript.new() as FactionFightPickup
 	_heart.name = "ChewinglandHeart"
 	add_child(_heart)
-	_heart.configure(FactionFightPickup.Kind.KEY_ITEM, "CŒUR DE CHEWINGLAND", HEART_POSITION, 0, &"chewingland_heart")
+	_heart.configure(FactionFightPickup.Kind.KEY_ITEM, tr("CHASE_GAME_KEY_CHEWINGLAND_HEART"), HEART_POSITION, 0, &"chewingland_heart")
 	_pickups.append(_heart)
 
 
