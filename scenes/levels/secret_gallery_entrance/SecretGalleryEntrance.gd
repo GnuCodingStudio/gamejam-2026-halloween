@@ -121,7 +121,6 @@ func _restore_player_after_gallery() -> void:
 	if _player == null or not get_tree().has_meta(LOBBY_RETURN_META):
 		return
 	_player.global_position = return_spawn.global_position
-	_player.rotation.y = return_spawn.global_rotation.y
 	_player.velocity = Vector3.ZERO
 	get_tree().remove_meta(LOBBY_RETURN_META)
 	_accepting_input = false

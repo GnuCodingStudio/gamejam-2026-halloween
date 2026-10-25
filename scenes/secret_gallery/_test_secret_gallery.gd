@@ -15,6 +15,8 @@ const ARCHIVE_PATHS: Array[String] = [
 ]
 
 var _failures: Array[String] = []
+var _normal_lobby_player_basis: Basis = Basis.IDENTITY
+var _normal_lobby_camera_basis: Basis = Basis.IDENTITY
 
 
 func _ready() -> void:
@@ -27,14 +29,31 @@ func _run() -> void:
 	var worlds_before: int = ProgressionService.get_completed_world_count()
 	var name_before: String = ProgressionService.get_player_name()
 
+	await _test_normal_lobby_controls()
 	await _test_lobby_entrance()
 	await _test_gallery_scene()
 	await _test_lobby_return()
+	await _test_repeated_lobby_return()
 
 	_check(ProgressionService.get_total_candy() == candy_before, "La visite ne modifie aucun CANDY")
 	_check(ProgressionService.get_completed_world_count() == worlds_before, "La visite ne modifie aucun monde")
 	_check(ProgressionService.get_player_name() == name_before, "La visite ne modifie pas le pseudo")
 	_finish()
+
+
+func _test_normal_lobby_controls() -> void:
+	var lobby: Node3D = await _instantiate_scene(LOBBY_SCENE_PATH) as Node3D
+	var player: CharacterBody3D = lobby.get_node_or_null("Player") as CharacterBody3D if lobby != null else null
+	var camera: Camera3D = player.get_node_or_null("CameraPivot/SpringArm/Camera") as Camera3D if player != null else null
+	_check(player != null and camera != null and camera.current, "Le lobby normal active le joueur et sa caméra")
+	if player != null and camera != null:
+		_normal_lobby_player_basis = player.global_basis.orthonormalized()
+		_normal_lobby_camera_basis = camera.global_basis.orthonormalized()
+		_check_camera_rotation(player, "chargement normal du lobby")
+		await _check_movement_directions(player, camera, "chargement normal du lobby")
+	if lobby != null:
+		lobby.queue_free()
+		await get_tree().process_frame
 
 
 func _test_lobby_entrance() -> void:
@@ -53,7 +72,6 @@ func _test_lobby_entrance() -> void:
 		lobby.queue_free()
 		await get_tree().process_frame
 		return
-
 	var horizontal_distance: float = Vector2(
 		entrance.global_position.x - lamp.global_position.x,
 		entrance.global_position.z - lamp.global_position.z
@@ -230,9 +248,84 @@ func _test_lobby_return() -> void:
 		_check(return_distance < 0.05, "Le joueur réapparaît au point sûr près du lampadaire")
 		_check(not entrance._accepting_input and entrance._press_count == 0, "Le E de sortie ne rouvre pas immédiatement la galerie")
 	Input.action_release(&"action_activate")
+	if player != null:
+		await _check_returned_player_controls(player, "premier retour")
 	_check(not get_tree().has_meta(SecretGalleryEntrance.LOBBY_RETURN_META), "Le point de retour ne perturbe pas les entrées suivantes")
 	lobby.queue_free()
 	await get_tree().process_frame
+
+
+func _test_repeated_lobby_return() -> void:
+	get_tree().set_meta(SecretGalleryEntrance.LOBBY_RETURN_META, true)
+	var lobby: Node3D = await _instantiate_scene(LOBBY_SCENE_PATH) as Node3D
+	var player: CharacterBody3D = lobby.get_node_or_null("Player") as CharacterBody3D if lobby != null else null
+	_check(player != null, "Un second retour recharge le joueur du lobby")
+	if player != null:
+		await _check_returned_player_controls(player, "second retour")
+	_check(not get_tree().has_meta(SecretGalleryEntrance.LOBBY_RETURN_META), "Le second retour consomme aussi son état temporaire")
+	if lobby != null:
+		lobby.queue_free()
+		await get_tree().process_frame
+
+
+func _check_returned_player_controls(player: CharacterBody3D, cycle_label: String) -> void:
+	var camera: Camera3D = player.get_node_or_null("CameraPivot/SpringArm/Camera") as Camera3D
+	_check(camera != null and camera.current, "La caméra du joueur est active après le %s" % cycle_label)
+	if DisplayServer.get_name() != "headless":
+		_check(Input.mouse_mode == Input.MOUSE_MODE_CAPTURED, "La souris est recapturée après le %s" % cycle_label)
+	_check(
+		player.global_basis.orthonormalized().is_equal_approx(_normal_lobby_player_basis),
+		"Le repère du joueur retrouve l'orientation normale après le %s" % cycle_label
+	)
+	if camera == null:
+		return
+	_check(
+		camera.global_basis.orthonormalized().is_equal_approx(_normal_lobby_camera_basis),
+		"La caméra retrouve l'orientation normale après le %s" % cycle_label
+	)
+	_check_camera_rotation(player, cycle_label)
+	await _check_movement_directions(player, camera, cycle_label)
+
+
+func _check_camera_rotation(player: CharacterBody3D, cycle_label: String) -> void:
+	var camera_pivot: CameraPivot = player.get_node_or_null("CameraPivot") as CameraPivot
+	_check(camera_pivot != null, "Le pivot caméra existe après le %s" % cycle_label)
+	if camera_pivot == null:
+		return
+	var initial_rotation: Vector3 = camera_pivot.rotation
+	var mouse_motion := InputEventMouseMotion.new()
+	mouse_motion.screen_relative = Vector2(12.0, -8.0)
+	camera_pivot._unhandled_input(mouse_motion)
+	_check(not camera_pivot.rotation.is_equal_approx(initial_rotation), "La souris fait tourner la caméra après le %s" % cycle_label)
+	camera_pivot.rotation = initial_rotation
+
+
+func _check_movement_directions(player: CharacterBody3D, camera: Camera3D, cycle_label: String) -> void:
+	var actions: Array[StringName] = [&"move_up", &"move_down", &"move_left", &"move_right"]
+	var input_directions: Array[Vector2] = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var initial_transform: Transform3D = player.global_transform
+	for index: int in range(actions.size()):
+		player.global_transform = initial_transform
+		player.velocity = Vector3.ZERO
+		await get_tree().physics_frame
+		var input_direction: Vector2 = input_directions[index]
+		var expected_direction: Vector3 = camera.global_basis * Vector3(input_direction.x, 0.0, input_direction.y)
+		expected_direction.y = 0.0
+		expected_direction = expected_direction.normalized()
+		var start_position: Vector3 = player.global_position
+		Input.action_press(actions[index])
+		for _frame: int in range(8):
+			await get_tree().physics_frame
+		Input.action_release(actions[index])
+		var displacement: Vector3 = player.global_position - start_position
+		displacement.y = 0.0
+		var alignment: float = displacement.normalized().dot(expected_direction) if not displacement.is_zero_approx() else -1.0
+		_check(
+			displacement.length() > 0.1 and alignment > 0.8,
+			"%s reste aligné sur la caméra après le %s" % [actions[index], cycle_label]
+		)
+	player.global_transform = initial_transform
+	player.velocity = Vector3.ZERO
 
 
 func _instantiate_scene(scene_path: String) -> Node:
