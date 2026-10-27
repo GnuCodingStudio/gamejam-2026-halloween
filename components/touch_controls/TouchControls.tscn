@@ -1,0 +1,121 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://components/touch_controls/TouchControls.gd" id="1_controls"]
+[ext_resource type="Script" path="res://components/touch_controls/TouchJoystick.gd" id="2_joystick"]
+[ext_resource type="Script" path="res://components/touch_controls/TouchActionButton.gd" id="3_button"]
+
+[node name="TouchControls" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_controls")
+
+[node name="Controls" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Joystick" type="Control" parent="Controls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_joystick")
+
+[node name="JumpButton" type="Control" parent="Controls"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -245.0
+offset_top = -265.0
+offset_right = -75.0
+offset_bottom = -95.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("3_button")
+action = &"move_jump"
+icon = 1
+
+[node name="InteractButton" type="Control" parent="Controls"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -385.0
+offset_top = -375.0
+offset_right = -255.0
+offset_bottom = -245.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("3_button")
+action = &"action_activate"
+label_text = "E"
+
+[node name="AttackButton" type="Control" parent="Controls"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -445.0
+offset_top = -205.0
+offset_right = -295.0
+offset_bottom = -55.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("3_button")
+action = &"action_attack"
+label_text = "A"
+
+[node name="SwitchToolButton" type="Control" parent="Controls"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -420.0
+offset_right = -80.0
+offset_bottom = -320.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("3_button")
+action = &"action_switch_tool"
+label_text = "Q"
+
+[node name="JournalButton" type="Control" parent="Controls"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -125.0
+offset_top = 35.0
+offset_right = -35.0
+offset_bottom = 125.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("3_button")
+action = &"action_journal"
+label_text = "J"

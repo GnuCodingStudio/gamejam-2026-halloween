@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scenes/minigames/candy_bucket/ToxicGasEffect.gd" id="7_gas"]
 [ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/ResultOverlay.tscn" id="8_result"]
 [ext_resource type="AudioStream" uid="uid://ce11blu4iphxr" path="res://assets/audio/collect.wav" id="9_collect"]
+[ext_resource type="PackedScene" path="res://components/touch_controls/TouchControls.tscn" id="touch_controls"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
 bg_color = Color(0.0705882, 0.0470588, 0.105882, 0.94)
@@ -210,3 +211,7 @@ vertical_alignment = 1
 
 [node name="ResultOverlay" parent="." instance=ExtResource("8_result")]
 unique_name_in_owner = true
+
+[node name="TouchControls" parent="." instance=ExtResource("touch_controls")]
+show_jump = false
+show_interact = false

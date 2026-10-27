@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://btocryl1so247" path="res://objects/player.tscn" id="24_ic5u1"]
 [ext_resource type="PackedScene" uid="uid://d3csxeb3ls6y2" path="res://components/capture_mouse/capture_on_click.tscn" id="25_yq5gd"]
 [ext_resource type="Script" uid="uid://musdfndqfksn" path="res://scenes/minigames/chaseween/gameplay/FactionFightGameplay.gd" id="26_ftu1b"]
+[ext_resource type="PackedScene" path="res://components/touch_controls/TouchControls.tscn" id="touch_controls"]
 
 [sub_resource type="Environment" id="Environment_lon4l"]
 fog_enabled = true
@@ -711,3 +712,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.86735773, 8)
 
 [node name="FactionFightGameplay" type="Node3D" parent="." unique_id=493061443]
 script = ExtResource("26_ftu1b")
+
+[node name="TouchControls" parent="." instance=ExtResource("touch_controls")]
+show_combat = true

@@ -2,14 +2,21 @@ class_name CameraPivot
 extends Node3D
 
 @export_range(0.0, 1.0) var mouse_sensitivity: float = 0.01
+@export_range(0.0, 1.0) var touch_sensitivity: float = 0.005
 @export var tilt_limit: float = deg_to_rad(75)
 
 @onready var camera: Camera3D = %Camera
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		var mouseMotion := event as InputEventMouseMotion
-		self.rotation.x -= mouseMotion.screen_relative.y * mouse_sensitivity
-		self.rotation.x = clampf(self.rotation.x, -tilt_limit, tilt_limit)
-		self.rotation.y += -mouseMotion.screen_relative.x * mouse_sensitivity
+	if event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
+		_rotate_by((event as InputEventMouseMotion).screen_relative * mouse_sensitivity)
+	elif event is InputEventScreenDrag:
+		var drag := event as InputEventScreenDrag
+		if not TouchControl.is_finger_claimed(drag.index):
+			_rotate_by(drag.screen_relative * touch_sensitivity)
+
+
+func _rotate_by(angles: Vector2) -> void:
+	self.rotation.x = clampf(self.rotation.x - angles.y, -tilt_limit, tilt_limit)
+	self.rotation.y -= angles.x
