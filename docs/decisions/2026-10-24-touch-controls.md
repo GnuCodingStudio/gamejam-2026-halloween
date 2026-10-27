@@ -6,7 +6,7 @@
 | Where | `components/touch_controls/TouchControls.tscn`, instanced once in each scene with player movement (lobby, Labyrinth, Chaseween, SecretGallery, CandyBucket) | Reusable component, no change in `player.gd` or `CandyBucketPlayer.gd` | a scene is added |
 | Visibility | Shown only if `DisplayServer.is_touchscreen_available()`, else the node frees itself. `force_visible` for tests | Desktop players see nothing new | touch laptops are a problem (they will show the controls) |
 | How inputs are sent | `Input.parse_input_event(InputEventAction)` on the existing actions (`move_*`, `move_jump`, `action_activate`) | Existing code reads those actions; `parse_input_event` also reaches `_unhandled_input` handlers, `Input.action_press` does not | |
-| Multi-touch | Each control tracks and reserves its own finger index in `_input` and marks its events handled | Movement, jump and interaction can be held by different fingers | |
+| Multi-touch | Each control tracks and reserves its own finger index in `_input` and marks its events handled | Godot emulates **one** mouse from touches, so `Button` cannot be used; movement, jump and interaction must work with different fingers | |
 | Joystick | Floating, left half of the screen; a faint ring shows where to start | User choice | players miss the ring |
 | Camera | `CameraPivot` handles `InputEventScreenDrag` (`touch_sensitivity`) only for unreserved finger indices and ignores emulated mouse motion | The joystick finger never rotates the camera; another finger still can | |
 | Attack (Chaseween) | Dedicated "A" button, not a tap on the screen | Attacks hit a cone in front of the player (no aiming); a tap would conflict with camera drag | an aimed tool is added |
