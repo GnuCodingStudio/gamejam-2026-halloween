@@ -9,12 +9,20 @@ extends Node3D
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
-		_rotate_by((event as InputEventMouseMotion).screen_relative * mouse_sensitivity)
+	if event is InputEventMouseMotion:
+		var motion := event as InputEventMouseMotion
+		if _is_mouse_rotation_allowed(motion):
+			_rotate_by(motion.screen_relative * mouse_sensitivity)
 	elif event is InputEventScreenDrag:
 		var drag := event as InputEventScreenDrag
 		if not TouchControl.is_finger_claimed(drag.index) and not _is_in_joystick_zone(drag.position):
 			_rotate_by(drag.screen_relative * touch_sensitivity)
+
+
+func _is_mouse_rotation_allowed(motion: InputEventMouseMotion) -> bool:
+	if motion.device == InputEvent.DEVICE_ID_EMULATION:
+		return false
+	return not (DisplayServer.is_touchscreen_available() and _is_in_joystick_zone(motion.position))
 
 
 func _is_in_joystick_zone(position_on_screen: Vector2) -> bool:
