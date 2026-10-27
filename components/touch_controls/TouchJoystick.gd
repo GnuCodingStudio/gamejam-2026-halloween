@@ -7,7 +7,9 @@ const RING_COLOR := Color(1.0, 1.0, 1.0, 0.35)
 const KNOB_COLOR := Color(1.0, 1.0, 1.0, 0.45)
 const HINT_COLOR := Color(1.0, 1.0, 1.0, 0.15)
 
-@export_range(0.1, 1.0) var zone_width_ratio: float = 0.5
+const DEFAULT_ZONE_WIDTH_RATIO := 0.5
+
+@export_range(0.1, 1.0) var zone_width_ratio: float = DEFAULT_ZONE_WIDTH_RATIO
 @export var radius: float = 110.0
 
 var _finger: int = -1

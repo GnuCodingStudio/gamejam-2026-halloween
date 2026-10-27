@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://devijfv0254dc" path="res://objects/player.gd" id="1_ykyjo"]
 [ext_resource type="Script" uid="uid://d0fh34d3mwse8" path="res://objects/third_person_camera.gd" id="3_uxov2"]
-[ext_resource type="PackedScene" path="res://objects/knight.tscn" id="4_knight"]
+[ext_resource type="PackedScene" uid="uid://uy271fjxm832" path="res://objects/knight.tscn" id="4_knight"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n14tl"]
 radius = 0.375

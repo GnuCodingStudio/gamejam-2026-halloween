@@ -1,14 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cvvkle84jmjfp"]
 
-[ext_resource type="Script" path="res://components/touch_controls/TouchControls.gd" id="1_controls"]
-[ext_resource type="Script" path="res://components/touch_controls/TouchJoystick.gd" id="2_joystick"]
-[ext_resource type="Script" path="res://components/touch_controls/TouchActionButton.gd" id="3_button"]
+[ext_resource type="Script" uid="uid://veq5x47o88xd" path="res://components/touch_controls/TouchControls.gd" id="1_controls"]
+[ext_resource type="Script" uid="uid://brx2m5f6iyns5" path="res://components/touch_controls/TouchJoystick.gd" id="2_joystick"]
+[ext_resource type="Script" uid="uid://be6pnevd1l3i8" path="res://components/touch_controls/TouchActionButton.gd" id="3_button"]
 
-[node name="TouchControls" type="CanvasLayer"]
+[node name="TouchControls" type="CanvasLayer" unique_id=1460847299]
 layer = 20
 script = ExtResource("1_controls")
 
-[node name="Controls" type="Control" parent="."]
+[node name="Controls" type="Control" parent="." unique_id=842778991]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -18,7 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Joystick" type="Control" parent="Controls"]
+[node name="Joystick" type="Control" parent="Controls" unique_id=1388848020]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_joystick")
 
-[node name="JumpButton" type="Control" parent="Controls"]
+[node name="JumpButton" type="Control" parent="Controls" unique_id=1467477916]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -47,7 +47,7 @@ script = ExtResource("3_button")
 action = &"move_jump"
 icon = 1
 
-[node name="InteractButton" type="Control" parent="Controls"]
+[node name="InteractButton" type="Control" parent="Controls" unique_id=1544279201]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -66,7 +66,7 @@ script = ExtResource("3_button")
 action = &"action_activate"
 label_text = "E"
 
-[node name="AttackButton" type="Control" parent="Controls"]
+[node name="AttackButton" type="Control" parent="Controls" unique_id=150442160]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -85,7 +85,7 @@ script = ExtResource("3_button")
 action = &"action_attack"
 label_text = "A"
 
-[node name="SwitchToolButton" type="Control" parent="Controls"]
+[node name="SwitchToolButton" type="Control" parent="Controls" unique_id=264931055]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -104,7 +104,7 @@ script = ExtResource("3_button")
 action = &"action_switch_tool"
 label_text = "Q"
 
-[node name="JournalButton" type="Control" parent="Controls"]
+[node name="JournalButton" type="Control" parent="Controls" unique_id=1202614945]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
