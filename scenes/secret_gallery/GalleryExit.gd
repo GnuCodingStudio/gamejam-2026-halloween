@@ -4,7 +4,6 @@ extends Node3D
 
 const LOBBY_SCENE_PATH: String = "res://scenes/levels/main.tscn"
 const LOBBY_RETURN_META: StringName = &"secret_gallery_return_to_lamp"
-const PROMPT_TEXT: String = "E — RETOUR AU LOBBY"
 
 @export_node_path("CharacterBody3D") var player_path: NodePath
 
@@ -20,7 +19,7 @@ var _transition_started: bool = false
 func _ready() -> void:
 	interaction_area.body_entered.connect(_on_body_entered)
 	interaction_area.body_exited.connect(_on_body_exited)
-	prompt_label.text = PROMPT_TEXT
+	prompt_label.text = tr("LOBBY_GALLERY_EXIT_PROMPT")
 	prompt.hide()
 	_resolve_player()
 

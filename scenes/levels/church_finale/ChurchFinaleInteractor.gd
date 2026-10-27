@@ -26,7 +26,7 @@ func _ready() -> void:
 	interaction_area.body_entered.connect(_on_body_entered)
 	interaction_area.body_exited.connect(_on_body_exited)
 	ProgressionService.world_progress_changed.connect(_on_world_progress_changed)
-	prompt_label.text = tr("LOBBY_SEE_SUMMARY")
+	prompt_label.text = tr("LOBBY_CHURCH_PROMPT")
 	prompt.hide()
 	_resolve_dependencies()
 	_update_availability()
