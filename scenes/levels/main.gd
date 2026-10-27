@@ -12,5 +12,3 @@ func debug_finish() -> void:
 		ProgressionService.complete_world(world_id, 0)
 
 	SceneTransition.change_scene(LOBBY_SCENE_PATH)
-
-

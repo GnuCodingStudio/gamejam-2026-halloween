@@ -1,9 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://btwpf03rcad"]
 
-[ext_resource type="Script" path="res://scenes/levels/church_finale/ChurchFinaleInteractor.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dhjhffs8yceh2" path="res://scenes/levels/church_finale/ChurchFinaleInteractor.gd" id="1_script"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_interaction"]
-size = Vector3(2.4, 2.2, 2.0)
+size = Vector3(2.4, 2.2, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
 content_margin_left = 22.0
@@ -21,31 +21,29 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="ChurchFinaleInteractor" type="Node3D"]
+[node name="ChurchFinaleInteractor" type="Node3D" unique_id=1583872658]
 script = ExtResource("1_script")
 
-[node name="InteractionArea" type="Area3D" parent="."]
+[node name="InteractionArea" type="Area3D" parent="." unique_id=648438666]
 unique_name_in_owner = true
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=1420301116]
 shape = SubResource("BoxShape3D_interaction")
 
-[node name="Light" type="OmniLight3D" parent="."]
+[node name="Light" type="OmniLight3D" parent="." unique_id=238568433]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -1.1)
 visible = false
 light_color = Color(1, 0.72, 0.28, 1)
 light_energy = 5.0
 light_volumetric_fog_energy = 0.55
-shadow_enabled = false
 omni_range = 8.0
 
-[node name="PromptLayer" type="CanvasLayer" parent="."]
+[node name="PromptLayer" type="CanvasLayer" parent="." unique_id=1835999262]
 layer = 20
 
-[node name="Prompt" type="Control" parent="PromptLayer"]
+[node name="Prompt" type="Control" parent="PromptLayer" unique_id=818833383]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -55,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" type="PanelContainer" parent="PromptLayer/Prompt"]
+[node name="Panel" type="PanelContainer" parent="PromptLayer/Prompt" unique_id=1306964065]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -71,7 +69,7 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
 
-[node name="PromptLabel" type="Label" parent="PromptLayer/Prompt/Panel"]
+[node name="PromptLabel" type="Label" parent="PromptLayer/Prompt/Panel" unique_id=1248976569]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 22

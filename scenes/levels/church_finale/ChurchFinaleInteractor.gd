@@ -2,7 +2,6 @@ class_name ChurchFinaleInteractor
 extends Node3D
 
 
-const PROMPT_TEXT: String = "E — CONSULTER MON BILAN"
 const LIGHT_MIN_ENERGY: float = 5.0
 const LIGHT_MAX_ENERGY: float = 12.5
 const LIGHT_PULSE_DURATION: float = 2.0
@@ -27,7 +26,7 @@ func _ready() -> void:
 	interaction_area.body_entered.connect(_on_body_entered)
 	interaction_area.body_exited.connect(_on_body_exited)
 	ProgressionService.world_progress_changed.connect(_on_world_progress_changed)
-	prompt_label.text = PROMPT_TEXT
+	prompt_label.text = tr("LOBBY_SEE_SUMMARY")
 	prompt.hide()
 	_resolve_dependencies()
 	_update_availability()
