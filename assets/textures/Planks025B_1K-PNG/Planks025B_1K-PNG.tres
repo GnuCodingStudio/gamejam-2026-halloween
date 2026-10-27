@@ -1,23 +1,26 @@
-[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="acg_dap9hnxb"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bl1td8w4fav3x"]
 
-[ext_resource type="Texture2D" uid="uid://acg_gk14bmn7" id="Color" path="./Planks025B_1K-PNG_Color.png"]
-[ext_resource type="Texture2D" uid="uid://acg_rpjxusnc" id="AmbientOcclusion" path="./Planks025B_1K-PNG_AmbientOcclusion.png"]
-[ext_resource type="Texture2D" uid="uid://acg_5hxui42f" id="Metalness" path="./Planks025B_1K-PNG_Metalness.png"]
-[ext_resource type="Texture2D" uid="uid://acg_krtdygle" id="Displacement" path="./Planks025B_1K-PNG_Displacement.png"]
-[ext_resource type="Texture2D" uid="uid://acg_ixz9cw56" id="Roughness" path="./Planks025B_1K-PNG_Roughness.png"]
-[ext_resource type="Texture2D" uid="uid://acg_gkw5ln0r" id="NormalGL" path="./Planks025B_1K-PNG_NormalGL.png"]
+[ext_resource type="Texture2D" uid="uid://bkri1pkp5ct8y" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_AmbientOcclusion.png" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" uid="uid://vd8hyr4w84hh" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_Color.png" id="Color"]
+[ext_resource type="Texture2D" uid="uid://dohvw5w3b76y" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_Displacement.png" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://ca15qw7fnugy4" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_Metalness.png" id="Metalness"]
+[ext_resource type="Texture2D" uid="uid://b7lpjab78mybb" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_NormalGL.png" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://k61kn5ry53dw" path="res://assets/textures/Planks025B_1K-PNG/Planks025B_1K-PNG_Roughness.png" id="Roughness"]
+
 [resource]
 albedo_texture = ExtResource("Color")
-ao_enabled = true
-ao_texture = ExtResource("AmbientOcclusion")
-ao_texture_channel = 4
-metallic_texture = ExtResource("Metalness")
 metallic = 1.0
+metallic_texture = ExtResource("Metalness")
 metallic_texture_channel = 4
 roughness_texture = ExtResource("Roughness")
 roughness_texture_channel = 4
-normal_texture = ExtResource("NormalGL")
 normal_enabled = true
-heightmap_texture = ExtResource("Displacement")
-heightmap_scale = 1.0
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
 heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_scale = Vector3(0.5, 0.3, 0.5)
+uv1_triplanar = true

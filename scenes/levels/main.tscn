@@ -19,7 +19,7 @@
 [ext_resource type="Material" path="res://assets/textures/Planks023B_1K-PNG/Planks023B_1K-PNG.tres" id="10_gexqn"]
 [ext_resource type="Material" uid="uid://dvofasudyq24j" path="res://assets/textures/Grass001_1K-PNG/Grass001_1K-PNG.tres" id="11_kc8j3"]
 [ext_resource type="Material" path="res://assets/textures/RoofingTiles014A_1K-PNG/RoofingTiles014A_1K-PNG.tres" id="12_e5eww"]
-[ext_resource type="Material" path="res://assets/textures/Bricks028_1K-PNG/Bricks028_1K-PNG.tres" id="13_ygu70"]
+[ext_resource type="Material" uid="uid://csp0rnwg0i7hx" path="res://assets/textures/Bricks028_1K-PNG/Bricks028_1K-PNG.tres" id="13_ygu70"]
 [ext_resource type="Material" path="res://assets/textures/Concrete034_1K-PNG/Concrete034_1K-PNG.tres" id="15_x5gqu"]
 [ext_resource type="Material" path="res://assets/textures/Metal022_1K-PNG/Metal022_1K-PNG.tres" id="16_8qayg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_portal/LevelPortal.tscn" id="18_px1c8"]
