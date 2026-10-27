@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ctgvj62dx1l5g"]
 
 [ext_resource type="PackedScene" uid="uid://c31e4g2e5cqon" path="res://scenes/minigames/labyrinth/Labyrinth.tscn" id="1_base"]
-[ext_resource type="Material" uid="uid://q5drhouuybix" path="res://assets/csg/orange-squares.tres" id="3_floor"]
 [ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
+[ext_resource type="Material" uid="uid://di3brmwuy5v3w" path="res://assets/csg/gray-squares.tres" id="4_a7lxk"]
 [ext_resource type="PackedScene" path="res://objects/candy_crystalberry.tscn" id="4_crystalberry"]
 [ext_resource type="PackedScene" path="res://objects/candy_pumpkin.tscn" id="5_pumpkin"]
 
@@ -72,7 +72,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.1, -27.5)
 use_collision = true
 collision_layer = 2
 size = Vector3(61, 0.2, 61)
-material = ExtResource("3_floor")
+material = ExtResource("4_a7lxk")
 
 [node name="Ceiling" type="StaticBody3D" parent="." index="9" unique_id=368820715]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4.1, -27.5)

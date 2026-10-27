@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bnui6n5th1w3p" path="res://objects/wall.tscn" id="3_wall"]
 [ext_resource type="PackedScene" path="res://objects/candy_crystalberry.tscn" id="4_crystalberry"]
 [ext_resource type="PackedScene" path="res://objects/candy_pumpkin.tscn" id="5_pumpkin"]
-[ext_resource type="PackedScene" path="res://scenes/minigames/labyrinth/Level03.tscn" id="6_next"]
+[ext_resource type="PackedScene" uid="uid://ctgvj62dx1l5g" path="res://scenes/minigames/labyrinth/Level03.tscn" id="6_next"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
 size = Vector3(41, 0.2, 41)
