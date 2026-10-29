@@ -26,6 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1039708443]
+modulate = Color(0.55221915, 0.5522191, 0.55221903, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -113,7 +114,7 @@ max_value = 1.5
 step = 0.05
 ticks_position = 3
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1203948570]
+[node name="HSeparator1" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1203948570]
 layout_mode = 2
 theme_override_constants/separation = 32
 
@@ -137,7 +138,37 @@ text = "SETTINGS_GRAPHICS_PARTICLES"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
-button_pressed = true
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1338382042]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="ControlsLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1827145891]
+layout_mode = 2
+theme_type_variation = &"SubTitle"
+text = "SETTINGS_GRAPHICS"
+
+[node name="ControlsContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1971517061]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="MouseSensitivityLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsContainer" unique_id=1886668099]
+layout_mode = 2
+text = "SETTINGS_CONTROL_MOUSE_SENSITIVITY"
+
+[node name="MouseSensitivitySlider" type="HSlider" parent="MarginContainer/VBoxContainer/ControlsContainer" unique_id=1238846725]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.1
+max_value = 2.0
+step = 0.05
+value = 1.0
+ticks_position = 3
 
 [node name="BackButton" type="Button" parent="MarginContainer" unique_id=1646433742]
 layout_mode = 2
@@ -150,4 +181,5 @@ text = "SETTINGS_BACK_BUTTON"
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/AudioUiSlider" to="." method="_on_audio_ui_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/AudioSfxSlider" to="." method="_on_audio_sfx_value_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GraphicsGridContainer/ParticlesCheckButton" to="." method="_on_particles_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/ControlsContainer/MouseSensitivitySlider" to="." method="_on_mouse_sensitivity_value_changed"]
 [connection signal="pressed" from="MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
